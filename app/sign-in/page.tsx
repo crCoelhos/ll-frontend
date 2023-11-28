@@ -19,7 +19,7 @@ export default function UserAuthForm({
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function onSubmit(e: React.SyntheticEvent) {
-    e.preventDefault();
+    // e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
 
     const formDataObject: { [key: string]: any } = {};
@@ -86,7 +86,7 @@ export default function UserAuthForm({
               {isLoading && (
                 <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Faça login com email
+              Entrar
             </Button>
           </div>
         </form>
@@ -105,7 +105,7 @@ export default function UserAuthForm({
             <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
           ) : (
             <Icons.google className="mr-2 h-4 w-4" />
-          )}{" "}
+          )}
           Google
         </Button>
       </div>

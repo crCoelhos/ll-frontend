@@ -20,24 +20,23 @@ const components: { title: string; href: string; description: string }[] = [
     title: "Quer ser parceiro?",
     href: "/docs/primitives/alert-dialog",
     description:
-      "Para fazer parte da nossa cartela de de avogados, submeta a sua inscrição.",
+      "Para fazer parte de nossos profissionais, submeta a sua inscrição.",
   },
   {
     title: "Conheça nossos planos",
     href: "/docs/primitives/hover-card",
     description:
-      "For sighted users to preview content available behind a link.",
+      "",
   },
   {
     title: "Nosso diferencial",
     href: "/docs/primitives/progress",
-    description:
-      "Conexão advogado-cliente para além de um escritório virtual",
+    description: "Conexão advogado-cliente para além de um escritório virtual",
   },
   {
-    title: "Vantagens",
+    title: "Como atuamos",
     href: "/docs/primitives/scroll-area",
-    description: "Visually or semantically separates content.",
+    description: "Conheça nosso fluxo.",
   },
 ];
 
@@ -60,7 +59,7 @@ export function Navbar() {
                       Legaliza
                     </div>
                     <p className="text-sm leading-tight text-muted-foreground">
-                     O seu escritório virtual!
+                      O seu escritório virtual!
                     </p>
                   </a>
                 </NavigationMenuLink>
@@ -69,7 +68,7 @@ export function Navbar() {
                 Comece descobrindo alguns dos advogados parceiros.
               </ListItem>
               <ListItem href="/agendamento/advogado/1" title="Agendamento">
-                Ja sabe quem contratar? Marque um horario!.
+                Ja sabe quem contratar? Marque um horario!
               </ListItem>
             </ul>
           </NavigationMenuContent>
@@ -90,6 +89,7 @@ export function Navbar() {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
+
         <NavigationMenuItem>
           <Link href="/docs" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -97,14 +97,23 @@ export function Navbar() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        <NavigationMenuItem>
+        {/* {userIsLoggedIn} */}
+
+        {/* <NavigationMenuItem className="pl-[48vw]">
+          <Link href="/sign-in" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              userName
+            </NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem> */}
+        {/* else */}
+
+        <NavigationMenuItem className="pl-[48vw] space-x-4">
           <Link href="/sign-in" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Entrar
             </NavigationMenuLink>
           </Link>
-        </NavigationMenuItem>
-        <NavigationMenuItem>
           <Link href="/sign-up" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Registrar
@@ -112,6 +121,7 @@ export function Navbar() {
           </Link>
         </NavigationMenuItem>
       </NavigationMenuList>
+      
     </NavigationMenu>
   );
 }
