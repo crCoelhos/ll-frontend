@@ -67,8 +67,8 @@ export function Navbar() {
               <ListItem href="/advogado/" title="Teste agora!">
                 Comece descobrindo alguns dos advogados parceiros.
               </ListItem>
-              <ListItem href="/agendamento/advogado/1" title="Agendamento">
-                Ja sabe quem contratar? Marque um horario!
+              <ListItem href="/agendamento/sala" title="Agendamento de salas">
+                Não tem escritório? Agende uma reunião!
               </ListItem>
             </ul>
           </NavigationMenuContent>

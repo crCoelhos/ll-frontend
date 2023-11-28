@@ -10,7 +10,7 @@ import { Icons } from "../_components/icons";
 
 import axios from "axios";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export default function UserAuthForm({
   className,
@@ -19,7 +19,7 @@ export default function UserAuthForm({
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
   async function onSubmit(e: React.SyntheticEvent) {
-    // e.preventDefault();
+    e.preventDefault();
     const formData = new FormData(e.target as HTMLFormElement);
 
     const formDataObject: { [key: string]: any } = {};
@@ -31,7 +31,7 @@ export default function UserAuthForm({
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:3000/v1/signin",
+        "http://localhost:3030/v1/signin",
         formDataObject,
         {
           headers: {
@@ -39,7 +39,8 @@ export default function UserAuthForm({
           },
         }
       );
-      console.log(response.data);
+      sessionStorage.setItem("user_key", response.data.token);
+
     } catch (error) {
       console.error(error);
     } finally {
