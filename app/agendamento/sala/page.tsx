@@ -1,6 +1,17 @@
-"use client"
+"use client";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import FullCalendar from "@/app/_components/fullCalendar";
 
 interface Appointment {
   id: number;
@@ -11,9 +22,8 @@ interface Appointment {
   workspaceId: number;
   appointmentStatusId: number;
   createdAt: string;
-  updatedAt: string | '';
+  updatedAt: string | "";
 }
-
 
 interface Props {
   params: {
@@ -35,14 +45,14 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
           "http://localhost:3030/v1/appointments/all",
           {
             headers: {
-              Access: '123',
+              Access: "123",
               Authorization: user_key,
             },
           }
         );
         setAppointments(response.data.appointments);
 
-        console.log('leticia: ', response.data);
+        console.log("leticia: ", response.data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -51,14 +61,18 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
     };
 
     fetchData();
-
   }, []);
+
+  const eventArray = appointments.map((appointment) => ({
+    title: appointment.title,
+    start: new Date(appointment.startDate),
+    end: new Date(appointment.endDate),
+  }));
 
   console.log(params);
 
   return (
     <div>
-      <br />
       <br />
       <h1>WorkspaceList Page</h1>
       {isLoading ? (
@@ -67,20 +81,36 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
         <ul>
           {appointments.map((appointment) => (
             <li key={appointment.id}>
-              <strong>{appointment.title}</strong>
-              <p>Numero da sala: {appointment.workspaceId}</p>
-              <p>Description: {appointment.description}</p>
-
-              <h1>Agendamento:</h1>
-              <p>Inicio: {appointment.startDate}</p>
-              <p>Final: {appointment.endDate}</p>
+              <br />
+              <Card className="w-[380px]">
+                <CardHeader>
+                  <CardTitle>{appointment.title}</CardTitle>
+                  <CardDescription>Sala</CardDescription>
+                </CardHeader>
+                <CardContent className="grid gap-4">
+                  <div className=" flex items-center space-x-4 rounded-md border p-4">
+                    <div className="flex-1 space-y-1">
+                      <p className="text-sm font-medium leading-none">
+                        Numero da sala: {appointment.workspaceId}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        Descrição: {appointment.description}
+                      </p>
+                    </div>
+                  </div>
+                  <div></div>
+                </CardContent>
+                <CardFooter>
+                  <Button className="w-full"> Calendário de agendamento</Button>
+                </CardFooter>
+              </Card>
             </li>
           ))}
         </ul>
       )}
-
       <br />
       <br />
+      <FullCalendar events={eventArray} />;
     </div>
   );
 };

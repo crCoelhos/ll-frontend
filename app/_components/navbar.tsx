@@ -15,6 +15,10 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Icons } from "./icons";
 
+import SessionStorageManager from "../utils/sessionStorageManager";
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+
 const components: { title: string; href: string; description: string }[] = [
   {
     title: "Quer ser parceiro?",
@@ -25,8 +29,7 @@ const components: { title: string; href: string; description: string }[] = [
   {
     title: "Conheça nossos planos",
     href: "/docs/primitives/hover-card",
-    description:
-      "",
+    description: "",
   },
   {
     title: "Nosso diferencial",
@@ -41,8 +44,29 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Navbar() {
+  const [storedUser, setStoredUser] = React.useState<string | null>(null);
+  const [storedUserName, setStoredUserName] = React.useState<string>("");
+
+  const router = useRouter();
+
+  useEffect(() => {
+    const storedUserName = sessionStorage.getItem("user_name");
+    console.log("rogério: ", storedUserName);
+    setStoredUserName(storedUserName ?? "");
+  }, []);
+
+  const handleLogout = () => {
+    SessionStorageManager.clearSessionStorage();
+    if (typeof window !== "undefined") {
+      window.location.href = "/";
+    }
+    router.push("/");
+  };
+
+  const navbarKey = storedUserName || "guest";
+
   return (
-    <NavigationMenu>
+    <NavigationMenu key={navbarKey}>
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>Legaliza</NavigationMenuTrigger>
@@ -64,7 +88,7 @@ export function Navbar() {
                   </a>
                 </NavigationMenuLink>
               </li>
-              <ListItem href="/advogado/" title="Teste agora!">
+              <ListItem href="/agendamento/sala/1" title="Teste agora!">
                 Comece descobrindo alguns dos advogados parceiros.
               </ListItem>
               <ListItem href="/agendamento/sala" title="Agendamento de salas">
@@ -97,31 +121,37 @@ export function Navbar() {
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-        {/* {userIsLoggedIn} */}
 
-        {/* <NavigationMenuItem className="pl-[48vw]">
-          <Link href="/sign-in" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              userName
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem> */}
-        {/* else */}
+        {storedUserName ? (
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>{storedUserName}</NavigationMenuTrigger>
 
-        <NavigationMenuItem className="pl-[48vw] space-x-4">
-          <Link href="/sign-in" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Entrar
-            </NavigationMenuLink>
-          </Link>
-          <Link href="/sign-up" legacyBehavior passHref>
-            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              Registrar
-            </NavigationMenuLink>
-          </Link>
-        </NavigationMenuItem>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                <ListItem key="Profile" title="Perfil" href="/perfil">
+                  Meus dados
+                </ListItem>
+                <ListItem key="Logout" title="Logout" onClick={handleLogout}>
+                  Sair da conta
+                </ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        ) : (
+          <NavigationMenuItem className="pl-[48vw] space-x-4">
+            <Link href="/sign-in" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Entrar
+              </NavigationMenuLink>
+            </Link>
+            <Link href="/sign-up" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Registrar
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        )}
       </NavigationMenuList>
-      
     </NavigationMenu>
   );
 }
