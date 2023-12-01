@@ -30,6 +30,7 @@ interface Appointment {
 export default function WorkspacePage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appointment, setAppointment] = useState<Appointment>();
+  const [appointments, setAppointments] = useState<Appointment[]>([]);
 
   const singleEvent = {
     title: appointment?.title ?? "",
@@ -37,7 +38,6 @@ export default function WorkspacePage() {
     end: appointment ? new Date(appointment.endDate) : new Date(),
     backgroundColor: "red",
   };
-
 
   const params = useParams();
 
@@ -49,7 +49,7 @@ export default function WorkspacePage() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:3030/v1/appointment/${params.workspaceId}`,
+          `http://localhost:3030/v1//workspace-appointment/${params.workspaceId}`,
           {
             headers: {
               Access: 123,
@@ -57,7 +57,7 @@ export default function WorkspacePage() {
             },
           }
         );
-        setAppointment(response.data.appointment);
+        setAppointments(response.data.appointments);
 
         console.log("Paulo: ", response.data);
       } catch (error) {
@@ -70,11 +70,19 @@ export default function WorkspacePage() {
     fetchData();
   }, []);
 
+  const convertedAppointments = appointments.map((appointment) => ({
+    title: appointment.title,
+    start: new Date(appointment.startDate),
+    end: new Date(appointment.endDate),
+    backgroundColor: "red",
+  }));
+  console.log(convertedAppointments);
+
   return (
     <>
-      <Card className="w-[380px]">
-        {appointment && (
-          <>
+      <div className="grid grid-cols-3 grid-rows-1">
+        {appointments.map((appointment) => (
+          <Card key={appointment.id}>
             <CardHeader>
               <CardTitle>{appointment.title}</CardTitle>
               <CardDescription>{appointment.description}</CardDescription>
@@ -101,12 +109,20 @@ export default function WorkspacePage() {
                 Por: {appointment.userId}
               </p>
             </CardFooter>
-          </>
-        )}
-      </Card>
+          </Card>
+        ))}
+      </div>
 
       <div className="w-300px">
-        <FullCalendar events={singleEvent} />;
+        <FullCalendar
+          events={appointments.map((appointment) => ({
+            title: appointment.title,
+            start: new Date(appointment.startDate),
+            end: new Date(appointment.endDate),
+            backgroundColor: "red",
+          }))}
+        />
+        ;
       </div>
     </>
   );
