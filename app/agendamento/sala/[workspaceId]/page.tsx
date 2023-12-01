@@ -35,15 +35,9 @@ export default function WorkspacePage() {
     title: appointment?.title ?? "",
     start: new Date(appointment ? new Date(appointment.startDate) : new Date()),
     end: appointment ? new Date(appointment.endDate) : new Date(),
+    backgroundColor: "red",
   };
 
-  {
-    /* <FullCalendar
-          title={appointment?.title ?? ""}
-          startDate={appointment ? new Date(appointment.startDate) : new Date()}
-          endDate={appointment ? new Date(appointment.endDate) : new Date()}
-        /> */
-  }
 
   const params = useParams();
 

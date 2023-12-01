@@ -12,6 +12,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import FullCalendar from "@/app/_components/fullCalendar";
+import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
 
 interface Appointment {
   id: number;
@@ -67,20 +68,22 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
     title: appointment.title,
     start: new Date(appointment.startDate),
     end: new Date(appointment.endDate),
+    backgroundColor: "red",
   }));
 
   console.log(params);
 
   return (
-    <div>
+    <div className="flex...">
       <br />
+      <CreateAppointmentModal />
       <h1>WorkspaceList Page</h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <ul>
+        <ul className="grid grid-cols-3 grid-rows-1">
           {appointments.map((appointment) => (
-            <li key={appointment.id}>
+            <li key={appointment.id} className="max-w-[0px] mx-0">
               <br />
               <Card className="w-[380px]">
                 <CardHeader>

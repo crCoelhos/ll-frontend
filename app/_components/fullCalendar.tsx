@@ -7,6 +7,7 @@ interface Event {
   title: string;
   start: Date;
   end?: Date;
+  backgroundColor: string;
 }
 
 interface Props {
@@ -27,8 +28,9 @@ const FullCalendar: React.FC<Props> = ({ events }) => {
       const calendar = new Calendar(calendarRef.current, {
         plugins: [dayGridPlugin, interactionPlugin],
         initialView: "dayGridMonth",
+        locale: "pt-br",
         editable: true,
-        events: Array.isArray(events) ? events : [events], // Converte para array se necessário
+        events: Array.isArray(events) ? events : [events],
         eventDrop: handleEventDrop,
       });
 
