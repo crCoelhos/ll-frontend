@@ -6,7 +6,6 @@ import { useParams } from "next/navigation";
 export default function LawyerSchedulePage() {
   const params = useParams();
 
-  console.log(params.laywerId);
 
   return (
     <>

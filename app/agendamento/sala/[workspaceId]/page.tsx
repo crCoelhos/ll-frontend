@@ -42,7 +42,6 @@ export default function WorkspacePage() {
   const params = useParams();
 
   const user_key = sessionStorage.getItem("user_key");
-  console.log("jorgim: ", user_key);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -59,7 +58,6 @@ export default function WorkspacePage() {
         );
         setAppointments(response.data.appointments);
 
-        console.log("Paulo: ", response.data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -76,7 +74,6 @@ export default function WorkspacePage() {
     end: new Date(appointment.endDate),
     backgroundColor: "red",
   }));
-  console.log(convertedAppointments);
 
   return (
     <>

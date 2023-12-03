@@ -27,7 +27,6 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
       formDataObject[key] = value;
     });
 
-    console.log("leticia: ", formDataObject);
     setIsLoading(true);
     try {
       const response = await axios.post(

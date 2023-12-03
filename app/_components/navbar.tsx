@@ -51,7 +51,6 @@ export function Navbar() {
 
   useEffect(() => {
     const storedUserName = sessionStorage.getItem("user_name");
-    console.log("rogério: ", storedUserName);
     setStoredUserName(storedUserName ?? "");
   }, []);
 

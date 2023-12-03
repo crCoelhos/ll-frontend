@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/card";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
+import { useRouter } from "next/navigation";
 
 interface Appointment {
   id: number;
@@ -26,6 +27,16 @@ interface Appointment {
   updatedAt: string | "";
 }
 
+interface Workspace {
+  id: number;
+  name: string;
+  description: string;
+  capacity: number;
+  workspaceTypeId: number;
+  createdAt: string;
+  updatedAt: string | "";
+}
+
 interface Props {
   params: {
     [key: string]: string | undefined;
@@ -35,14 +46,28 @@ interface Props {
 const WorkspacePage: React.FC<Props> = ({ params }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
 
   const user_key = sessionStorage.getItem("user_key");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
+          "http://localhost:3030/v1/workspaces/",
+          {
+            headers: {
+              Access: "123",
+              Authorization: user_key,
+            },
+          }
+        );
+        setWorkspaces(response.data);
+
+        setIsLoading(true);
+        const appointmentResponse = await axios.get(
           "http://localhost:3030/v1/appointments/all",
           {
             headers: {
@@ -51,9 +76,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
             },
           }
         );
-        setAppointments(response.data.appointments);
-
-        console.log("leticia: ", response.data);
+        setAppointments(appointmentResponse.data.appointments);
       } catch (error) {
         console.error(error);
       } finally {
@@ -71,7 +94,9 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
     backgroundColor: "red",
   }));
 
-  console.log(params);
+  const handleWorkspaceClick = (workspaceInfo: number) => {
+    router.push(`/agendamento/sala/${workspaceInfo}`);
+  };
 
   return (
     <div className="flex...">
@@ -82,29 +107,34 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
         <p>Loading...</p>
       ) : (
         <ul className="grid grid-cols-3 grid-rows-1">
-          {appointments.map((appointment) => (
-            <li key={appointment.id} className="max-w-[0px] mx-0">
+          {workspaces.map((workspace) => (
+            <li key={workspace.id} className="max-w-[0px] mx-0">
               <br />
               <Card className="w-[380px]">
                 <CardHeader>
-                  <CardTitle>{appointment.title}</CardTitle>
+                  <CardTitle>{workspace.name}</CardTitle>
                   <CardDescription>Sala</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
                   <div className=" flex items-center space-x-4 rounded-md border p-4">
                     <div className="flex-1 space-y-1">
                       <p className="text-sm font-medium leading-none">
-                        Numero da sala: {appointment.workspaceId}
+                        Tipo: {workspace.workspaceTypeId}
                       </p>
                       <p className="text-sm text-muted-foreground">
-                        Descrição: {appointment.description}
+                        Descrição: {workspace.description}
                       </p>
                     </div>
                   </div>
                   <div></div>
                 </CardContent>
                 <CardFooter>
-                  <Button className="w-full"> Calendário de agendamento</Button>
+                  <Button
+                    className="w-full"
+                    onClick={() => handleWorkspaceClick(workspace.id)}
+                  >
+                    Calendário de agendamento
+                  </Button>
                 </CardFooter>
               </Card>
             </li>

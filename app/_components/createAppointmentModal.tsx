@@ -114,7 +114,6 @@ export function CreateAppointmentModal() {
           }
         );
 
-        console.log("agendamentos: ", response.data.appointments);
 
         const formattedTimes = response.data.appointments.map((appointment) => {
           const startHour = new Date(appointment.startDate).getHours();
@@ -131,7 +130,6 @@ export function CreateAppointmentModal() {
         });
 
         setFormattedTimes(formattedTimes);
-        console.log("horarios: ", formattedTimes);
       } catch (error) {
         console.error(error);
       } finally {

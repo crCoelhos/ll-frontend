@@ -7,7 +7,6 @@ interface Props {
 }
 
 const LawyerPage: React.FC<Props> = ({ params }) => {
-  console.log(params);
   return (
     <div>
       <h1>LawyerList Page</h1>
