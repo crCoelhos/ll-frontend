@@ -106,7 +106,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <ul className="grid grid-cols-3 grid-rows-1">
+        <ul className="grid grid-cols-3 grid-rows-1 m-8 content-center">
           {workspaces.map((workspace) => (
             <li key={workspace.id} className="max-w-[0px] mx-0">
               <br />
@@ -143,7 +143,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
       )}
       <br />
       <br />
-      <FullCalendar events={eventArray} />;
+      <FullCalendar events={eventArray}/>;
     </div>
   );
 };

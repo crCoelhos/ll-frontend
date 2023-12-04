@@ -28,6 +28,8 @@ import moment from "moment";
 import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
 
 import axios from "axios";
+import { formatDate } from "@fullcalendar/core/index.js";
+import { BookAppointmentModal } from "./bookAppointmentModal";
 
 interface Workspace {
   id: number;
@@ -59,6 +61,7 @@ interface Appointments {
 export function CreateAppointmentModal() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [horasFormatadas, setHorasFormatadas] = useState<string[]>([]);
+  const [selectedHour, setSelectedHour] = useState<string>();
   const [formattedTimes, setFormattedTimes] = useState<
     Array<{ start: string; end: string }>
   >([]);
@@ -67,6 +70,7 @@ export function CreateAppointmentModal() {
 
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
+  const [newAppointment, setNewAppointment] = useState();
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<
     string | undefined
@@ -100,7 +104,21 @@ export function CreateAppointmentModal() {
     fetchWorkspaceData();
   };
 
-  const handleButtonClick = () => {
+  const handleBookButtonClick = () => {
+    let appointmentsData = {
+      startDate: `${date}T` + `${selectedHour}:00.000Z`,
+      endDate: "",
+      isPrivate: false,
+      description: "teste",
+      workspaceId: selectedWorkspaceId,
+    };
+
+    // setNewAppointment();
+  };
+
+  const handleSendBooking = async () => {};
+
+  const handleCheckButtonClick = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
@@ -113,7 +131,6 @@ export function CreateAppointmentModal() {
             },
           }
         );
-
 
         const formattedTimes = response.data.appointments.map((appointment) => {
           const startHour = new Date(appointment.startDate).getHours();
@@ -137,12 +154,13 @@ export function CreateAppointmentModal() {
       }
     };
 
+    console.log(selectedHour);
     fetchData();
   };
 
   useEffect(() => {
-    setFormattedTimes([]); //refresh das salas
-    handleButtonClick(); 
+    setFormattedTimes([]);
+    handleCheckButtonClick();
   }, [selectedWorkspaceId]);
 
   useEffect(() => {
@@ -188,7 +206,7 @@ export function CreateAppointmentModal() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild onClick={handleModalOppening}>
+      <DialogTrigger asChild onClick={handleModalOppening} className="m-8">
         <Button variant="outline">Agendar sala</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -222,14 +240,15 @@ export function CreateAppointmentModal() {
             mode="single"
             selected={date}
             onSelect={setDate}
+            disabled={(date) => date < new Date()}
             className="rounded-md border shadow"
           />
         </div>
         <DialogFooter>
-          <Button onClick={handleButtonClick}>Verificar</Button>
+          <Button onClick={handleCheckButtonClick}>Verificar</Button>
         </DialogFooter>
 
-        <Select>
+        <Select onValueChange={(value) => setSelectedHour(value)}>
           <SelectTrigger className="w-[100%]">
             <SelectValue placeholder="Selecione uma hora" />
           </SelectTrigger>
@@ -265,7 +284,12 @@ export function CreateAppointmentModal() {
         </Select>
 
         <DialogFooter>
-          <Button onClick={handleButtonClick}>Agendar</Button>
+          {/* <Button onClick={handleBookButtonClick}>Agendar</Button> */}
+          <BookAppointmentModal
+            selectedStartDate={selectedHour}
+            selectedWorkspaceId={selectedWorkspaceId}
+            formattedTimes={formattedTimes}
+          />
           <Button variant="destructive">Cancelar</Button>
         </DialogFooter>
       </DialogContent>

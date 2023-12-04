@@ -34,6 +34,8 @@ const FullCalendar: React.FC<Props> = ({ events }) => {
         eventDrop: handleEventDrop,
       });
 
+      
+
       calendar.render();
     }
   }, [events]);
@@ -49,7 +51,7 @@ const FullCalendar: React.FC<Props> = ({ events }) => {
     }
   };
 
-  return <div ref={setCalendarRef}></div>;
+  return <div ref={setCalendarRef} className="p-8"></div>;
 };
 
 export default FullCalendar;
