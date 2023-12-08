@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import React, { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 import moment from "moment";
 import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
@@ -75,10 +76,22 @@ export function CreateAppointmentModal() {
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<
     string | undefined
   >(undefined);
+  const [selectedWorkspaceIdFromParam, setSelectedWorkspaceIdFromParam] =
+    useState<string | undefined>(undefined);
 
   const user_key = sessionStorage.getItem("user_key");
 
   const fomatedDate = moment(date).format("YYYY-MM-DD");
+
+  const params = useParams();
+
+  useEffect(() => {
+    if (params.workspaceId) {
+      setSelectedWorkspaceIdFromParam(params.workspaceId[0] as string);
+    }
+  }, [params.workspaceId]);
+
+  console.log("workspaceId from params:", selectedWorkspaceIdFromParam);
 
   const handleModalOppening = () => {
     const fetchWorkspaceData = async () => {
@@ -224,6 +237,41 @@ export function CreateAppointmentModal() {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Salas</SelectLabel>
+                {selectedWorkspaceIdFromParam ? (
+                  <SelectItem
+                    key={selectedWorkspaceIdFromParam}
+                    value={selectedWorkspaceIdFromParam}
+                  >
+                    {
+                      workspaces.find(
+                        (workspace) =>
+                          workspace.id.toString() ===
+                          selectedWorkspaceIdFromParam
+                      )?.name
+                    }
+                  </SelectItem>
+                ) : (
+                  workspaces &&
+                  workspaces.map((workspace) => (
+                    <SelectItem
+                      key={workspace.id}
+                      value={workspace.id.toString()}
+                    >
+                      {workspace.name}
+                    </SelectItem>
+                  ))
+                )}
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+
+          {/* <Select onValueChange={(value) => setSelectedWorkspaceId(value)}>
+            <SelectTrigger className="w-[100%]">
+              <SelectValue placeholder="Selecione uma sala" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Salas</SelectLabel>
                 {workspaces &&
                   workspaces.map((workspace) => (
                     <SelectItem
@@ -235,7 +283,7 @@ export function CreateAppointmentModal() {
                   ))}
               </SelectGroup>
             </SelectContent>
-          </Select>
+          </Select> */}
           <Calendar
             mode="single"
             selected={date}

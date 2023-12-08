@@ -1,5 +1,6 @@
 "use client";
 
+import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { Button } from "@/components/ui/button";
 import {
@@ -57,7 +58,6 @@ export default function WorkspacePage() {
           }
         );
         setAppointments(response.data.appointments);
-
       } catch (error) {
         console.error(error);
       } finally {
@@ -78,6 +78,7 @@ export default function WorkspacePage() {
   return (
     <>
       <div className="grid grid-cols-3 grid-rows-1">
+        <CreateAppointmentModal />
         {appointments.map((appointment) => (
           <Card key={appointment.id}>
             <CardHeader>
