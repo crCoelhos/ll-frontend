@@ -20,6 +20,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
+import moment from "moment";
+import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
+
 import { useEffect, useState } from "react";
 
 interface Workspace {
@@ -53,6 +56,8 @@ interface BookAppointmentModalProps {
 
 export function BookAppointmentModal(props: BookAppointmentModalProps) {
   const [horasFormatadas, setHorasFormatadas] = useState<string[]>([]);
+  const [date, setDate] = useState<Date | undefined>(new Date());
+
   const [selectedHour, setSelectedHour] = useState<string>("");
   const [selectedEndDate, setSelectedEndDate] = useState<string>("");
 
@@ -65,6 +70,33 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
   const [formattedTimes, setFormattedTimes] = useState<
     Array<{ start: string; end: string }>
   >([]);
+
+  useEffect(() => {
+    const atualizarHoras = () => {
+      const inicioComercial = set(new Date(), {
+        hours: 9,
+        minutes: 0,
+        seconds: 0,
+      });
+      const fimComercial = set(new Date(), {
+        hours: 18,
+        minutes: 0,
+        seconds: 0,
+      });
+
+      const horasComerciais = eachHourOfInterval({
+        start: inicioComercial,
+        end: fimComercial,
+      });
+      const horasFormatadas = horasComerciais.map((hora) =>
+        format(hora, "HH:mm")
+      );
+
+      setHorasFormatadas(horasFormatadas);
+    };
+
+    atualizarHoras();
+  }, [date, setHorasFormatadas]);
 
   useEffect(() => {
     console.log("Hora inicial recebida:", props.selectedStartDate);
@@ -105,11 +137,11 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
         <h1>Hora de inicio: {selectedStartDate}</h1>
         <Select onValueChange={(value) => setSelectedHour(value)}>
           <SelectTrigger className="w-[100%]">
-            <SelectValue placeholder="Selecione uma hora final" />
+            <SelectValue placeholder="Selecione uma hora" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
-              <SelectLabel>Hora de finalização</SelectLabel>
+              <SelectLabel>Horas</SelectLabel>
               {horasFormatadas.map((hora) => {
                 const [horaAtual, minutosAtual] = hora.split(":").map(Number);
 
