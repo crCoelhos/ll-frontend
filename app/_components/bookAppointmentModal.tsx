@@ -19,12 +19,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import axios from "axios";
 
 import moment from "moment";
 import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
 
 import { useEffect, useState } from "react";
-
+import router, { useRouter, useParams } from "next/navigation";
 interface Workspace {
   id: number;
   name: string;
@@ -48,6 +49,10 @@ interface Appointment {
   updatedAt: string | "";
 }
 
+interface Appointments {
+  appointments: Appointment[];
+}
+
 interface BookAppointmentModalProps {
   selectedStartDate: string | undefined;
   selectedWorkspaceId: string | undefined;
@@ -57,9 +62,15 @@ interface BookAppointmentModalProps {
 export function BookAppointmentModal(props: BookAppointmentModalProps) {
   const [horasFormatadas, setHorasFormatadas] = useState<string[]>([]);
   const [date, setDate] = useState<Date | undefined>(new Date());
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [bookingDescription, setBookingDescription] = useState<string>("");
+  const [bookingTitle, setBookingTitle] = useState<string>("");
 
   const [selectedHour, setSelectedHour] = useState<string>("");
   const [selectedEndDate, setSelectedEndDate] = useState<string>("");
+
+  const fomatedDate = moment(date).format("YYYY-MM-DD");
 
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string>(
     props.selectedWorkspaceId || ""
@@ -71,7 +82,46 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
     Array<{ start: string; end: string }>
   >([]);
 
+  const user_key = sessionStorage.getItem("user_key");
+  const router = useRouter();
+  const params = useParams();
+
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get<Appointments>(
+          `http://localhost:3030/v1/workspace-appointment/${selectedWorkspaceId}/${fomatedDate}`,
+          {
+            headers: {
+              Access: "123",
+              Authorization: user_key,
+            },
+          }
+        );
+
+        const formattedTimes = response.data.appointments.map((appointment) => {
+          const startHour = new Date(appointment.startDate).getHours();
+          const startMinutes = new Date(appointment.startDate).getMinutes();
+          const endHour = new Date(appointment.endDate).getHours();
+          const endMinutes = new Date(appointment.endDate).getMinutes();
+
+          return {
+            start: `${startHour}:${
+              startMinutes < 10 ? "0" : ""
+            }${startMinutes}`,
+            end: `${endHour}:${endMinutes < 10 ? "0" : ""}${endMinutes}`,
+          };
+        });
+
+        setFormattedTimes(formattedTimes);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const atualizarHoras = () => {
       const inicioComercial = set(new Date(), {
         hours: 9,
@@ -99,9 +149,45 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
   }, [date, setHorasFormatadas]);
 
   useEffect(() => {
-    console.log("Hora inicial recebida:", props.selectedStartDate);
     setSelectedStartDate(props.selectedStartDate || "");
   }, [props.selectedStartDate]);
+
+  async function submitBooking(e: React.SyntheticEvent) {
+    e.preventDefault();
+
+    const newBooking = {
+      title: bookingTitle,
+      description: bookingDescription,
+      startDate: `${fomatedDate}T${selectedStartDate}:00`,
+      endDate: `${fomatedDate}T${selectedHour}:00`,
+      workspaceId: selectedWorkspaceId,
+      isPrivate: false,
+    };
+
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        "http://localhost:3030/v1/appointment/create",
+        newBooking,
+        {
+          headers: {
+            Access: 123,
+            Authorization: user_key,
+          },
+        }
+      );
+
+      console.log("response: ", response.data);
+
+      // router.back();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+
+      // router.back();
+    }
+  }
 
   return (
     <Dialog>
@@ -120,7 +206,15 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
             <Label htmlFor="title" className="text-right">
               Titulo:
             </Label>
-            <Input id="title" value="title" className="col-span-3" />
+            <Input
+              id="title"
+              value={bookingTitle}
+              placeholder="Titulo do agendamento"
+              className="col-span-3"
+              onChange={(e) => {
+                setBookingTitle(e.target.value);
+              }}
+            />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="description" className="text-right">
@@ -128,8 +222,12 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
             </Label>
             <Input
               id="description"
-              value="description"
               className="col-span-3"
+              value={bookingDescription}
+              placeholder="Descrição breve do agendamento"
+              onChange={(e) => {
+                setBookingDescription(e.target.value);
+              }}
             />
           </div>
         </div>
@@ -137,7 +235,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
         <h1>Hora de inicio: {selectedStartDate}</h1>
         <Select onValueChange={(value) => setSelectedHour(value)}>
           <SelectTrigger className="w-[100%]">
-            <SelectValue placeholder="Selecione uma hora" />
+            <SelectValue placeholder="Hora final" />
           </SelectTrigger>
           <SelectContent>
             <SelectGroup>
@@ -170,7 +268,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
           </SelectContent>
         </Select>
         <DialogFooter>
-          <Button type="submit">Solicitar agendamento</Button>
+          <Button onClick={submitBooking}>Solicitar agendamento</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

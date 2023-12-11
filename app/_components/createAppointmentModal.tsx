@@ -335,7 +335,7 @@ export function CreateAppointmentModal() {
           {/* <Button onClick={handleBookButtonClick}>Agendar</Button> */}
           <BookAppointmentModal
             selectedStartDate={selectedHour}
-            selectedWorkspaceId={selectedWorkspaceId}
+            selectedWorkspaceId={params.workspaceId && params.workspaceId[0] ? params.workspaceId[0] : selectedWorkspaceId}
             formattedTimes={formattedTimes}
           />
           <Button variant="destructive">Cancelar</Button>
