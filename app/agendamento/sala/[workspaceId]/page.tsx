@@ -42,8 +42,9 @@ export default function WorkspacePage() {
 
   const params = useParams();
 
-  const user_key = sessionStorage.getItem("user_key");
-
+  const user_key =
+    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+    
   useEffect(() => {
     const fetchData = async () => {
       try {

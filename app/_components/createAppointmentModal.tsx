@@ -79,7 +79,8 @@ export function CreateAppointmentModal() {
   const [selectedWorkspaceIdFromParam, setSelectedWorkspaceIdFromParam] =
     useState<string | undefined>(undefined);
 
-  const user_key = sessionStorage.getItem("user_key");
+  const user_key =
+    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
 
   const fomatedDate = moment(date).format("YYYY-MM-DD");
 
@@ -309,11 +310,21 @@ export function CreateAppointmentModal() {
                 const isRed = formattedTimes.some((interval) => {
                   const [inicio, fim] = interval.start.split(":").map(Number);
 
-                  return (
-                    (horaAtual === inicio && minutosAtual >= 0) ||
-                    (horaAtual === fim && minutosAtual <= 59) ||
-                    (horaAtual > inicio && horaAtual < fim)
-                  );
+                  const [agendamentoHoraInicio, agendamentoMinutoInicio] =
+                    interval.start.split(":").map(Number);
+
+                  const [agendamentoHoraFim, agendamentoMinutoFim] =
+                    interval.end.split(":").map(Number);
+
+                  const isWithinRange =
+                    (horaAtual > agendamentoHoraInicio ||
+                      (horaAtual === agendamentoHoraInicio &&
+                        minutosAtual >= agendamentoMinutoInicio)) &&
+                    (horaAtual < agendamentoHoraFim ||
+                      (horaAtual === agendamentoHoraFim &&
+                        minutosAtual <= agendamentoMinutoFim));
+
+                  return isWithinRange;
                 });
 
                 return (
@@ -335,7 +346,11 @@ export function CreateAppointmentModal() {
           {/* <Button onClick={handleBookButtonClick}>Agendar</Button> */}
           <BookAppointmentModal
             selectedStartDate={selectedHour}
-            selectedWorkspaceId={params.workspaceId && params.workspaceId[0] ? params.workspaceId[0] : selectedWorkspaceId}
+            selectedWorkspaceId={
+              params.workspaceId && params.workspaceId[0]
+                ? params.workspaceId[0]
+                : selectedWorkspaceId
+            }
             formattedTimes={formattedTimes}
           />
           <Button variant="destructive">Cancelar</Button>

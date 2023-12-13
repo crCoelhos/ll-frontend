@@ -44,11 +44,12 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
       sessionStorage.setItem("user_role", response.data.roleId);
       sessionStorage.setItem("is_user_active", response.data.isActive);
 
-      router.push("/agendamento/sala");
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
+      router.push("/agendamento/sala");
+
     }
   }
 

@@ -48,7 +48,10 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
 
-  const user_key = sessionStorage.getItem("user_key");
+  const user_key =
+    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+
+  console.log("user_key: ", user_key);
   const router = useRouter();
 
   useEffect(() => {
@@ -143,7 +146,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
       )}
       <br />
       <br />
-      <FullCalendar events={eventArray}/>;
+      <FullCalendar events={eventArray} />;
     </div>
   );
 };

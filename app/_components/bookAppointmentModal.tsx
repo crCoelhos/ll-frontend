@@ -20,6 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import axios from "axios";
+import SessionStorageManager from "../utils/sessionStorageManager";
 
 import moment from "moment";
 import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
@@ -82,7 +83,8 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
     Array<{ start: string; end: string }>
   >([]);
 
-  const user_key = sessionStorage.getItem("user_key");
+  const user_key =
+    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
   const router = useRouter();
   const params = useParams();
 
@@ -124,12 +126,12 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
 
     const atualizarHoras = () => {
       const inicioComercial = set(new Date(), {
-        hours: 9,
+        hours: 8,
         minutes: 0,
         seconds: 0,
       });
       const fimComercial = set(new Date(), {
-        hours: 18,
+        hours: 20,
         minutes: 0,
         seconds: 0,
       });
@@ -138,8 +140,9 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
         start: inicioComercial,
         end: fimComercial,
       });
+
       const horasFormatadas = horasComerciais.map((hora) =>
-        format(hora, "HH:mm")
+        format(set(hora, { minutes: 59 }), "HH:mm")
       );
 
       setHorasFormatadas(horasFormatadas);
@@ -153,7 +156,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
   }, [props.selectedStartDate]);
 
   async function submitBooking(e: React.SyntheticEvent) {
-    e.preventDefault();
+    // e.preventDefault();
 
     const newBooking = {
       title: bookingTitle,
@@ -178,14 +181,11 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
       );
 
       console.log("response: ", response.data);
-
-      // router.back();
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
 
-      // router.back();
     }
   }
 
@@ -267,6 +267,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
             </SelectGroup>
           </SelectContent>
         </Select>
+
         <DialogFooter>
           <Button onClick={submitBooking}>Solicitar agendamento</Button>
         </DialogFooter>
