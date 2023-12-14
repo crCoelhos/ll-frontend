@@ -12,8 +12,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import FullCalendar from "@/app/_components/fullCalendar";
-import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
 import { useRouter } from "next/navigation";
+import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
 
 interface Appointment {
   id: number;
@@ -54,6 +54,14 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
   console.log("user_key: ", user_key);
   const router = useRouter();
 
+  const workspaceColors: Record<number, string> = {
+    1: "#AA4465",
+    2: "#C69F89",
+    3: "#15616D",
+    4: "orange",
+    5: "#462255",
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -91,10 +99,12 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
   }, []);
 
   const eventArray = appointments.map((appointment) => ({
+    id: appointment.id.toString(),
     title: appointment.title,
     start: new Date(appointment.startDate),
     end: new Date(appointment.endDate),
-    backgroundColor: "red",
+    borderColor: workspaceColors[appointment.workspaceId],
+    backgroundColor: workspaceColors[appointment.workspaceId],
   }));
 
   const handleWorkspaceClick = (workspaceInfo: number) => {

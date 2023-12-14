@@ -92,7 +92,6 @@ export function CreateAppointmentModal() {
     }
   }, [params.workspaceId]);
 
-  console.log("workspaceId from params:", selectedWorkspaceIdFromParam);
 
   const handleModalOppening = () => {
     const fetchWorkspaceData = async () => {
@@ -220,7 +219,7 @@ export function CreateAppointmentModal() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild onClick={handleModalOppening} className="m-8">
+      <DialogTrigger asChild onClick={handleModalOppening} className="m-8 w-32 h-16 bg-black text-white">
         <Button variant="outline">Agendar sala</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
@@ -231,6 +230,7 @@ export function CreateAppointmentModal() {
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          <Label>Sala</Label>
           <Select onValueChange={(value) => setSelectedWorkspaceId(value)}>
             <SelectTrigger className="w-[100%]">
               <SelectValue placeholder="Selecione uma sala" />
@@ -265,26 +265,7 @@ export function CreateAppointmentModal() {
               </SelectGroup>
             </SelectContent>
           </Select>
-
-          {/* <Select onValueChange={(value) => setSelectedWorkspaceId(value)}>
-            <SelectTrigger className="w-[100%]">
-              <SelectValue placeholder="Selecione uma sala" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Salas</SelectLabel>
-                {workspaces &&
-                  workspaces.map((workspace) => (
-                    <SelectItem
-                      key={workspace.id}
-                      value={workspace.id.toString()}
-                    >
-                      {workspace.name}
-                    </SelectItem>
-                  ))}
-              </SelectGroup>
-            </SelectContent>
-          </Select> */}
+          <Label>Data</Label>
           <Calendar
             mode="single"
             selected={date}

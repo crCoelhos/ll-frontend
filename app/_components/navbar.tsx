@@ -119,6 +119,16 @@ export function Navbar() {
               Entre em contato
             </NavigationMenuLink>
           </Link>
+          <Link href="/dashboard" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Dashboard
+            </NavigationMenuLink>
+          </Link>
+          <Link href="/administrador" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              Area do Administrador
+            </NavigationMenuLink>
+          </Link>
         </NavigationMenuItem>
 
         {storedUserName ? (

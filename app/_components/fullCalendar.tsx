@@ -1,12 +1,14 @@
 import React, { useRef, useEffect, useCallback } from "react";
-import { Calendar, EventDropArg } from "@fullcalendar/core";
+import { Calendar, EventClickArg, EventDropArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
 interface Event {
+  id: string;
   title: string;
   start: Date;
   end?: Date;
+  borderColor: string;
   backgroundColor: string;
 }
 
@@ -31,10 +33,10 @@ const FullCalendar: React.FC<Props> = ({ events }) => {
         locale: "pt-br",
         editable: true,
         events: Array.isArray(events) ? events : [events],
+        eventDisplay: "block",
         eventDrop: handleEventDrop,
+        eventClick: handleEventClick,
       });
-
-      
 
       calendar.render();
     }
@@ -51,6 +53,19 @@ const FullCalendar: React.FC<Props> = ({ events }) => {
     }
   };
 
+  const handleEventClick = (info: EventClickArg) => {
+    const clickedEvent = info.event;
+    const title = clickedEvent.title;
+    const eventId = clickedEvent;
+    const startDate = clickedEvent.start?.toISOString();
+    const endDate = clickedEvent.end?.toISOString();
+
+    console.log(JSON.stringify(clickedEvent, null, 2));
+
+    // console.log(
+    //   `Evento clicado: \n Título: ${title}, id: ${eventId}, \n ini: ${startDate}, \n fim: ${endDate}`
+    // );
+  };
   return <div ref={setCalendarRef} className="p-8"></div>;
 };
 
