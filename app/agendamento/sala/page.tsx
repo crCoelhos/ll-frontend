@@ -125,7 +125,6 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
   return (
     <div className="flex...">
       <br />
-      <CreateAppointmentModal />
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -138,7 +137,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
                   {workspace.name}
                   <CardTitle>
                     <div
-                      className="w-auto h-4"
+                      className="w-auto h-4 rounded-sm"
                       id="workspaceColorLabel"
                       style={{
                         backgroundColor:
@@ -153,9 +152,6 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
                     <div className="flex-1 space-y-1">
                       <p className="text-sm font-medium leading-none">
                         Tipo: {workspace.workspaceTypeId}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Descrição: {workspace.description}
                       </p>
                     </div>
                   </div>
