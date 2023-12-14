@@ -3,6 +3,8 @@ import { Calendar, EventClickArg, EventDropArg } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 
+// https://coolors.co/c69f89-15616d-06a77d-aa4465-462255
+
 interface Event {
   id: string;
   title: string;

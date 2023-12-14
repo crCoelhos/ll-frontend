@@ -119,18 +119,21 @@ export function Navbar() {
               Entre em contato
             </NavigationMenuLink>
           </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <Link href="/dashboard" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Dashboard
             </NavigationMenuLink>
           </Link>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
           <Link href="/administrador" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               Area do Administrador
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
-
         {storedUserName ? (
           <NavigationMenuItem>
             <NavigationMenuTrigger>{storedUserName}</NavigationMenuTrigger>
@@ -147,14 +150,18 @@ export function Navbar() {
             </NavigationMenuContent>
           </NavigationMenuItem>
         ) : (
-          <NavigationMenuItem className="pl-[48vw] space-x-4">
+          <NavigationMenuItem className="pl-[32vw] space-x-3">
             <Link href="/sign-in" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={`${navigationMenuTriggerStyle()} bg-purple-800 text-white`}
+              >
                 Entrar
               </NavigationMenuLink>
             </Link>
             <Link href="/sign-up" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+              <NavigationMenuLink
+                className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white`}
+              >
                 Registrar
               </NavigationMenuLink>
             </Link>

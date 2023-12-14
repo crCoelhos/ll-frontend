@@ -48,6 +48,10 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
 
+  const [focusedButtons, setFocusedButtons] = useState<{
+    [key: number]: boolean;
+  }>({});
+
   const user_key =
     typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
 
@@ -111,11 +115,17 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
     router.push(`/agendamento/sala/${workspaceInfo}`);
   };
 
+  const handleButtonFocus = (workspaceId: number, isFocused: boolean) => {
+    setFocusedButtons((prev) => ({
+      ...prev,
+      [workspaceId]: isFocused,
+    }));
+  };
+
   return (
     <div className="flex...">
       <br />
       <CreateAppointmentModal />
-      <h1>WorkspaceList Page</h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -125,8 +135,18 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
               <br />
               <Card className="w-[380px]">
                 <CardHeader>
-                  <CardTitle>{workspace.name}</CardTitle>
-                  <CardDescription>Sala</CardDescription>
+                  {workspace.name}
+                  <CardTitle>
+                    <div
+                      className="w-auto h-4"
+                      id="workspaceColorLabel"
+                      style={{
+                        backgroundColor:
+                          workspaceColors[workspace.id] || "gray",
+                      }}
+                    ></div>
+                  </CardTitle>
+                  <CardDescription>{workspace.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="grid gap-4">
                   <div className=" flex items-center space-x-4 rounded-md border p-4">
@@ -143,8 +163,17 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
                 </CardContent>
                 <CardFooter>
                   <Button
+                    onMouseEnter={() => handleButtonFocus(workspace.id, true)}
+                    onMouseLeave={() => handleButtonFocus(workspace.id, false)}
                     className="w-full"
                     onClick={() => handleWorkspaceClick(workspace.id)}
+                    style={{
+                      backgroundColor: workspaceColors[workspace.id],
+                      transition: "background-color 0.8s ease",
+                      filter: focusedButtons[workspace.id]
+                        ? "brightness(80%)"
+                        : "none",
+                    }}
                   >
                     Calendário de agendamento
                   </Button>
