@@ -170,7 +170,9 @@ export default function WorkspaceAdminPage() {
                 <Button variant="ghost" className="bg-yellow-700  text-white">
                   Cancelar
                 </Button>
-                <Button variant="destructive">Excluir</Button>
+                <Button variant="ghost" className="bg-red-700  text-white">
+                  Excluir
+                </Button>
               </TableCell>
             </TableRow>
           ))}
