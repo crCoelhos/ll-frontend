@@ -9,7 +9,7 @@ interface ScheduleLayoutProps {
   children?: ReactNode;
 }
 
-const ScheduleLayout = ({ children }: ScheduleLayoutProps): JSX.Element => {
+const AdminAreaLayout = ({ children }: ScheduleLayoutProps): JSX.Element => {
   const router = useRouter();
   const handleBackPage = () => {
     router.back();
@@ -20,9 +20,9 @@ const ScheduleLayout = ({ children }: ScheduleLayoutProps): JSX.Element => {
       <Button className="w-12 m-6" onClick={handleBackPage}>
         <ArrowLeft />
       </Button>
-      {children}
+      {children}    
     </div>
   );
 };
 
-export default ScheduleLayout;
+export default AdminAreaLayout;
