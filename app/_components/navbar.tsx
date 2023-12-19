@@ -18,6 +18,7 @@ import { Icons } from "./icons";
 import SessionStorageManager from "../utils/sessionStorageManager";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { Navigation } from "lucide-react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -67,82 +68,82 @@ export function Navbar() {
   return (
     <NavigationMenu key={navbarKey} className="">
       <div className="flex...">
-        <NavigationMenuList className="grid grid-cols-6 grid-rows-1 m-8 content-center">
-          <>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>Legaliza</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid gap-3 p-6 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                  <li className="row-span-3">
-                    <NavigationMenuLink asChild>
-                      <a
-                        className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                        href="/sobre"
-                      >
-                        <Icons.logo className="h-6 w-6" />
-                        <div className="mb-2 mt-4 text-lg font-medium">
-                          Legaliza
-                        </div>
-                        <p className="text-sm leading-tight text-muted-foreground">
-                          O seu escritório virtual!
-                        </p>
-                      </a>
-                    </NavigationMenuLink>
-                  </li>
-                  <ListItem href="/agendamento/sala/1" title="Teste agora!">
-                    Comece descobrindo alguns dos advogados parceiros.
-                  </ListItem>
-                  <ListItem
-                    href="/agendamento/sala"
-                    title="Agendamento de salas"
-                  >
-                    Não tem escritório? Agende uma reunião!
-                  </ListItem>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
+        <NavigationMenuList className="grid grid-cols-6 grid-rows-1">
 
-            <NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>Legaliza</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                <li className="row-span-3">
+                  <NavigationMenuLink asChild>
+                    <a
+                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-1 no-underline outline-none focus:shadow-md"
+                      href="/sobre"
+                    >
+                      <Icons.logo className="h-1 w-1" />
+                      <div className="mb-2 mt-4 text-lg font-medium">
+                        Legaliza
+                      </div>
+                      <p className="text-sm leading-tight text-muted-foreground">
+                        O seu escritório virtual!
+                      </p>
+                    </a>
+                  </NavigationMenuLink>
+                </li>
+                <ListItem href="/agendamento/sala/1" title="Teste agora!">
+                  Comece descobrindo alguns dos advogados parceiros.
+                </ListItem>
+                <ListItem
+                  href="/agendamento/sala"
+                  title="Agendamento de salas"
+                >
+                  Não tem escritório? Agende uma reunião!
+                </ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+
+          {/* <NavigationMenuItem>
               <Link href="/docs" legacyBehavior passHref>
                 <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                   Entre em contato
                 </NavigationMenuLink>
               </Link>
-            </NavigationMenuItem>
-            <NavigationMenuItem ></NavigationMenuItem>
-              <NavigationMenuTrigger>Parceiros</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                  {components.map((component) => (
-                    <ListItem
-                      key={component.title}
-                      title={component.title}
-                      href={component.href}
-                    >
-                      {component.description}
-                    </ListItem>
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          </>
+            </NavigationMenuItem> */}
+          <NavigationMenuItem >
+            <NavigationMenuTrigger>Parceiros</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid w-[400px] gap-1 p-1 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                {components.map((component) => (
+                  <ListItem
+                    key={component.title}
+                    title={component.title}
+                    href={component.href}
+                  >
+                    {component.description}
+                  </ListItem>
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
 
-          <NavigationMenuItem>
+
+          {/* <NavigationMenuItem>
             <Link href="/dashboard" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
                 Dashboard
               </NavigationMenuLink>
             </Link>
+          </NavigationMenuItem> */}
+          {/* <> */}
+          <NavigationMenuItem>
+            <Link href="/administrador" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                Area do Administrador
+              </NavigationMenuLink>
+            </Link>
           </NavigationMenuItem>
-          <>
-            <NavigationMenuItem>
-              <Link href="/administrador" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Area do Administrador
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
-          </>
+
           {storedUserName ? (
             <NavigationMenuItem>
               <NavigationMenuTrigger>{storedUserName}</NavigationMenuTrigger>
@@ -159,22 +160,27 @@ export function Navbar() {
               </NavigationMenuContent>
             </NavigationMenuItem>
           ) : (
-            <NavigationMenuItem className="pl-[32vw] space-x-3">
-              <Link href="/sign-in" legacyBehavior passHref>
-                <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} bg-purple-800 text-white`}
-                >
-                  Entrar
-                </NavigationMenuLink>
-              </Link>
-              <Link href="/sign-up" legacyBehavior passHref>
-                <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white`}
-                >
-                  Registrar
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem>
+            <>
+              <NavigationMenuItem className=" space-x-1">
+                <Link href="/sign-in" legacyBehavior passHref>
+                  <NavigationMenuLink
+                    className={`${navigationMenuTriggerStyle()} bg-purple-800 text-white`}
+                  >
+                    Entrar
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuItem>
+
+              <NavigationMenuLink>
+                <Link href="/sign-up" legacyBehavior passHref>
+                  <NavigationMenuLink
+                    className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white`}
+                  >
+                    Registrar
+                  </NavigationMenuLink>
+                </Link>
+              </NavigationMenuLink>
+            </>
           )}
         </NavigationMenuList>
       </div>
