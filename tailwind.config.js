@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 const { fontFamily } = require("tailwindcss/defaultTheme")
 
+
 module.exports = {
   darkMode: ["class"],
   content: [
@@ -8,6 +9,7 @@ module.exports = {
     './components/**/*.{ts,tsx}',
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
+    'node_modules/flowbite-react/lib/esm/**/*.js',
   ],
   theme: {
     container: {
@@ -77,5 +79,7 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"),
+
+  require('flowbite/plugin'),],
 }

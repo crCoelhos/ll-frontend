@@ -69,7 +69,6 @@ export function Navbar() {
     <NavigationMenu key={navbarKey} className="">
       <div className="flex...">
         <NavigationMenuList className="grid grid-cols-6 grid-rows-1">
-
           <NavigationMenuItem>
             <NavigationMenuTrigger>Legaliza</NavigationMenuTrigger>
             <NavigationMenuContent>
@@ -93,24 +92,14 @@ export function Navbar() {
                 <ListItem href="/agendamento/sala/1" title="Teste agora!">
                   Comece descobrindo alguns dos advogados parceiros.
                 </ListItem>
-                <ListItem
-                  href="/agendamento/sala"
-                  title="Agendamento de salas"
-                >
+                <ListItem href="/agendamento/sala" title="Agendamento de salas">
                   Não tem escritório? Agende uma reunião!
                 </ListItem>
               </ul>
             </NavigationMenuContent>
           </NavigationMenuItem>
 
-          {/* <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
-                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                  Entre em contato
-                </NavigationMenuLink>
-              </Link>
-            </NavigationMenuItem> */}
-          <NavigationMenuItem >
+          <NavigationMenuItem>
             <NavigationMenuTrigger>Parceiros</NavigationMenuTrigger>
             <NavigationMenuContent>
               <ul className="grid w-[400px] gap-1 p-1 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
@@ -127,7 +116,6 @@ export function Navbar() {
             </NavigationMenuContent>
           </NavigationMenuItem>
 
-
           {/* <NavigationMenuItem>
             <Link href="/dashboard" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -136,6 +124,7 @@ export function Navbar() {
             </Link>
           </NavigationMenuItem> */}
           {/* <> */}
+          
           <NavigationMenuItem>
             <Link href="/administrador" legacyBehavior passHref>
               <NavigationMenuLink className={navigationMenuTriggerStyle()}>
@@ -162,24 +151,22 @@ export function Navbar() {
           ) : (
             <>
               <NavigationMenuItem className=" space-x-1">
-                <Link href="/sign-in" legacyBehavior passHref>
-                  <NavigationMenuLink
-                    className={`${navigationMenuTriggerStyle()} bg-purple-800 text-white`}
-                  >
-                    Entrar
-                  </NavigationMenuLink>
-                </Link>
+                <NavigationMenuLink
+                  href="/sign-in"
+                  className={`${navigationMenuTriggerStyle()} bg-purple-800 text-white`}
+                >
+                  Entrar
+                </NavigationMenuLink>
               </NavigationMenuItem>
 
-              <NavigationMenuLink>
-                <Link href="/sign-up" legacyBehavior passHref>
-                  <NavigationMenuLink
-                    className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white`}
-                  >
-                    Registrar
-                  </NavigationMenuLink>
-                </Link>
-              </NavigationMenuLink>
+              <NavigationMenuItem>
+                <NavigationMenuLink
+                  href="/sign-up"
+                  className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white`}
+                >
+                  Registrar
+                </NavigationMenuLink>
+              </NavigationMenuItem>
             </>
           )}
         </NavigationMenuList>

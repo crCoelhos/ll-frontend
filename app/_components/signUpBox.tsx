@@ -1,244 +1,342 @@
-import React, { useState } from "react";
-import axios from "axios";
-import { cn } from "@/lib/utils";
-import { Label } from "@radix-ui/react-label";
-import { Icons } from "./icons";
+"use client";
+
+import { zodResolver } from "@hookform/resolvers/zod";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import * as z from "zod";
+
 import { Button } from "@/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
+import axios from "axios";
+import { Separator } from "@/components/ui/separator";
+import { Datepicker } from "flowbite-react";
+import { useState } from "react";
 
+const formSchema = z.object({
+  username: z.string().min(2, {
+    message: "Username must be at least 2 characters.",
+  }),
+});
 
-interface SignUpBoxProps extends React.HTMLAttributes<HTMLDivElement> { }
+export function SignUpBox() {
+  const [newBirthdate, setNewBirthdate] = useState<Date | undefined>(
+    new Date()
+  );
+  const [address, setAddress] = useState({
+    street: "",
+    number: "",
+    city: "",
+    state: "",
+    CEP: "",
+  });
 
-export default function SignUpBox({ className, ...props }: SignUpBoxProps) {
-    const [formData, setFormData] = useState({
-        name: "",
-        email: "",
-        CPF: "",
-        birthdate: "",
-        password: "",
-        isActive: 1,
-        roleId: 1,
-        address: {
-            street: "",
-            city: "",
-            state: "",
-            CEP: "",
-        },
-    });
+  const router = useRouter();
 
-    const [isLoading, setIsLoading] = useState<boolean>(false);
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+  });
 
-    const router = useRouter();
+  async function onSubmit(e: React.SyntheticEvent) {
+    console.log("Form submitted with data:", e);
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+
+    const formDataObject: { [key: string]: any } = {
+      ...form.getValues(),
+      birthdate: newBirthdate,
+      address: {
+        street: address.street,
+        number: address.number,
+        city: address.city,
+        state: address.state,
+        CEP: address.CEP,
+      },
     };
 
-    const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setFormData((prevData) => ({
-            ...prevData,
-            address: {
-                ...prevData.address,
-                [name]: value,
-            },
-        }));
-    };
-
-
-    async function onSubmit(e: React.SyntheticEvent) {
-        e.preventDefault();
-        const formData = new FormData(e.target as HTMLFormElement);
-
-        const formDataObject: { [key: string]: any } = {};
-        formData.forEach((value, key) => {
-            formDataObject[key] = value;
-        });
-
-        setIsLoading(true);
-        try {
-            const response = await axios.post(
-                "http://localhost:3030/v1/user/",
-                formDataObject,
-                {
-                    headers: {
-                        Access: 123,
-                    },
-                }
-            );
-
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setIsLoading(false);
-            router.push("/sign-in");
-
+    try {
+      const response = await axios.post(
+        "http://localhost:3030/v1/user/",
+        formDataObject,
+        {
+          headers: {
+            Access: 123,
+          },
         }
-    }
+      );
 
-    return (
-        <div className="w-[512px] mt-[248px] mx-[512px]">
-            <div className={cn("grid gap-6", className)} {...props}>
-                <form onSubmit={onSubmit}>
-                    <div className="grid gap-2">
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="name">
-                                Nome
-                            </Label>
-                            <Input
-                                id="name"
-                                placeholder="NOME: Jorge Rogério"
-                                type="text"
-                                name="name"
-                                autoCapitalize="none"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="email">
-                                Email
-                            </Label>
-                            <Input
-                                id="email"
-                                placeholder="EMAIL: jorge@example.com"
-                                type="email"
-                                name="email"
-                                autoCapitalize="off"
-                                autoComplete="off"
-                                autoCorrect="off"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="cpf">
-                                CPF
-                            </Label>
-                            <Input
-                                id="cpf"
-                                placeholder="CPF: 123.456.789-10"
-                                type="text"
-                                name="cpf"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="password">
-                                Senha
-                            </Label>
-                            <Input
-                                id="password"
-                                placeholder="Senha"
-                                name="password"
-                                type="password"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="passwordConfirmation">
-                                Confirmar Senha
-                            </Label>
-                            <Input
-                                id="passwordConfirmation"
-                                placeholder="Confirme a senha"
-                                name="passwordConfirmation"
-                                type="passwordConfirmation"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="street">
-                                Rua
-                            </Label>
-                            <Input
-                                id="street"
-                                placeholder="RUA: Rio Branco"
-                                name="street"
-                                type="street"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="number">
-                                Numero
-                            </Label>
-                            <Input
-                                id="number"
-                                placeholder="NUMERO: 16"
-                                name="number"
-                                type="number"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="city">
-                                Cidade
-                            </Label>
-                            <Input
-                                id="city"
-                                placeholder="CIDADE: Rio Branco"
-                                name="city"
-                                type="city"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="state">
-                                Estado
-                            </Label>
-                            <Input
-                                id="state"
-                                placeholder="ESTADO: Acre"
-                                name="state"
-                                type="state"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <div className="grid gap-1">
-                            <Label className="sr-only" htmlFor="CEP">
-                                CEP
-                            </Label>
-                            <Input
-                                id="CEP"
-                                placeholder="CEP: 69999-123"
-                                name="CEP"
-                                type="CEP"
-                                disabled={isLoading}
-                            />
-                        </div>
-                        <Button disabled={isLoading}>
-                            {isLoading && (
-                                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                            )}
-                            Entrar
-                        </Button>
-                    </div>
-                </form>
-                <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                        <span className="w-full border-t" />
-                    </div>
-                    <div className="relative flex justify-center text-xs uppercase">
-                        <span className="bg-background px-2 text-muted-foreground">
-                            Ou acesse com
-                        </span>
-                    </div>
-                </div>
-                <Button variant="outline" type="button" disabled={isLoading}>
-                    {isLoading ? (
-                        <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-                    ) : (
-                        <Icons.google className="mr-2 h-4 w-4" />
-                    )}
-                    Google
-                </Button>
-            </div>
-        </div>
-    );
-};
+      console.log(response);
+    } catch (error) {
+      console.error(error);
+    } finally {
+        router.push("/sign-in");
+    }
+  }
+
+  return (
+    <div className="w-[75vw] pl-[22vw] my-24">
+      <Form {...form}>
+        <form onSubmit={onSubmit} className="space-y-8">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="Rogerio Sergio" {...field} />
+                </FormControl>
+                <FormDescription>Este é o seu nome completo</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="rogerio@email.com" {...field} />
+                </FormControl>
+                <FormDescription>Este é o seu melhor email</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="grid grid-cols-2 items-center gap-2">
+            <FormField
+              control={form.control}
+              name="CPF"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>CPF</FormLabel>
+                  <FormControl>
+                    <Input placeholder="123.456.789-10" {...field} />
+                  </FormControl>
+                  <FormDescription>Este é o seu CPF.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* <FormField
+              control={form.control}
+              name="birthdate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Data de nascimento</FormLabel>
+                  <FormControl>
+                    <Input placeholder="01/01/1990" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Esta é a sua data de nascimento.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            /> */}
+            <Datepicker
+              language="pt-BR"
+              labelTodayButton="Hoje"
+              labelClearButton="Limpar"
+              onSelectedDateChanged={(date) => setNewBirthdate(date)}
+            />
+          </div>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Senha</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="insira uma senha"
+                    {...field}
+                    type="password"
+                  />
+                </FormControl>
+                <FormDescription>
+                  Esta é sua senha de acesso ao sistema.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="passwordConfirmation"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Confirmação de senha</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="Confirme sua senha"
+                    // {...field}
+                    type="password"
+                  />
+                </FormControl>
+                <FormDescription>
+                  Esta é sua senha de acesso ao sistema.
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Separator className="my-4" />
+          <FormField
+            control={form.control}
+            name="CEP"
+            render={({ field }) => (
+              <FormItem className="w-72">
+                <FormLabel>CEP</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="69999-000"
+                    {...field}
+                    type="text"
+                    onChange={(e) => {
+                      setAddress((prevAddress) => ({
+                        ...prevAddress,
+                        CEP: e.target.value,
+                      }));
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormDescription>Este é o CEP de sua rua.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <div className="grid grid-cols-2 items-center gap-2">
+            <FormField
+              control={form.control}
+              name="street"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rua</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Rua Rio Branco"
+                      {...field}
+                      type="text"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          street: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Esta é a rua em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Número</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="16"
+                      {...field}
+                      type="text"
+                      className="w-32"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          number: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Este é o número da residência em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 items-center gap-2">
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cidade</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Rio Branco"
+                      {...field}
+                      type="text"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          city: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Esta é a cidade em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Estado</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Acre"
+                      {...field}
+                      type="text"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          state: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Este é o estado em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+          <Separator className="my-4" />
+
+          <Button type="submit">Registrar</Button>
+        </form>
+      </Form>
+    </div>
+  );
+}
