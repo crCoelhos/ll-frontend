@@ -84,7 +84,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
   >([]);
 
   const user_key =
-    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
   const router = useRouter();
   const params = useParams();
 

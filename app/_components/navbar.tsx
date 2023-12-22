@@ -46,13 +46,17 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function Navbar() {
   const [storedUser, setStoredUser] = React.useState<string | null>(null);
+
   const [storedUserName, setStoredUserName] = React.useState<string>("");
+  const [storedUserRole, setStoredUserRole] = React.useState<string>("");
 
   const router = useRouter();
 
   useEffect(() => {
-    const storedUserName = sessionStorage.getItem("user_name");
+    const storedUserName = localStorage.getItem("user_name");
+    const storedUserRole = localStorage.getItem("user_role");
     setStoredUserName(storedUserName ?? "");
+    setStoredUserRole(storedUserRole ?? "");
   }, []);
 
   const handleLogout = () => {
@@ -66,112 +70,149 @@ export function Navbar() {
   const navbarKey = storedUserName || "guest";
 
   return (
-    <NavigationMenu key={navbarKey} className="">
+    <>
       <div className="flex...">
-        <NavigationMenuList className="grid grid-cols-6 grid-rows-1">
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Legaliza</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-                <li className="row-span-3">
-                  <NavigationMenuLink asChild>
-                    <a
-                      className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-1 no-underline outline-none focus:shadow-md"
-                      href="/sobre"
-                    >
-                      <Icons.logo className="h-1 w-1" />
-                      <div className="mb-2 mt-4 text-lg font-medium">
-                        Legaliza
-                      </div>
-                      <p className="text-sm leading-tight text-muted-foreground">
-                        O seu escritório virtual!
-                      </p>
-                    </a>
-                  </NavigationMenuLink>
-                </li>
-                <ListItem href="/agendamento/sala/1" title="Teste agora!">
-                  Comece descobrindo alguns dos advogados parceiros.
-                </ListItem>
-                <ListItem href="/agendamento/sala" title="Agendamento de salas">
-                  Não tem escritório? Agende uma reunião!
-                </ListItem>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>Parceiros</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[400px] gap-1 p-1 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                {components.map((component) => (
-                  <ListItem
-                    key={component.title}
-                    title={component.title}
-                    href={component.href}
-                  >
-                    {component.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-
-          {/* <NavigationMenuItem>
-            <Link href="/dashboard" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Dashboard
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem> */}
-          {/* <> */}
-          
-          <NavigationMenuItem>
-            <Link href="/administrador" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-                Area do Administrador
-              </NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-
-          {storedUserName ? (
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>{storedUserName}</NavigationMenuTrigger>
-
-              <NavigationMenuContent>
-                <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
-                  <ListItem key="Profile" title="Perfil" href="/perfil">
-                    Meus dados
-                  </ListItem>
-                  <ListItem key="Logout" title="Logout" onClick={handleLogout}>
-                    Sair da conta
-                  </ListItem>
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-          ) : (
-            <>
-              <NavigationMenuItem className=" space-x-1">
-                <NavigationMenuLink
-                  href="/sign-in"
-                  className={`${navigationMenuTriggerStyle()} bg-purple-800 text-white`}
-                >
-                  Entrar
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-
+        <NavigationMenu key={navbarKey} className="">
+          <NavigationMenuList className="grid grid-cols-4 grid-rows-1">
+            <NavigationMenu key={navbarKey} id="logo-options" className="">
               <NavigationMenuItem>
-                <NavigationMenuLink
-                  href="/sign-up"
-                  className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white`}
-                >
-                  Registrar
-                </NavigationMenuLink>
+                <NavigationMenuTrigger>LegaLiga</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                    <li className="row-span-3">
+                      <NavigationMenuLink asChild>
+                        <a
+                          className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-1 no-underline outline-none focus:shadow-md"
+                          href="/sobre"
+                        >
+                          <Icons.logo className="h-1 w-1" />
+                          <div className="mb-2 mt-4 text-lg font-medium">
+                            LegaLiga
+                          </div>
+                          <p className="text-sm leading-tight text-muted-foreground">
+                            O seu escritório virtual!
+                          </p>
+                        </a>
+                      </NavigationMenuLink>
+                    </li>
+                    <ListItem href="/agendamento/sala/1" title="Teste agora!">
+                      Comece descobrindo alguns dos advogados parceiros.
+                    </ListItem>
+                    <ListItem
+                      href="/agendamento/sala"
+                      title="Agendamento de salas"
+                    >
+                      Não tem escritório? Agende uma reunião!
+                    </ListItem>
+                  </ul>
+                </NavigationMenuContent>
               </NavigationMenuItem>
-            </>
-          )}
-        </NavigationMenuList>
+            </NavigationMenu>
+            <NavigationMenu key={navbarKey} id="parceiros" className="">
+              <NavigationMenuItem>
+                <NavigationMenuTrigger>Parceiros</NavigationMenuTrigger>
+                <NavigationMenuContent>
+                  <ul className="grid w-[400px] gap-1 p-1 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
+                    {components.map((component) => (
+                      <ListItem
+                        key={component.title}
+                        title={component.title}
+                        href={component.href}
+                      >
+                        {component.description}
+                      </ListItem>
+                    ))}
+                  </ul>
+                </NavigationMenuContent>
+              </NavigationMenuItem>
+            </NavigationMenu>
+          </NavigationMenuList>
+
+          <NavigationMenuList className="grid grid-cols-1 grid-rows-1">
+            {storedUserRole == "1" && (
+              <NavigationMenu key={navbarKey} className=" px-12	">
+                <NavigationMenuItem>
+                  <Link href="/dashboard" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      // className={navigationMenuTriggerStyle()}
+                      className={cn(
+                        "text-red-700 !font-bold",
+                        navigationMenuTriggerStyle()
+                      )}
+                    >
+                      Dashboard
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <Link href="/administrador" legacyBehavior passHref>
+                    <NavigationMenuLink
+                      className={cn(
+                        "text-red-700 !font-bold",
+                        navigationMenuTriggerStyle()
+                      )}
+                    >
+                      Area do Administrador
+                    </NavigationMenuLink>
+                  </Link>
+                </NavigationMenuItem>
+              </NavigationMenu>
+            )}
+          </NavigationMenuList>
+
+          <NavigationMenuList className="grid grid-cols-2 grid-rows-1">
+            {storedUserName ? (
+              <NavigationMenu
+                key={navbarKey}
+                className=" border-solid border-2 border-sky-500"
+              >
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger>
+                    {storedUserName}
+                  </NavigationMenuTrigger>
+
+                  <NavigationMenuContent>
+                    <ul className="grid w-[400px] gap-3 p-4 md:w-[200px] md:grid-cols-2 lg:w-[350px] ">
+                      <ListItem key="Profile" title="Perfil" href="/perfil">
+                        Meus dados
+                      </ListItem>
+                      <ListItem
+                        key="Logout"
+                        title="Logout"
+                        onClick={handleLogout}
+                      >
+                        Sair da conta
+                      </ListItem>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              </NavigationMenu>
+            ) : (
+              <>
+                <NavigationMenuItem className=" space-x-1">
+                  <NavigationMenuLink
+                    href="/sign-in"
+                    className={`${navigationMenuTriggerStyle()} bg-purple-600 hover:bg-purple-500 text-white  hover:text-white`}
+                  >
+                    Entrar
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink
+                    href="/sign-up"
+                    className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white  hover:bg-teal-500  hover:text-white`}
+                  >
+                    Registrar
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </>
+            )}
+          </NavigationMenuList>
+        </NavigationMenu>
       </div>
-    </NavigationMenu>
+    </>
   );
 }
 

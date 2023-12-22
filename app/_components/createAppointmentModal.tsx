@@ -80,7 +80,7 @@ export function CreateAppointmentModal() {
     useState<string | undefined>(undefined);
 
   const user_key =
-    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
   const fomatedDate = moment(date).format("YYYY-MM-DD");
 

@@ -1,13 +1,17 @@
 "use client";
 import { Button } from "@/components/ui/button";
+
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Separator } from "@/components/ui/separator";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -22,6 +26,7 @@ import { format } from "date-fns";
 import { Badge } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import FullCalendar from "@/app/_components/fullCalendar";
 
 interface Appointment {
   id: number;
@@ -55,7 +60,7 @@ const AdminWorkspacesPage = () => {
   }>({});
 
   const user_key =
-    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
   console.log("user_key: ", user_key);
   const router = useRouter();
@@ -143,6 +148,17 @@ const AdminWorkspacesPage = () => {
             },
           });
           setAppointments(appointmentResponse.data.appointments);
+
+          const workspaceResponse = await axios.get(
+            "http://localhost:3030/v1/workspaces/",
+            {
+              headers: {
+                Access: "123",
+                Authorization: user_key,
+              },
+            }
+          );
+          setWorkspaces(response.data);
         } catch (error) {
           console.error(error);
         } finally {
@@ -185,7 +201,44 @@ const AdminWorkspacesPage = () => {
                     {format(new Date(workspace.createdAt), "dd/MM/yyyy")}
                   </TableCell>
                   <TableCell className="text-right space-x-1">
-                    <Button variant="outline" className="bg-sky-900 text-white">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <DotsHorizontalIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem onClick={() => console.log("edita")}>
+                          Editar sala
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                          onClick={() => handleWorkspaceClick(workspace.id)}
+                        >
+                          Visualizar agenda
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="my-2" />
+                        <DropdownMenuItem
+                          onClick={() => console.log("confirma")}
+                          className="bg-red-400  text-white"
+                        >
+                          Desativar sala
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="my-2" />
+                        <DropdownMenuItem
+                          className="bg-red-700  text-white"
+                          onClick={() => console.log("exclui")}
+                        >
+                          Excluir sala
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    {/* <Button variant="outline" className="bg-sky-900 text-white">
                       Editar
                     </Button>
                     <Button
@@ -197,7 +250,7 @@ const AdminWorkspacesPage = () => {
                     </Button>
                     <Button variant="ghost" className="bg-red-700  text-white">
                       Excluir
-                    </Button>
+                    </Button> */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -205,6 +258,7 @@ const AdminWorkspacesPage = () => {
           </Table>
         </ul>
       )}
+      <FullCalendar events={eventArray} />;
     </div>
   );
 };

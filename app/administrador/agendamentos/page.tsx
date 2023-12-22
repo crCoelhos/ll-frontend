@@ -1,13 +1,15 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-  CardFooter,
-} from "@/components/ui/card";
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 import {
   Table,
   TableBody,
@@ -23,6 +25,10 @@ import { Badge } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { Separator } from "@/components/ui/separator";
+import FullCalendar from "@/app/_components/fullCalendar";
+
 interface Appointment {
   id: number;
   userId: number;
@@ -36,7 +42,13 @@ interface Appointment {
   createdAt: string;
   updatedAt: string | "";
 }
-
+interface AppointmentStatus {
+  id: number;
+  name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string | "";
+}
 interface Workspace {
   id: number;
   name: string;
@@ -64,13 +76,16 @@ const AdminAppoinemtnsPage = () => {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [appointmentStatus, setAppointmentStatus] = useState<
+    AppointmentStatus[]
+  >([]);
 
   const [focusedButtons, setFocusedButtons] = useState<{
     [key: number]: boolean;
   }>({});
 
   const user_key =
-    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
   console.log("user_key: ", user_key);
   const router = useRouter();
@@ -124,6 +139,7 @@ const AdminAppoinemtnsPage = () => {
         setIsLoading(false);
       }
     };
+
     const fetchUserData = async () => {
       try {
         const userResponse = await axios.get(
@@ -143,7 +159,27 @@ const AdminAppoinemtnsPage = () => {
       }
     };
 
+    const fetchAppointmentStatusData = async () => {
+      try {
+        const appointmentStatusResponse = await axios.get(
+          "http://localhost:3030/v1/appointment-statuses/all",
+          {
+            headers: {
+              Access: "123",
+              Authorization: user_key,
+            },
+          }
+        );
+        setAppointmentStatus(appointmentStatusResponse.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchData();
+    fetchAppointmentStatusData();
     fetchAppointmentData();
     fetchUserData();
   }, []);
@@ -159,46 +195,150 @@ const AdminAppoinemtnsPage = () => {
     backgroundColor: workspaceColors[appointment.workspaceId],
   }));
 
-  const handleWorkspaceClick = (workspaceInfo: number) => {
-    router.push(`/administrador/workspaces/${workspaceInfo}`);
+  const handleAppointmentClick = (workspaceInfo: number) => {
+    router.push(`/administrador/agendamentos/${workspaceInfo}`);
   };
 
-  const handleWorkspaceEditClick = (workspaceInfo: number) => {
-    const url = `/administrador/workspaces/${workspaceInfo}`;
-
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          setIsLoading(true);
-          const response = await axios.get(
-            "http://localhost:3030/v1/workspaces/",
-            {
-              headers: {
-                Access: "123",
-                Authorization: user_key,
-              },
-            }
-          );
-          setWorkspaces(response.data);
-
-          setIsLoading(true);
-          const appointmentResponse = await axios.get(url, {
+  const handleAppointmentConfirmationClick = (workspaceInfo: number) => {
+    const updateData = async () => {
+      try {
+        setIsLoading(true);
+        const appointmentResponse = await axios.put(
+          `http://localhost:3030/v1/confirm-appointment/${workspaceInfo}`,
+          {},
+          {
             headers: {
               Access: "123",
               Authorization: user_key,
             },
-          });
-          setAppointments(appointmentResponse.data.appointments);
-        } catch (error) {
-          console.error(error);
-        } finally {
-          setIsLoading(false);
-        }
-      };
-
-      fetchData();
-    }, []);
+          }
+        );
+        console.log("resposta confirmação: ", appointmentResponse);
+        fetchData();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+        router.push("/administrador/agendamentos");
+      }
+    };
+    updateData();
   };
+
+  const handleAppointmentCancelationClick = (workspaceInfo: number) => {
+    const updateData = async () => {
+      try {
+        const appointmentResponse = await axios.put(
+          `http://localhost:3030/v1/cancel-appointment/${workspaceInfo}`,
+          {},
+          {
+            headers: {
+              Access: "123",
+              Authorization: user_key,
+            },
+          }
+        );
+        console.log("resposta cancelamento: ", appointmentResponse);
+        fetchData();
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    updateData();
+  };
+
+  // const handleWorkspaceEditClick = (workspaceInfo: number) => {
+  //   const url = `/administrador/workspaces/${workspaceInfo}`;
+
+  //   useEffect(() => {
+  //     const fetchData = async () => {
+  //       try {
+  //         setIsLoading(true);
+  //         const response = await axios.get(
+  //           "http://localhost:3030/v1/workspaces/",
+  //           {
+  //             headers: {
+  //               Access: "123",
+  //               Authorization: user_key,
+  //             },
+  //           }
+  //         );
+  //         setWorkspaces(response.data);
+
+  //         setIsLoading(true);
+  //         const appointmentResponse = await axios.get(url, {
+  //           headers: {
+  //             Access: "123",
+  //             Authorization: user_key,
+  //           },
+  //         });
+  //         setAppointments(appointmentResponse.data.appointments);
+  //       } catch (error) {
+  //         console.error(error);
+  //       } finally {
+  //         setIsLoading(false);
+  //       }
+  //     };
+
+  //     fetchData();
+  //   }, []);
+  // };
+
+  const fetchData = async () => {
+    try {
+      setIsLoading(true);
+      const workspaceResponse = await axios.get(
+        "http://localhost:3030/v1/workspaces/",
+        {
+          headers: {
+            Access: "123",
+            Authorization: user_key,
+          },
+        }
+      );
+      setWorkspaces(workspaceResponse.data);
+
+      const appointmentResponse = await axios.get(
+        "http://localhost:3030/v1/appointments/all",
+        {
+          headers: {
+            Access: "123",
+            Authorization: user_key,
+          },
+        }
+      );
+      setAppointments(appointmentResponse.data.appointments);
+
+      const userResponse = await axios.get("http://localhost:3030/v1/users/", {
+        headers: {
+          Access: "123",
+          Authorization: user_key,
+        },
+      });
+      setUsers(userResponse.data);
+
+      const appointmentStatusResponse = await axios.get(
+        "http://localhost:3030/v1/appointment-statuses/all",
+        {
+          headers: {
+            Access: "123",
+            Authorization: user_key,
+          },
+        }
+      );
+      setAppointmentStatus(appointmentStatusResponse.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   const getUserIdToNameMap = () => {
     const userIdToNameMap: Record<number, string> = {};
@@ -209,6 +349,18 @@ const AdminAppoinemtnsPage = () => {
 
     return userIdToNameMap;
   };
+
+  const getAppointmentStatusIdToAppointmentStatusMap = () => {
+    const appointmentStatusIdToAppointmentStatusMap: Record<number, string> =
+      {};
+
+    appointmentStatus.forEach((status) => {
+      appointmentStatusIdToAppointmentStatusMap[status.id] = status.name;
+    });
+
+    return appointmentStatusIdToAppointmentStatusMap;
+  };
+
   const getWorkspaceIdToNameMap = () => {
     const workspaceIdToNameMap: Record<number, string> = {};
 
@@ -218,13 +370,15 @@ const AdminAppoinemtnsPage = () => {
 
     return workspaceIdToNameMap;
   };
-  
+
   return (
     <div className="flex...">
       {isLoading ? (
         <p>Loading...</p>
       ) : (
         <ul>
+          <Separator className="my-12 h-4" />
+
           <Table>
             <TableCaption>Lista de agendamentos e reservas</TableCaption>
             <TableHeader>
@@ -237,6 +391,7 @@ const AdminAppoinemtnsPage = () => {
                 <TableHead>Final</TableHead>
                 <TableHead>Criado em</TableHead>
                 <TableHead>Por</TableHead>
+                <TableHead>Status</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
@@ -247,6 +402,7 @@ const AdminAppoinemtnsPage = () => {
                   <TableCell>{appointment.title}</TableCell>
                   <TableCell>{appointment.description}</TableCell>
                   <TableCell>
+                    {/* #TODO mapear a cor sala igual nos card/callendar event */}
                     {getWorkspaceIdToNameMap()[appointment.workspaceId]}
                   </TableCell>
 
@@ -264,21 +420,66 @@ const AdminAppoinemtnsPage = () => {
                   <TableCell>
                     {getUserIdToNameMap()[appointment.userId]}
                   </TableCell>
+                  <TableCell>
+                    {/* #TODO adicionar e mapear a cor da badge */}
+
+                    {
+                      getAppointmentStatusIdToAppointmentStatusMap()[
+                        appointment.appointmentStatusId
+                      ]
+                    }
+                  </TableCell>
 
                   <TableCell className="text-right space-x-1">
-                    <Button variant="outline" className="bg-sky-900 text-white">
-                      Editar
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="bg-yellow-700  text-white"
-                      // onClick={() => handleWorkspaceClick(workspace.id)}
-                    >
-                      Agenda
-                    </Button>
-                    <Button variant="ghost" className="bg-red-700  text-white">
-                      Excluir
-                    </Button>
+                    <DropdownMenu>
+                      <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="h-8 w-8 p-0">
+                          <span className="sr-only">Open menu</span>
+                          <DotsHorizontalIcon className="h-4 w-4" />
+                        </Button>
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="end">
+                        <DropdownMenuLabel>Ações</DropdownMenuLabel>
+                        <DropdownMenuSeparator />
+
+                        <DropdownMenuItem onClick={() => console.log("edita")}>
+                          Editar
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                          onClick={() => handleAppointmentClick(appointment.id)}
+                        >
+                          Visualizar reserva
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="my-2 bg-black-500" />
+
+                        <DropdownMenuItem
+                          onClick={() =>
+                            handleAppointmentConfirmationClick(appointment.id)
+                          }
+                          className="bg-blue-400  text-white"
+                        >
+                          Confirmar reserva
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                          onClick={() => {
+                            handleAppointmentCancelationClick(appointment.id);
+                            console.log("cancela: ", appointment.id);
+                          }}
+                          className="bg-red-400  text-white"
+                        >
+                          Canceler reserva
+                        </DropdownMenuItem>
+                        <DropdownMenuSeparator className="my-2" />
+                        <DropdownMenuItem
+                          className="bg-red-700  text-white"
+                          onClick={() => console.log("exclui")}
+                        >
+                          Excluir
+                        </DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </TableCell>
                 </TableRow>
               ))}
@@ -286,6 +487,8 @@ const AdminAppoinemtnsPage = () => {
           </Table>
         </ul>
       )}
+      <Separator className="my-24 h-4" />
+      <FullCalendar events={eventArray} />;
     </div>
   );
 };

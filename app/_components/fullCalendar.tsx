@@ -10,6 +10,7 @@ interface Event {
   title: string;
   start: Date;
   end?: Date;
+  appointmentStatusId: number;
   borderColor: string;
   backgroundColor: string;
 }

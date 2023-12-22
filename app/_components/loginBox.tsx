@@ -38,11 +38,11 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
           },
         }
       );
-      sessionStorage.setItem("user_key", response.data.token);
-      sessionStorage.setItem("user_name", response.data.name);
-      sessionStorage.setItem("user_email", response.data.email);
-      sessionStorage.setItem("user_role", response.data.roleId);
-      sessionStorage.setItem("is_user_active", response.data.isActive);
+      localStorage.setItem("user_key", response.data.token);
+      localStorage.setItem("user_name", response.data.name);
+      localStorage.setItem("user_email", response.data.email);
+      localStorage.setItem("user_role", response.data.roleId);
+      localStorage.setItem("is_user_active", response.data.isActive);
 
     } catch (error) {
       console.error(error);

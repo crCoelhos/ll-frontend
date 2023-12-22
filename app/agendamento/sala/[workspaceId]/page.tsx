@@ -44,7 +44,7 @@ export default function WorkspacePage() {
   const params = useParams();
 
   const user_key =
-    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -119,8 +119,9 @@ export default function WorkspacePage() {
             title: appointment.title,
             start: new Date(appointment.startDate),
             end: new Date(appointment.endDate),
-            borderColor: '',
-            backgroundColor: '',
+            appointmentStatusId: appointment.appointmentStatusId,
+            borderColor: "",
+            backgroundColor: "",
           }))}
         />
         ;

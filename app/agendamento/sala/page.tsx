@@ -15,6 +15,14 @@ import FullCalendar from "@/app/_components/fullCalendar";
 import { useRouter } from "next/navigation";
 import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
 
+import {
+  ClockIcon,
+  CheckIcon,
+  Cross2Icon,
+  CheckCircledIcon,
+  ExclamationTriangleIcon,
+} from "@radix-ui/react-icons";
+
 interface Appointment {
   id: number;
   title: string;
@@ -53,7 +61,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
   }>({});
 
   const user_key =
-    typeof window !== "undefined" ? sessionStorage.getItem("user_key") : null;
+    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
   console.log("user_key: ", user_key);
   const router = useRouter();
@@ -83,7 +91,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
 
         setIsLoading(true);
         const appointmentResponse = await axios.get(
-          "http://localhost:3030/v1/appointments/all",
+          "http://localhost:3030/v1/appointments/public",
           {
             headers: {
               Access: "123",
@@ -104,9 +112,10 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
 
   const eventArray = appointments.map((appointment) => ({
     id: appointment.id.toString(),
-    title: appointment.title,
+    title: `${appointment.title}`,
     start: new Date(appointment.startDate),
     end: new Date(appointment.endDate),
+    appointmentStatusId: appointment.appointmentStatusId,
     borderColor: workspaceColors[appointment.workspaceId],
     backgroundColor: workspaceColors[appointment.workspaceId],
   }));

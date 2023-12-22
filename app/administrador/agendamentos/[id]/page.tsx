@@ -3,6 +3,14 @@
 import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+  CardFooter,
+} from "@/components/ui/card";
 
 import {
   Table,
@@ -20,17 +28,6 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
-
-import { DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { Separator } from "@/components/ui/separator";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 interface Appointment {
   id: number;
@@ -220,7 +217,7 @@ export default function WorkspaceAdminPage() {
                 )}
               </TableCell>
               <TableCell className="text-right space-x-1">
-                {/* <Button variant="outline" className="bg-sky-900 text-white">
+                <Button variant="outline" className="bg-sky-900 text-white">
                   Editar
                 </Button>
                 <Button variant="ghost" className="bg-yellow-700  text-white">
@@ -228,55 +225,12 @@ export default function WorkspaceAdminPage() {
                 </Button>
                 <Button variant="ghost" className="bg-red-700  text-white">
                   Excluir
-                </Button> */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Open menu</span>
-                      <DotsHorizontalIcon className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-
-                    <DropdownMenuItem onClick={() => console.log("edita")}>
-                      Editar
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem onClick={() => console.log("visualiza")}>
-                      Visualizar reserva
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="my-2 bg-black-500" />
-
-                    <DropdownMenuItem
-                      onClick={() => console.log("confirma")}
-                      className="bg-blue-400  text-white"
-                    >
-                      Confirmar reserva
-                    </DropdownMenuItem>
-
-                    <DropdownMenuItem
-                      onClick={() => console.log("confirma")}
-                      className="bg-red-400  text-white"
-                    >
-                      Canceler reserva
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="my-2" />
-                    <DropdownMenuItem
-                      className="bg-red-700  text-white"
-                      onClick={() => console.log("exclui")}
-                    >
-                      Excluir
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                </Button>
               </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-      <Separator className="my-24 h-4" />
       <FullCalendar events={eventArray} />;
     </>
   );
