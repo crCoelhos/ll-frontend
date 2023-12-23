@@ -54,24 +54,24 @@ export function SignUpBox() {
   });
 
   async function onSubmit(e: React.SyntheticEvent) {
-    console.log("Form submitted with data:", e);
-
     e.preventDefault();
-    const formData = new FormData(e.target as HTMLFormElement);
-
-    const formDataObject: { [key: string]: any } = {
-      ...form.getValues(),
-      birthdate: newBirthdate,
-      address: {
-        street: address.street,
-        number: address.number,
-        city: address.city,
-        state: address.state,
-        CEP: address.CEP,
-      },
-    };
 
     try {
+      const formDataObject = {
+        name: form.getValues().name,
+        email: form.getValues().email,
+        CPF: form.getValues().CPF,
+        password: form.getValues().password,
+        birthdate: newBirthdate,
+        address: {
+          street: address.street,
+          number: address.number,
+          city: address.city,
+          state: address.state,
+          CEP: address.CEP,
+        },
+      };
+
       const response = await axios.post(
         "http://localhost:3030/v1/user/",
         formDataObject,
@@ -87,8 +87,10 @@ export function SignUpBox() {
       console.error(error);
     } finally {
       router.push("/sign-in");
+
     }
   }
+
 
   return (
     <div className="w-[75vw] pl-[22vw] my-24">
@@ -99,7 +101,7 @@ export function SignUpBox() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Nome</FormLabel>
                 <FormControl>
                   <Input placeholder="Rogerio Sergio" {...field} />
                 </FormControl>
@@ -202,177 +204,144 @@ export function SignUpBox() {
             )}
           />
           <Separator className="my-4" />
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger>
-                <FormField
-                  control={form.control}
-                  name="CEP"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>CEP</FormLabel>
-                      <FormControl>
-                        <Input
-                          placeholder="123.456.789-10"
-                          {...field}
-                          type="CEP"
-                          onChange={(e) => {
-                            setAddress((prevAddress) => ({
-                              ...prevAddress,
-                              CEP: e.target.value,
-                            }));
-                            field.onChange(e);
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p> Este é a rua de residência em que você reside.</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          <FormField
+            control={form.control}
+            name="CEP"
+            render={({ field }) => (
+              <FormItem className="w-72">
+                <FormLabel>CEP</FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="69999-000"
+                    {...field}
+                    type="text"
+                    onChange={(e) => {
+                      setAddress((prevAddress) => ({
+                        ...prevAddress,
+                        CEP: e.target.value,
+                      }));
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormDescription>Este é o CEP de sua rua.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
           <div className="grid grid-cols-2 items-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <FormField
-                    control={form.control}
-                    name="street"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Rua</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Rua Rio Branco"
-                            {...field}
-                            type="street"
-                            onChange={(e) => {
-                              setAddress((prevAddress) => ({
-                                ...prevAddress,
-                                street: e.target.value,
-                              }));
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p> Este é a rua de residência em que você reside.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <FormField
-                    control={form.control}
-                    name="number"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Número</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="16"
-                            {...field}
-                            type="number"
-                            onChange={(e) => {
-                              setAddress((prevAddress) => ({
-                                ...prevAddress,
-                                number: e.target.value,
-                              }));
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p> Este é o número da residência em que você reside.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <FormField
+              control={form.control}
+              name="street"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Rua</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Rua Rio Branco"
+                      {...field}
+                      type="text"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          street: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Esta é a rua em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="number"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Número</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="16"
+                      {...field}
+                      type="text"
+                      className="w-32"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          number: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Este é o número da residência em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <div className="grid grid-cols-2 items-center gap-2">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <FormField
-                    control={form.control}
-                    name="city"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Cidade</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Rio Branco"
-                            {...field}
-                            type="text"
-                            onChange={(e) => {
-                              setAddress((prevAddress) => ({
-                                ...prevAddress,
-                                city: e.target.value,
-                              }));
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Esta é a cidade em que você reside.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <FormField
-                    control={form.control}
-                    name="state"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Estado</FormLabel>
-                        <FormControl>
-                          <Input
-                            placeholder="Acre"
-                            {...field}
-                            type="text"
-                            onChange={(e) => {
-                              setAddress((prevAddress) => ({
-                                ...prevAddress,
-                                state: e.target.value,
-                              }));
-                              field.onChange(e);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p> Este é o estado em que você reside.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <FormField
+              control={form.control}
+              name="city"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cidade</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Rio Branco"
+                      {...field}
+                      type="text"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          city: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Esta é a cidade em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="state"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Estado</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="Acre"
+                      {...field}
+                      type="text"
+                      onChange={(e) => {
+                        setAddress((prevAddress) => ({
+                          ...prevAddress,
+                          state: e.target.value,
+                        }));
+                        field.onChange(e);
+                      }}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                    Este é o estado em que você reside.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
 
           <Separator className="my-4" />
