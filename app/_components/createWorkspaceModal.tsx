@@ -60,7 +60,7 @@ interface Appointments {
 }
 
 export function CreateAppointmentModal() {
-  const [selectedDate, setDate] = React.useState<Date | undefined>(new Date());
+  const [date, setDate] = React.useState<Date | undefined>(new Date());
   const [horasFormatadas, setHorasFormatadas] = useState<string[]>([]);
   const [selectedHour, setSelectedHour] = useState<string>();
   const [formattedTimes, setFormattedTimes] = useState<
@@ -82,7 +82,7 @@ export function CreateAppointmentModal() {
   const user_key =
     typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
-  const fomatedDate = moment(selectedDate).format("YYYY-MM-DD");
+  const fomatedDate = moment(date).format("YYYY-MM-DD");
 
   const params = useParams();
 
@@ -119,7 +119,7 @@ export function CreateAppointmentModal() {
 
   const handleBookButtonClick = () => {
     let appointmentsData = {
-      startDate: `${selectedDate}T` + `${selectedHour}:00.000Z`,
+      startDate: `${date}T` + `${selectedHour}:00.000Z`,
       endDate: "",
       isPrivate: false,
       description: "teste",
@@ -200,7 +200,7 @@ export function CreateAppointmentModal() {
     };
 
     atualizarHoras();
-  }, [selectedDate, setHorasFormatadas]);
+  }, [date, setHorasFormatadas]);
 
   const isWithinInterval = (
     time: string,
@@ -265,20 +265,21 @@ export function CreateAppointmentModal() {
             </SelectContent>
           </Select>
           <Label>Data</Label>
+
           <Calendar
             mode="single"
-            selected={selectedDate}
-            onDayClick={(date) => {
-              setDate(date);
-              console.log("date: ", date)
-            }
-            }
-            // onSelect={() => {
-            //   setDate;
-            // }}
+            selected={date}
+            onSelect={setDate}
+            initialFocus
+          />
+
+          {/* <Calendar
+            mode="single"
+            selected={date}
+            onSelect={setDate}
             disabled={(date) => date < new Date()}
             className="rounded-md border shadow"
-          />
+          /> */}
         </div>
         <DialogFooter>
           <Button onClick={handleCheckButtonClick}>Verificar</Button>
@@ -330,16 +331,9 @@ export function CreateAppointmentModal() {
         </Select>
 
         <DialogFooter>
-          <Button onClick={() => {
-            console.log(
-              'selectedDate', selectedDate?.toString(),
-              '\nselectedStartDate: ', selectedHour
-
-            )
-          }}>testar</Button>
+          {/* <Button onClick={handleBookButtonClick}>Agendar</Button> */}
           <BookAppointmentModal
-
-            selectedDate={selectedDate?.toString()}
+            selectedDate={date?.toString()}
             selectedStartDate={selectedHour}
             selectedWorkspaceId={
               params.workspaceId && params.workspaceId[0]

@@ -55,14 +55,18 @@ interface Appointments {
 }
 
 interface BookAppointmentModalProps {
+
+  selectedDate: string | undefined;
   selectedStartDate: string | undefined;
   selectedWorkspaceId: string | undefined;
   formattedTimes: Array<{ start: string; end: string }> | undefined;
 }
 
 export function BookAppointmentModal(props: BookAppointmentModalProps) {
+  const [startDate, setDate] = useState<string | undefined>(props.selectedDate);
   const [horasFormatadas, setHorasFormatadas] = useState<string[]>([]);
-  const [date, setDate] = useState<Date | undefined>(new Date());
+
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [bookingDescription, setBookingDescription] = useState<string>("");
@@ -71,18 +75,20 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
   const [selectedHour, setSelectedHour] = useState<string>("");
   const [selectedEndDate, setSelectedEndDate] = useState<string>("");
 
-  const fomatedDate = moment(date).format("YYYY-MM-DD");
+  const formatedDate = moment(startDate).format("YYYY-MM-DD");
 
   const [selectedWorkspaceId, setSelectedWorkspaceId] = useState<string>(
     props.selectedWorkspaceId || ""
   );
-  const [selectedStartDate, setSelectedStartDate] = useState<string>(
+  const [selectedStartDateFromProps, setSelectedStartDate] = useState<string>(
     props.selectedStartDate || ""
   );
   const [formattedTimes, setFormattedTimes] = useState<
     Array<{ start: string; end: string }>
   >([]);
 
+
+  console.log('data que foi passada:', formatedDate)
   const user_key =
     typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
   const router = useRouter();
@@ -93,7 +99,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
       try {
         setIsLoading(true);
         const response = await axios.get<Appointments>(
-          `http://localhost:3030/v1/workspace-appointment/${selectedWorkspaceId}/${fomatedDate}`,
+          `http://localhost:3030/v1/workspace-appointment/${selectedWorkspaceId}/${formatedDate}`,
           {
             headers: {
               Access: "123",
@@ -109,9 +115,8 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
           const endMinutes = new Date(appointment.endDate).getMinutes();
 
           return {
-            start: `${startHour}:${
-              startMinutes < 10 ? "0" : ""
-            }${startMinutes}`,
+            start: `${startHour}:${startMinutes < 10 ? "0" : ""
+              }${startMinutes}`,
             end: `${endHour}:${endMinutes < 10 ? "0" : ""}${endMinutes}`,
           };
         });
@@ -149,20 +154,24 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
     };
 
     atualizarHoras();
-  }, [date, setHorasFormatadas]);
+  }, [startDate, setHorasFormatadas, props.selectedDate]);
 
   useEffect(() => {
-    setSelectedStartDate(props.selectedStartDate || "");
-  }, [props.selectedStartDate]);
+    if (props.selectedDate !== startDate) {
+      setDate(props.selectedDate);
+    }
+  }, [props.selectedDate]);
+
+
 
   async function submitBooking(e: React.SyntheticEvent) {
-    // e.preventDefault();
+
 
     const newBooking = {
       title: bookingTitle,
       description: bookingDescription,
-      startDate: `${fomatedDate}T${selectedStartDate}:00`,
-      endDate: `${fomatedDate}T${selectedHour}:00`,
+      startDate: `${formatedDate}T${props.selectedStartDate}:00`,
+      endDate: `${formatedDate}T${selectedHour}:00`,
       workspaceId: selectedWorkspaceId,
       isPrivate: false,
     };
@@ -185,6 +194,9 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
       console.error(error);
     } finally {
       setIsLoading(false);
+
+      // TODO: double check no try catch finally
+      window.location.reload();
 
     }
   }
@@ -232,7 +244,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
           </div>
         </div>
 
-        <h1>Hora de inicio: {selectedStartDate}</h1>
+        <h1>Hora de inicio: {props.selectedStartDate}</h1>
         <Select onValueChange={(value) => setSelectedHour(value)}>
           <SelectTrigger className="w-[100%]">
             <SelectValue placeholder="Hora final" />
