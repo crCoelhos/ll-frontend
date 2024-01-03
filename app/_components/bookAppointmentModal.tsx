@@ -190,13 +190,12 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
       );
 
       console.log("response: ", response.data);
+      window.location.reload();
+
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
-
-      // TODO: double check no try catch finally
-      window.location.reload();
 
     }
   }
