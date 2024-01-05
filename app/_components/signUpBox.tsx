@@ -73,7 +73,7 @@ export function SignUpBox() {
       };
 
       const response = await axios.post(
-        "http://localhost:3030/v1/user/",
+        "http://localhost:3030/v1/user/create",
         formDataObject,
         {
           headers: {

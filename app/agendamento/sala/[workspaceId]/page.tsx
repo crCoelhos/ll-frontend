@@ -51,7 +51,7 @@ export default function WorkspacePage() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:3030/v1//workspace-appointment/${params.workspaceId}`,
+          `http://localhost:3030/v1/workspace-appointment/${params.workspaceId}`,
           {
             headers: {
               Access: 123,

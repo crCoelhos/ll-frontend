@@ -20,7 +20,7 @@ const AdminAreaLayout = ({ children }: ScheduleLayoutProps): JSX.Element => {
       <Button className="w-12 m-6" onClick={handleBackPage}>
         <ArrowLeft />
       </Button>
-      {children}    
+      {children}
     </div>
   );
 };

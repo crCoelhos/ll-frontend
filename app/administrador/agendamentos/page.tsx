@@ -488,7 +488,7 @@ const AdminAppoinemtnsPage = () => {
         </ul>
       )}
       <Separator className="my-24 h-4" />
-      <FullCalendar events={eventArray} />;
+      {/* <FullCalendar events={eventArray} />; */}
     </div>
   );
 };

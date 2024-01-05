@@ -78,7 +78,7 @@ const AdminWorkspacesPage = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:3030/v1/workspaces/",
+          "http://localhost:3030/v1/all-workspaces/",
           {
             headers: {
               Access: "123",
@@ -129,16 +129,6 @@ const AdminWorkspacesPage = () => {
       const fetchData = async () => {
         try {
           setIsLoading(true);
-          const response = await axios.get(
-            "http://localhost:3030/v1/workspaces/",
-            {
-              headers: {
-                Access: "123",
-                Authorization: user_key,
-              },
-            }
-          );
-          setWorkspaces(response.data);
 
           setIsLoading(true);
           const appointmentResponse = await axios.get(url, {
@@ -150,7 +140,7 @@ const AdminWorkspacesPage = () => {
           setAppointments(appointmentResponse.data.appointments);
 
           const workspaceResponse = await axios.get(
-            "http://localhost:3030/v1/workspaces/",
+            "http://localhost:3030/v1/all-workspaces/",
             {
               headers: {
                 Access: "123",
@@ -158,7 +148,7 @@ const AdminWorkspacesPage = () => {
               },
             }
           );
-          setWorkspaces(response.data);
+          setWorkspaces(workspaceResponse.data);
         } catch (error) {
           console.error(error);
         } finally {
@@ -212,14 +202,16 @@ const AdminWorkspacesPage = () => {
                         <DropdownMenuLabel>Ações</DropdownMenuLabel>
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem onClick={() => console.log("edita")}>
+                        {/* <DropdownMenuItem onClick={() => console.log("edita")}>
                           Editar sala
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> */}
 
                         <DropdownMenuItem
                           onClick={() => handleWorkspaceClick(workspace.id)}
+                          // onClick={() => console.log(workspace.id)}
+
                         >
-                          Visualizar agenda
+                          Visualizar sala
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
@@ -237,20 +229,6 @@ const AdminWorkspacesPage = () => {
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
-
-                    {/* <Button variant="outline" className="bg-sky-900 text-white">
-                      Editar
-                    </Button>
-                    <Button
-                      variant="ghost"
-                      className="bg-yellow-700  text-white"
-                      onClick={() => handleWorkspaceClick(workspace.id)}
-                    >
-                      Agenda
-                    </Button>
-                    <Button variant="ghost" className="bg-red-700  text-white">
-                      Excluir
-                    </Button> */}
                   </TableCell>
                 </TableRow>
               ))}
@@ -258,7 +236,7 @@ const AdminWorkspacesPage = () => {
           </Table>
         </ul>
       )}
-      <FullCalendar events={eventArray} />;
+      {/* <FullCalendar events={eventArray} />; */}
     </div>
   );
 };

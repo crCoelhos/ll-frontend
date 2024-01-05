@@ -84,7 +84,7 @@ export default function WorkspaceAdminPage() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:3030/v1//workspace-appointment/${params.workspaceId}`,
+          `http://localhost:3030/v1/workspace-appointment/${params.workspaceId}`,
           {
             headers: {
               Access: 123,
@@ -231,7 +231,7 @@ export default function WorkspaceAdminPage() {
           ))}
         </TableBody>
       </Table>
-      <FullCalendar events={eventArray} />;
+      {/* <FullCalendar events={eventArray} />; */}
     </>
   );
 }

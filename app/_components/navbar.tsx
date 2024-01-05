@@ -71,12 +71,14 @@ export function Navbar() {
 
   return (
     <>
-      <div className="flex...">
+      <div className="flex... pt-2">
         <NavigationMenu key={navbarKey} className="">
           <NavigationMenuList className="grid grid-cols-4 grid-rows-1">
             <NavigationMenu key={navbarKey} id="logo-options" className="">
               <NavigationMenuItem>
-                <NavigationMenuTrigger>LegaLiga</NavigationMenuTrigger>
+                <NavigationMenuTrigger>
+                  <img src="legaliga.png" alt="" className="w-32" />
+                </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">

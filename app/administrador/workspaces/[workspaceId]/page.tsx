@@ -3,18 +3,20 @@
 import { CreateAppointmentModal } from "@/app/_components/createAppointmentModal";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { Button } from "@/components/ui/button";
-
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableFooter,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
 import { Badge } from "@/components/ui/badge";
+
+import { cn } from "@/lib/utils";
+
+import { BellIcon, CheckIcon, Cross2Icon } from "@radix-ui/react-icons";
 
 import axios from "axios";
 import { useParams } from "next/navigation";
@@ -31,6 +33,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+
+interface Workspace {
+  id: number;
+  name: string;
+  description: string;
+  capacity: number;
+  workspaceTypeId: number;
+  isActive: boolean;
+  createdAt: string;
+  updatedAt: string | "";
+}
 
 interface Appointment {
   id: number;
@@ -57,10 +71,16 @@ interface AppointmentStatus {
 export default function WorkspaceAdminPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appointment, setAppointment] = useState<Appointment>();
+  const [workspaceData, setWorkspaceData] = useState<Workspace>();
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [appointmentStatus, setAppointmentStatus] = useState<
     AppointmentStatus[]
   >([]);
+
+  const params = useParams();
+
+  const user_key =
+    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
   const singleEvent = {
     title: appointment?.title ?? "",
@@ -68,11 +88,6 @@ export default function WorkspaceAdminPage() {
     end: appointment ? new Date(appointment.endDate) : new Date(),
     backgroundColor: "red",
   };
-
-  const params = useParams();
-
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
 
   const workspaceColors: Record<number, string> = {
     1: "#AA4465",
@@ -83,11 +98,32 @@ export default function WorkspaceAdminPage() {
   };
 
   useEffect(() => {
+    const fetchWorkspaceData = async () => {
+      try {
+        setIsLoading(true);
+        const response = await axios.get(
+          `http://localhost:3030/v1/workspace/${params.workspaceId}`,
+          {
+            headers: {
+              Access: 123,
+              Authorization: user_key,
+            },
+          }
+        );
+        console.log("resposta", response.data);
+        setWorkspaceData(response.data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     const fetchData = async () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          `http://localhost:3030/v1//workspace-appointment/${params.workspaceId}`,
+          `http://localhost:3030/v1/workspace-appointment/${params.workspaceId}`,
           {
             headers: {
               Access: 123,
@@ -122,6 +158,7 @@ export default function WorkspaceAdminPage() {
       }
     };
 
+    fetchWorkspaceData();
     fetchAppointmentStatusData();
     fetchData();
   }, []);
@@ -153,131 +190,158 @@ export default function WorkspaceAdminPage() {
     backgroundColor: workspaceColors[appointment.workspaceId],
   }));
 
+  const handleChange = (field: keyof Workspace, value: string | number) => {
+    setWorkspaceData((prevWorkspaceData) => {
+      if (prevWorkspaceData) {
+        return {
+          ...prevWorkspaceData,
+          [field]: value,
+        };
+      }
+      return prevWorkspaceData;
+    });
+  };
+
+  const handleChangeSwitch = (isChecked: boolean) => {
+    setWorkspaceData((prevWorkspaceData) => {
+      if (prevWorkspaceData) {
+        return {
+          ...prevWorkspaceData,
+          isActive: isChecked,
+        };
+      }
+      return prevWorkspaceData;
+    });
+  };
+
   return (
     <>
       <CreateAppointmentModal />
-      <Table>
-        <TableCaption>Lista de agendamentos</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">Id do agendamento</TableHead>
-            <TableHead>Origem do agendamento</TableHead>
-            <TableHead>Título</TableHead>
-            <TableHead>Inicio</TableHead>
-            <TableHead>Final</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead>Privado?</TableHead>
-            <TableHead className="text-right">Ações</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {appointments.map((appointment) => (
-            <TableRow key={appointment.id}>
-              <TableCell>{appointment.id}</TableCell>
-              <TableCell>{appointment.userId}</TableCell>
-              <TableCell>{appointment.title}</TableCell>
-              <TableCell>
-                {format(new Date(appointment.startDate), "HH:mm")} (
-                {format(new Date(appointment.startDate), "dd/MM/yyyy")})
-              </TableCell>
-              <TableCell>
-                {format(new Date(appointment.endDate), "HH:mm")} (
-                {format(new Date(appointment.endDate), "dd/MM/yyyy")})
-              </TableCell>
-              <TableCell>
-                {getAppointmentStatusIdToAppointmentStatusMap()[
-                  appointment.appointmentStatusId
-                ] == "Scheduled" ? (
-                  <Badge className="bg-green-500 hover:bg-green-400">
-                    {
-                      getAppointmentStatusIdToAppointmentStatusMap()[
-                        appointment.appointmentStatusId
-                      ]
-                    }
-                  </Badge>
-                ) : (
-                  <Badge variant="destructive">
-                    {
-                      getAppointmentStatusIdToAppointmentStatusMap()[
-                        appointment.appointmentStatusId
-                      ]
-                    }
-                  </Badge>
-                )}
-              </TableCell>
-              <TableCell>
-                {appointment.isPrivate ? (
-                  <>
-                    <Badge variant="destructive">Sim</Badge>
-                  </>
-                ) : (
-                  <>
-                    <Badge className="bg-green-600 hover:bg-green-500">
-                      Não
-                    </Badge>
-                  </>
-                  // isso aqui ta errado, não é boolean. é um numero que representa o status do agendamento (1, 2, 3, 4) e cada numero representa um status. Refazer isso aqui
-                )}
-              </TableCell>
-              <TableCell className="text-right space-x-1">
-                {/* <Button variant="outline" className="bg-sky-900 text-white">
-                  Editar
-                </Button>
-                <Button variant="ghost" className="bg-yellow-700  text-white">
-                  Cancelar
-                </Button>
-                <Button variant="ghost" className="bg-red-700  text-white">
-                  Excluir
-                </Button> */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 p-0">
-                      <span className="sr-only">Open menu</span>
-                      <DotsHorizontalIcon className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Ações</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
+      {/* <CreateNewWorkspaceModal/> */}
 
-                    <DropdownMenuItem onClick={() => console.log("edita")}>
-                      Editar
-                    </DropdownMenuItem>
+      <div className="flex justify-center space-x-8 ">
+        <Card className="w-[512px]">
+          <CardHeader>
+            <CardTitle>
+              Nome da sala:
+              <span>
+                <Input
+                  id="name"
+                  value={workspaceData?.name}
+                  placeholder="Nome da sala"
+                  className="text-base col-span-3"
+                  onChange={(e) => handleChange("name", e.target.value)}
+                />
+              </span>
+            </CardTitle>
+            <CardDescription>
+              Descrição:{" "}
+              <span>
+                <Input
+                  id="description"
+                  value={workspaceData?.description}
+                  placeholder="Descrição da sala"
+                  className="text-base col-span-3"
+                  onChange={(e) => handleChange("description", e.target.value)}
+                />
+              </span>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className=" flex items-center space-x-4 rounded-md border p-4">
+              {workspaceData?.isActive == true ? <CheckIcon /> : <Cross2Icon />}
+              <div className="flex-1 space-y-1">
+                <p className="text-base font-medium leading-none">
+                  Situação da sala:
+                </p>
+                <p className="text-base text-muted-foreground">
+                  Torne a Sala ativa ou inativa
+                </p>
+              </div>
+              <Switch checked={workspaceData?.isActive || false} />
+            </div>
 
-                    <DropdownMenuItem onClick={() => console.log("visualiza")}>
-                      Visualizar reserva
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="my-2 bg-black-500" />
+            <div>
+              <div className="space-y-1">
+                <p className="text-base text-muted-foreground">
+                  Capacidade de pessoas na sala:{" "}
+                  <span>
+                    <Input
+                      id="capacity"
+                      value={workspaceData?.capacity.toString()}
+                      placeholder="Capacidade da sala"
+                      className="text-base col-span-3"
+                      onChange={(e) => handleChange("capacity", e.target.value)}
+                    />
+                  </span>
+                </p>
+                <p className="text-base text-muted-foreground">
+                  Tipo da sala:{" "}
+                  <span>
+                    {/* <Input
+                      id="title"
+                      value={workspaceData?.workspaceTypeId.toString()}
+                      placeholder="Titulo do agendamento"
+                      className="text-base col-span-3"
+                      onChange={handleChange}
+                    /> */}
+                    <Input
+                      id="capacity"
+                      value={workspaceData?.workspaceTypeId.toString()}
+                      placeholder="Capacidade da sala"
+                      className="text-base col-span-3"
+                      onChange={(e) =>
+                        handleChange("workspaceTypeId", e.target.value)
+                      }
+                    />
+                  </span>
+                </p>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter>
+            <Button className="w-full">
+              <CheckIcon className="mr-2 h-4 w-4" /> Confirmar modificações
+            </Button>
+          </CardFooter>
+        </Card>
 
-                    <DropdownMenuItem
-                      onClick={() => console.log("confirma")}
-                      className="bg-blue-400  text-white"
-                    >
-                      Confirmar reserva
-                    </DropdownMenuItem>
+        <Card className="w-[512px]">
+          <CardHeader>
+            <CardTitle>{workspaceData?.name}</CardTitle>
+            <CardDescription>
+              Descrição: <span>{workspaceData?.description}</span>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="grid gap-4">
+            <div className=" flex items-center space-x-4 rounded-md border p-4">
+              <BellIcon />
+              <div className="flex-1 space-y-1">
+                <p className="text-base font-medium leading-none">Sala ativa</p>
+                <p className="text-base text-muted-foreground">
+                  Torne a Sala ativa ou inativa
+                </p>
+              </div>
+              <Switch />
+            </div>
 
-                    <DropdownMenuItem
-                      onClick={() => console.log("confirma")}
-                      className="bg-red-400  text-white"
-                    >
-                      Canceler reserva
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator className="my-2" />
-                    <DropdownMenuItem
-                      className="bg-red-700  text-white"
-                      onClick={() => console.log("exclui")}
-                    >
-                      Excluir
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+            <div>
+              <div className="space-y-1">
+                <p className="text-base text-muted-foreground">
+                  Capacidade de pessoas na sala:{" "}
+                  <span>{workspaceData?.capacity}</span>
+                </p>
+                <p className="text-base text-muted-foreground">
+                  Tipo da sala: <span>{workspaceData?.workspaceTypeId}</span>
+                </p>
+              </div>
+            </div>
+          </CardContent>
+          <CardFooter></CardFooter>
+        </Card>
+      </div>
+
       <Separator className="my-24 h-4" />
-      <FullCalendar events={eventArray} />;
     </>
   );
 }
