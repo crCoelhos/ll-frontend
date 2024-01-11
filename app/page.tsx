@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Inter as FontSans } from "next/font/google";
 import {
   CardHeader,
@@ -21,8 +20,9 @@ import {
 import EmblaCarousel from "embla-carousel";
 import Autoplay from "embla-carousel-autoplay";
 
-import { map } from "zod";
 import React from "react";
+
+import { store } from "./store";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
@@ -49,12 +49,15 @@ const cards = [
 ];
 
 export default function Home() {
+ 
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
 
   return (
     <main className="flex items-center p-[128px]">
+      
+
       <Carousel
         plugins={[plugin.current]}
         className="w-full max-w-xs"
