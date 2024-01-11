@@ -27,7 +27,7 @@ import { Badge } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@/app/_components/fullCalendar";
-import { useAppSelector } from "@/app/store";
+import { useAppSelector } from "../store";
 
 interface Appointment {
   id: number;
@@ -51,7 +51,7 @@ interface Workspace {
   updatedAt: string | "";
 }
 
-const AdminWorkspacesPage = () => {
+const AdminWorkspaceList = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
@@ -82,6 +82,7 @@ const AdminWorkspacesPage = () => {
             headers: {
               Access: "123",
               Authorization: authData.token,
+
             },
           }
         );
@@ -94,6 +95,7 @@ const AdminWorkspacesPage = () => {
             headers: {
               Access: "123",
               Authorization: authData.token,
+
             },
           }
         );
@@ -134,6 +136,7 @@ const AdminWorkspacesPage = () => {
             headers: {
               Access: "123",
               Authorization: authData.token,
+
             },
           });
           setAppointments(appointmentResponse.data.appointments);
@@ -144,6 +147,7 @@ const AdminWorkspacesPage = () => {
               headers: {
                 Access: "123",
                 Authorization: authData.token,
+
               },
             }
           );
@@ -208,6 +212,7 @@ const AdminWorkspacesPage = () => {
                         <DropdownMenuItem
                           onClick={() => handleWorkspaceClick(workspace.id)}
                           // onClick={() => console.log(workspace.id)}
+
                         >
                           Visualizar sala
                         </DropdownMenuItem>
@@ -234,9 +239,8 @@ const AdminWorkspacesPage = () => {
           </Table>
         </ul>
       )}
-      {/* <FullCalendar events={eventArray} />; */}
     </div>
   );
 };
 
-export default AdminWorkspacesPage;
+export default AdminWorkspaceList;

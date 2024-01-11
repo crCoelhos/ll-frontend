@@ -15,6 +15,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import { useAppSelector } from "@/app/store";
 
 interface Appointment {
   id: number;
@@ -43,8 +44,8 @@ export default function WorkspacePage() {
 
   const params = useParams();
 
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+ 
+  const authData = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,7 +56,7 @@ export default function WorkspacePage() {
           {
             headers: {
               Access: 123,
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );

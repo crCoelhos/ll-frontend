@@ -36,14 +36,14 @@ const Administrador = () => {
 
   return (
     <div className="flex...">
-      <div className="grid grid-cols-3 grid-rows-1 m-8 content-center">
+      <div className="grid grid-cols-3 gap-24 m-12 content-center">
         <Card
           className="w-[380px] text-white"
           onClick={handleWorkspaceRouting}
           onMouseEnter={() => handleButtonFocus("card1", true)}
           onMouseLeave={() => handleButtonFocus("card1", false)}
           style={{
-            backgroundColor: "#AA4465",
+            backgroundColor: "#AC7765",
             transition: "background-color 0.8s ease",
             filter: focusedButtons["card1"] ? "brightness(80%)" : "none",
             cursor: focusedButtons["card1"] ? "pointer" : "auto",
@@ -78,7 +78,7 @@ const Administrador = () => {
           onMouseEnter={() => handleButtonFocus("card2", true)}
           onMouseLeave={() => handleButtonFocus("card2", false)}
           style={{
-            backgroundColor: "#462255",
+            backgroundColor: "#AE4765",
             transition: "background-color 0.8s ease",
             filter: focusedButtons["card2"] ? "brightness(80%)" : "none",
             cursor: focusedButtons["card2"] ? "pointer" : "auto",
@@ -114,10 +114,48 @@ const Administrador = () => {
           onMouseEnter={() => handleButtonFocus("card3", true)}
           onMouseLeave={() => handleButtonFocus("card3", false)}
           style={{
-            backgroundColor: "#15616D",
+            backgroundColor: "#462255",
             transition: "background-color 0.8s ease",
             filter: focusedButtons["card3"] ? "brightness(80%)" : "none",
             cursor: focusedButtons["card3"] ? "pointer" : "auto",
+          }}
+        >
+          <CardHeader>
+            <CardTitle>
+              <div
+                className="w-auto h-4 rounded-sm  mb-2"
+                id="workspaceColorLabel"
+              >
+                Advogados
+              </div>
+            </CardTitle>
+
+            <div
+              className="w-auto h-1 rounded-sm"
+              id="workspaceColorLabel"
+              style={{
+                backgroundColor: "#fff",
+              }}
+            ></div>
+          </CardHeader>
+
+          <CardContent className="grid gap-4">
+            <p>Área de gestão de advogados registrados</p>
+          </CardContent>
+
+          <CardFooter>Área para administradores</CardFooter>
+        </Card>
+
+        <Card
+          className="w-[380px] text-white"
+          onClick={handleUserRouting}
+          onMouseEnter={() => handleButtonFocus("card4", true)}
+          onMouseLeave={() => handleButtonFocus("card4", false)}
+          style={{
+            backgroundColor: "#15616D",
+            transition: "background-color 0.8s ease",
+            filter: focusedButtons["card4"] ? "brightness(80%)" : "none",
+            cursor: focusedButtons["card4"] ? "pointer" : "auto",
           }}
         >
           <CardHeader>
@@ -138,11 +176,9 @@ const Administrador = () => {
               }}
             ></div>
           </CardHeader>
-
           <CardContent className="grid gap-4">
-            <p>Área de gestão das solicitações de pessoas</p>
+            <p>Área para gestão de pessoas</p>
           </CardContent>
-
           <CardFooter>Área para administradores</CardFooter>
         </Card>
       </div>

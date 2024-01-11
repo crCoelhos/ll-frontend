@@ -28,6 +28,7 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
+import { useAppSelector } from "@/app/store";
 
 interface Appointment {
   id: number;
@@ -68,8 +69,7 @@ export default function WorkspaceAdminPage() {
 
   const params = useParams();
 
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+  const authData = useAppSelector((state) => state.auth);
 
   const workspaceColors: Record<number, string> = {
     1: "#AA4465",
@@ -88,7 +88,8 @@ export default function WorkspaceAdminPage() {
           {
             headers: {
               Access: 123,
-              Authorization: user_key,
+              Authorization: authData.token,
+
             },
           }
         );
@@ -107,7 +108,8 @@ export default function WorkspaceAdminPage() {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
+
             },
           }
         );

@@ -1,4 +1,5 @@
 import React from "react";
+import { LawyerSignUpBox } from "../../_components/lawyerSignUpBox";
 
 interface Props {
   params: {
@@ -9,7 +10,8 @@ interface Props {
 const LawyerPage: React.FC<Props> = ({ params }) => {
   return (
     <div>
-      <h1>LawyerList Page</h1>
+      <h1 className="pageTitle">Cadastro de Advogados</h1>
+      <LawyerSignUpBox />
     </div>
   );
 };

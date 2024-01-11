@@ -1,5 +1,3 @@
-// auth-slice.ts
-
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {

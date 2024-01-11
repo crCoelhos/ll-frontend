@@ -34,6 +34,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
+import { useAppSelector } from "@/app/store";
 
 interface Workspace {
   id: number;
@@ -79,8 +80,7 @@ export default function WorkspaceAdminPage() {
 
   const params = useParams();
 
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+  const authData = useAppSelector((state) => state.auth);
 
   const singleEvent = {
     title: appointment?.title ?? "",
@@ -106,7 +106,8 @@ export default function WorkspaceAdminPage() {
           {
             headers: {
               Access: 123,
-              Authorization: user_key,
+              Authorization: authData.token,
+
             },
           }
         );
@@ -127,7 +128,8 @@ export default function WorkspaceAdminPage() {
           {
             headers: {
               Access: 123,
-              Authorization: user_key,
+              Authorization: authData.token,
+
             },
           }
         );
@@ -146,7 +148,8 @@ export default function WorkspaceAdminPage() {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
+
             },
           }
         );

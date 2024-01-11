@@ -27,6 +27,7 @@ import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
 
 import { useEffect, useState } from "react";
 import router, { useRouter, useParams } from "next/navigation";
+import { useAppSelector } from "../store";
 interface Workspace {
   id: number;
   name: string;
@@ -55,7 +56,6 @@ interface Appointments {
 }
 
 interface BookAppointmentModalProps {
-
   selectedDate: string | undefined;
   selectedStartDate: string | undefined;
   selectedWorkspaceId: string | undefined;
@@ -65,7 +65,6 @@ interface BookAppointmentModalProps {
 export function BookAppointmentModal(props: BookAppointmentModalProps) {
   const [startDate, setDate] = useState<string | undefined>(props.selectedDate);
   const [horasFormatadas, setHorasFormatadas] = useState<string[]>([]);
-
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
@@ -87,12 +86,11 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
     Array<{ start: string; end: string }>
   >([]);
 
+  console.log("data que foi passada:", formatedDate);
 
-  console.log('data que foi passada:', formatedDate)
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+  const authData = useAppSelector((state) => state.auth);
+
   const router = useRouter();
-  const params = useParams();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -103,7 +101,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -115,8 +113,9 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
           const endMinutes = new Date(appointment.endDate).getMinutes();
 
           return {
-            start: `${startHour}:${startMinutes < 10 ? "0" : ""
-              }${startMinutes}`,
+            start: `${startHour}:${
+              startMinutes < 10 ? "0" : ""
+            }${startMinutes}`,
             end: `${endHour}:${endMinutes < 10 ? "0" : ""}${endMinutes}`,
           };
         });
@@ -162,11 +161,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
     }
   }, [props.selectedDate]);
 
-
-
   async function submitBooking(e: React.SyntheticEvent) {
-
-
     const newBooking = {
       title: bookingTitle,
       description: bookingDescription,
@@ -184,19 +179,17 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
         {
           headers: {
             Access: 123,
-            Authorization: user_key,
+            Authorization: authData.token,
           },
         }
       );
 
       console.log("response: ", response.data);
       window.location.reload();
-
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
-
     }
   }
 

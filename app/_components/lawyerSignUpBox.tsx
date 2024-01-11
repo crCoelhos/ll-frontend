@@ -28,6 +28,7 @@ import axios from "axios";
 import { Separator } from "@/components/ui/separator";
 import { Datepicker } from "flowbite-react";
 import { useState } from "react";
+import { Label } from "@/components/ui/label";
 
 const formSchema = z.object({
   username: z.string().min(2, {
@@ -35,10 +36,12 @@ const formSchema = z.object({
   }),
 });
 
-export function SignUpBox() {
+export function LawyerSignUpBox() {
   const [newBirthdate, setNewBirthdate] = useState<Date | undefined>(
     new Date()
   );
+  const [newRitedate, setNewRitedate] = useState<Date | undefined>(new Date());
+
   const [address, setAddress] = useState({
     street: "",
     number: "",
@@ -63,6 +66,11 @@ export function SignUpBox() {
         CPF: form.getValues().CPF,
         password: form.getValues().password,
         birthdate: newBirthdate,
+        OAB: form.getValues().OAB,
+        UF: form.getValues().UF,
+        secNumber: form.getValues().secNumber,
+        inscriptionType: 1,
+        riteDate: newRitedate,
         address: {
           street: address.street,
           number: address.number,
@@ -73,7 +81,7 @@ export function SignUpBox() {
       };
 
       const response = await axios.post(
-        "http://localhost:3030/v1/user/create",
+        "http://localhost:3030/v1/lawyer/create",
         formDataObject,
         {
           headers: {
@@ -81,20 +89,19 @@ export function SignUpBox() {
           },
         }
       );
-
-      console.log(response);
     } catch (error) {
       console.error(error);
     } finally {
       router.push("/sign-in");
-
     }
   }
-
 
   return (
     <div className="w-[75vw] pl-[22vw] my-24">
       <Form {...form}>
+        <Separator />
+        <h1 className="sectionTitle">Dados pessoais</h1>
+
         <form onSubmit={onSubmit} className="space-y-8">
           <FormField
             control={form.control}
@@ -188,6 +195,98 @@ export function SignUpBox() {
             )}
           />
           <Separator className="my-4" />
+          <h1 className="sectionTitle">Dados profissionais</h1>
+
+          <div className="grid grid-cols-2 items-center gap-2">
+            <FormField
+              control={form.control}
+              name="UF"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>UF</FormLabel>
+                  <FormControl>
+                    <Input placeholder="AC" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Dois primeiros digitos da sua OAB.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="OAB"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>OAB</FormLabel>
+                  <FormControl>
+                    <Input placeholder="123.456.789-10" {...field} />
+                  </FormControl>
+                  <FormDescription>somente números da sua OAB.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 items-center gap-2">
+            <FormField
+              control={form.control}
+              name="secNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Seccional</FormLabel>
+                  <FormControl>
+                    <Input placeholder="12310" {...field} />
+                  </FormControl>
+                  <FormDescription>Número da sua Seccional.</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="inscriptionType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Tipo de Inscricao</FormLabel>
+                  <FormControl>
+                    <Input placeholder="123456" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Principal, Transito ou Suplementar.
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+
+          <div className="grid grid-cols-2 items-center gap-2">
+            <div className="grid grid-cols-2 items-center gap-2">
+              <Label>
+                <FormItem>
+                  <FormLabel>Data da cerimônia</FormLabel>
+
+                  <FormControl>
+                    <Datepicker
+                      language="pt-BR"
+                      labelTodayButton="Hoje"
+                      labelClearButton="Limpar"
+                      onSelectedDateChanged={(date) => setNewRitedate(date)}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+                <FormDescription>{" "} </FormDescription>
+              </Label>
+            </div>
+          </div>
+
+          <Separator className="my-4" />
+
+          <h1 className="sectionTitle">Endereço</h1>
           <FormField
             control={form.control}
             name="CEP"
@@ -327,6 +426,8 @@ export function SignUpBox() {
               )}
             />
           </div>
+
+          <Separator className="my-4" />
 
           <Separator className="my-4" />
 

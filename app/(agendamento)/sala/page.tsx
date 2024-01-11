@@ -22,6 +22,7 @@ import {
   CheckCircledIcon,
   ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
+import { useAppSelector } from "@/app/store";
 
 interface Appointment {
   id: number;
@@ -60,10 +61,8 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
     [key: number]: boolean;
   }>({});
 
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+  const authData = useAppSelector((state) => state.auth);
 
-  console.log("user_key: ", user_key);
   const router = useRouter();
 
   const workspaceColors: Record<number, string> = {
@@ -83,7 +82,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -95,7 +94,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -121,7 +120,7 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
   }));
 
   const handleWorkspaceClick = (workspaceInfo: number) => {
-    router.push(`/agendamento/sala/${workspaceInfo}`);
+    router.push(`/sala/${workspaceInfo}`);
   };
 
   const handleButtonFocus = (workspaceId: number, isFocused: boolean) => {

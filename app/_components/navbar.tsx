@@ -16,19 +16,17 @@ import {
 import { Icons } from "./icons";
 
 import SessionStorageManager from "../utils/sessionStorageManager";
-import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Navigation } from "lucide-react";
 import { useAppSelector } from "../store";
 import { actions } from "../store/auth/auth-slice";
 import { useDispatch } from "react-redux";
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "Quer ser parceiro?",
-    href: "/docs/primitives/alert-dialog",
+    title: "É advogado e ser parceiro?",
+    href: "/lawyer-sign-up",
     description:
-      "Para fazer parte de nossos profissionais, submeta a sua inscrição.",
+      "Para fazer parte de nosso grupo de profissionais, submeta a sua inscrição.",
   },
   {
     title: "Conheça nossos planos",
@@ -48,20 +46,14 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Navbar() {
-
-
   const router = useRouter();
+
   const dispatch = useDispatch();
-
   const authData = useAppSelector((state) => state.auth);
-  console.log("dados da navbar", authData);
-
-
 
   const handleLogout = () => {
     SessionStorageManager.clearSessionStorage();
     dispatch(actions.logout());
-
 
     if (typeof window !== "undefined") {
       window.location.href = "/";
@@ -99,13 +91,10 @@ export function Navbar() {
                         </a>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/agendamento/sala/1" title="Teste agora!">
+                    <ListItem href="/sala/1" title="Teste agora!">
                       Comece descobrindo alguns dos advogados parceiros.
                     </ListItem>
-                    <ListItem
-                      href="/agendamento/sala"
-                      title="Agendamento de salas"
-                    >
+                    <ListItem href="/sala" title="Agendamento de salas">
                       Não tem escritório? Agende uma reunião!
                     </ListItem>
                   </ul>
@@ -172,9 +161,7 @@ export function Navbar() {
                 className=" border-solid border-2 border-sky-500"
               >
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>
-                    {authData.name}
-                  </NavigationMenuTrigger>
+                  <NavigationMenuTrigger>{authData.name}</NavigationMenuTrigger>
 
                   <NavigationMenuContent>
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[200px] md:grid-cols-2 lg:w-[350px] ">
@@ -197,7 +184,7 @@ export function Navbar() {
                 <NavigationMenuItem className=" space-x-1">
                   <NavigationMenuLink
                     href="/sign-in"
-                    className={`${navigationMenuTriggerStyle()} bg-purple-600 hover:bg-purple-500 text-white  hover:text-white`}
+                    className={`${navigationMenuTriggerStyle()} bg-red-900 hover:bg-red-700 text-white  hover:text-white`}
                   >
                     Entrar
                   </NavigationMenuLink>
@@ -206,7 +193,7 @@ export function Navbar() {
                 <NavigationMenuItem>
                   <NavigationMenuLink
                     href="/sign-up"
-                    className={`${navigationMenuTriggerStyle()} bg-teal-600 text-white  hover:bg-teal-500  hover:text-white`}
+                    className={`${navigationMenuTriggerStyle()} bg-rose-400 text-white  hover:bg-rose-800  hover:text-white`}
                   >
                     Registrar
                   </NavigationMenuLink>

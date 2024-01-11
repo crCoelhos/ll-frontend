@@ -28,6 +28,7 @@ import React, { useEffect, useState } from "react";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 import FullCalendar from "@/app/_components/fullCalendar";
+import { useAppSelector } from "@/app/store";
 
 interface Appointment {
   id: number;
@@ -84,10 +85,8 @@ const AdminAppoinemtnsPage = () => {
     [key: number]: boolean;
   }>({});
 
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+  const authData = useAppSelector((state) => state.auth);
 
-  console.log("user_key: ", user_key);
   const router = useRouter();
 
   const workspaceColors: Record<number, string> = {
@@ -107,7 +106,7 @@ const AdminAppoinemtnsPage = () => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -128,7 +127,7 @@ const AdminAppoinemtnsPage = () => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -147,7 +146,7 @@ const AdminAppoinemtnsPage = () => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -166,7 +165,7 @@ const AdminAppoinemtnsPage = () => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -209,7 +208,7 @@ const AdminAppoinemtnsPage = () => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -234,7 +233,7 @@ const AdminAppoinemtnsPage = () => {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -249,43 +248,6 @@ const AdminAppoinemtnsPage = () => {
     updateData();
   };
 
-  // const handleWorkspaceEditClick = (workspaceInfo: number) => {
-  //   const url = `/administrador/workspaces/${workspaceInfo}`;
-
-  //   useEffect(() => {
-  //     const fetchData = async () => {
-  //       try {
-  //         setIsLoading(true);
-  //         const response = await axios.get(
-  //           "http://localhost:3030/v1/workspaces/",
-  //           {
-  //             headers: {
-  //               Access: "123",
-  //               Authorization: user_key,
-  //             },
-  //           }
-  //         );
-  //         setWorkspaces(response.data);
-
-  //         setIsLoading(true);
-  //         const appointmentResponse = await axios.get(url, {
-  //           headers: {
-  //             Access: "123",
-  //             Authorization: user_key,
-  //           },
-  //         });
-  //         setAppointments(appointmentResponse.data.appointments);
-  //       } catch (error) {
-  //         console.error(error);
-  //       } finally {
-  //         setIsLoading(false);
-  //       }
-  //     };
-
-  //     fetchData();
-  //   }, []);
-  // };
-
   const fetchData = async () => {
     try {
       setIsLoading(true);
@@ -294,7 +256,7 @@ const AdminAppoinemtnsPage = () => {
         {
           headers: {
             Access: "123",
-            Authorization: user_key,
+            Authorization: authData.token,
           },
         }
       );
@@ -305,7 +267,7 @@ const AdminAppoinemtnsPage = () => {
         {
           headers: {
             Access: "123",
-            Authorization: user_key,
+            Authorization: authData.token,
           },
         }
       );
@@ -314,7 +276,7 @@ const AdminAppoinemtnsPage = () => {
       const userResponse = await axios.get("http://localhost:3030/v1/users/", {
         headers: {
           Access: "123",
-          Authorization: user_key,
+          Authorization: authData.token,
         },
       });
       setUsers(userResponse.data);
@@ -324,7 +286,7 @@ const AdminAppoinemtnsPage = () => {
         {
           headers: {
             Access: "123",
-            Authorization: user_key,
+            Authorization: authData.token,
           },
         }
       );
@@ -488,7 +450,6 @@ const AdminAppoinemtnsPage = () => {
         </ul>
       )}
       <Separator className="my-24 h-4" />
-      {/* <FullCalendar events={eventArray} />; */}
     </div>
   );
 };

@@ -31,6 +31,7 @@ import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
 import axios from "axios";
 import { formatDate } from "@fullcalendar/core/index.js";
 import { BookAppointmentModal } from "./bookAppointmentModal";
+import { useAppSelector } from "../store";
 
 interface Workspace {
   id: number;
@@ -79,8 +80,7 @@ export function CreateAppointmentModal() {
   const [selectedWorkspaceIdFromParam, setSelectedWorkspaceIdFromParam] =
     useState<string | undefined>(undefined);
 
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+  const authData = useAppSelector((state) => state.auth);
 
   const fomatedDate = moment(date).format("YYYY-MM-DD");
 
@@ -102,7 +102,7 @@ export function CreateAppointmentModal() {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
             },
           }
         );
@@ -140,7 +140,8 @@ export function CreateAppointmentModal() {
           {
             headers: {
               Access: "123",
-              Authorization: user_key,
+              Authorization: authData.token,
+
             },
           }
         );

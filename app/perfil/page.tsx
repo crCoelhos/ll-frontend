@@ -12,6 +12,8 @@ import axios from "axios";
 import { Card } from "flowbite-react";
 import { BellIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../store";
 
 interface User {
   CPF: string;
@@ -26,8 +28,7 @@ const Profile = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [userData, setUserData] = useState<User>();
 
-  const user_key =
-    typeof window !== "undefined" ? localStorage.getItem("user_key") : null;
+  const authData = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,7 +37,7 @@ const Profile = () => {
         const response = await axios.get(`http://localhost:3030/v1/user/`, {
           headers: {
             Access: 123,
-            Authorization: user_key,
+            Authorization: authData.token,
           },
         });
         setUserData(response.data);

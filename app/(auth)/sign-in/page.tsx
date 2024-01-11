@@ -3,10 +3,9 @@
 import * as React from "react";
 
 import axios from "axios";
-import LoginBox from "../_components/loginBox";
-import { SignUpBox } from "../_components/signUpBox";
+import LoginBox from "../../_components/loginBox";
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export default function UserAuthForm({
   className,
@@ -14,7 +13,7 @@ export default function UserAuthForm({
 }: UserAuthFormProps) {
   return (
     <div>
-      <SignUpBox />
+      <LoginBox />
     </div>
   );
 }

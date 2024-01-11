@@ -56,7 +56,7 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
       console.error(error);
     } finally {
       setIsLoading(false);
-      router.push("/agendamento/sala");
+      router.push("/sala");
     }
   };
 

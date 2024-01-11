@@ -33,7 +33,6 @@ const About = () => {
   useEffect(() => {
     const persistedState = loadState();
     if (persistedState) {
-      // dispatch(actions.logIn(persistedState));
     }
   }, [dispatch]);
 
@@ -44,7 +43,6 @@ const About = () => {
       token: "1234567890",
     };
 
-    // dispatch(actions.logIn(userData));
 
     saveState(userData);
   }
