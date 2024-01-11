@@ -16,9 +16,12 @@ import {
 import { Icons } from "./icons";
 
 import SessionStorageManager from "../utils/sessionStorageManager";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Navigation } from "lucide-react";
+import { useAppSelector } from "../store";
+import { actions } from "../store/auth/auth-slice";
+import { useDispatch } from "react-redux";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -45,29 +48,28 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Navbar() {
-  const [storedUser, setStoredUser] = React.useState<string | null>(null);
 
-  const [storedUserName, setStoredUserName] = React.useState<string>("");
-  const [storedUserRole, setStoredUserRole] = React.useState<string>("");
 
   const router = useRouter();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    const storedUserName = localStorage.getItem("user_name");
-    const storedUserRole = localStorage.getItem("user_role");
-    setStoredUserName(storedUserName ?? "");
-    setStoredUserRole(storedUserRole ?? "");
-  }, []);
+  const authData = useAppSelector((state) => state.auth);
+  console.log("dados da navbar", authData);
+
+
 
   const handleLogout = () => {
     SessionStorageManager.clearSessionStorage();
+    dispatch(actions.logout());
+
+
     if (typeof window !== "undefined") {
       window.location.href = "/";
     }
     router.push("/");
   };
 
-  const navbarKey = storedUserName || "guest";
+  const navbarKey = authData.name || "guest";
 
   return (
     <>
@@ -131,7 +133,7 @@ export function Navbar() {
           </NavigationMenuList>
 
           <NavigationMenuList className="grid grid-cols-1 grid-rows-1">
-            {storedUserRole == "1" && (
+            {authData.roleId == "1" && (
               <NavigationMenu key={navbarKey} className=" px-12	">
                 <NavigationMenuItem>
                   <Link href="/dashboard" legacyBehavior passHref>
@@ -164,14 +166,14 @@ export function Navbar() {
           </NavigationMenuList>
 
           <NavigationMenuList className="grid grid-cols-2 grid-rows-1">
-            {storedUserName ? (
+            {authData.name ? (
               <NavigationMenu
                 key={navbarKey}
                 className=" border-solid border-2 border-sky-500"
               >
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>
-                    {storedUserName}
+                    {authData.name}
                   </NavigationMenuTrigger>
 
                   <NavigationMenuContent>

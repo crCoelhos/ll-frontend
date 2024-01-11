@@ -1,25 +1,30 @@
-"use client";
-
-import * as React from "react";
-
-import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { Icons } from "../_components/icons";
-
-import axios from "axios";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "../store";
+import { actions } from "../store/auth/auth-slice";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Icons } from "./icons";
+import { cn } from "@/lib/utils";
+import axios from "axios";
 
-interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> {}
+
+
+
+interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export default function LoginBox({ className, ...props }: LoginBoxProps) {
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
 
+  const [isLoading, setIsLoading] = useState(false);
+  const dispatch = useDispatch();
   const router = useRouter();
 
-  async function onSubmit(e: React.SyntheticEvent) {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setIsLoading(true);
+
     const formData = new FormData(e.target as HTMLFormElement);
 
     const formDataObject: { [key: string]: any } = {};
@@ -27,7 +32,6 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
       formDataObject[key] = value;
     });
 
-    setIsLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:3030/v1/signin",
@@ -38,24 +42,25 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
           },
         }
       );
-      localStorage.setItem("user_key", response.data.token);
-      localStorage.setItem("user_name", response.data.name);
-      localStorage.setItem("user_email", response.data.email);
-      localStorage.setItem("user_role", response.data.roleId);
-      localStorage.setItem("is_user_active", response.data.isActive);
+
+      const userData = {
+        token: response.data.token,
+        name: response.data.name,
+        email: response.data.email,
+        roleId: response.data.roleId,
+      };
+
+      dispatch(actions.login(userData));
 
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
       router.push("/agendamento/sala");
-
     }
-  }
+  };
 
 
-
-  
   return (
     <div className="w-[512px] mt-[248px] mx-[512px]">
       <div className={cn("grid gap-6", className)} {...props}>

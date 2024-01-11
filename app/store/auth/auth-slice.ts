@@ -1,41 +1,37 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+// auth-slice.ts
+
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
-  name: string;
-  email: string;
-  token: string;
+  token: string | null;
+  name: string | null;
+  email: string | null;
+  roleId: string | null;
 }
 
 const initialState: AuthState = {
-  name: "Unknown",
-  email: "Unknown",
-  token: "Unknown",
+  token: null,
+  name: null,
+  email: null,
+  roleId: null,
 };
 
-function logOut() {
-  return initialState;
-}
-
-function logIn() {
-  return {
-    name: "Rogerio Sergio",
-    email: "rogerio@sergio.com",
-    token: "1234567890",
-  };
-}
-
-// function login(state: AuthState, action: PayloadAction) {
-//   state.name = action.payload.name;
-//   state.email = action.payload.email;
-//   state.token = action.payload.token;
-// }
-
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logIn,
-    logOut,
+    login: (state, action: PayloadAction<AuthState>) => {
+      state.token = action.payload.token;
+      state.name = action.payload.name;
+      state.email = action.payload.email;
+      state.roleId = action.payload.roleId;
+    },
+    logout: (state) => {
+      state.token = null;
+      state.name = null;
+      state.email = null;
+      state.roleId = null;
+    },
   },
 });
 
