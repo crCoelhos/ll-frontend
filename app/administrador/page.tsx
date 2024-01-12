@@ -36,6 +36,7 @@ const Administrador = () => {
 
   return (
     <div className="flex...">
+      <h1 className="pageTitle">Area de adminsitrador</h1>
       <div className="grid grid-cols-3 gap-24 m-12 content-center">
         <Card
           className="w-[380px] text-white"

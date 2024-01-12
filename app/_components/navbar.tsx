@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/navigation-menu";
 import { Icons } from "./icons";
 
-import SessionStorageManager from "../utils/sessionStorageManager";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "../store";
 import { actions } from "../store/auth/auth-slice";
@@ -52,7 +51,6 @@ export function Navbar() {
   const authData = useAppSelector((state) => state.auth);
 
   const handleLogout = () => {
-    SessionStorageManager.clearSessionStorage();
     dispatch(actions.logout());
 
     if (typeof window !== "undefined") {
@@ -70,9 +68,7 @@ export function Navbar() {
           <NavigationMenuList className="grid grid-cols-4 grid-rows-1">
             <NavigationMenu key={navbarKey} id="logo-options" className="">
               <NavigationMenuItem>
-                <NavigationMenuTrigger>
-                  <img src="legaliga.png" alt="" className="w-32" />
-                </NavigationMenuTrigger>
+                <NavigationMenuTrigger>LEGALIGA</NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                     <li className="row-span-3">
