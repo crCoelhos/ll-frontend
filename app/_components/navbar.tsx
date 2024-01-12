@@ -71,7 +71,7 @@ export function Navbar() {
             <NavigationMenu key={navbarKey} id="logo-options" className="">
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
-                  <img src="legaliga.png" alt="" className="w-32" />
+                  LEGALIGA
                 </NavigationMenuTrigger>
                 <NavigationMenuContent>
                   <ul className="grid gap-3 p-1 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -83,7 +83,7 @@ export function Navbar() {
                         >
                           <Icons.logo className="h-1 w-1" />
                           <div className="mb-2 mt-4 text-lg font-medium">
-                            LegaLiga
+                            LEGALIGA
                           </div>
                           <p className="text-sm leading-tight text-muted-foreground">
                             O seu escritório virtual!
@@ -91,10 +91,10 @@ export function Navbar() {
                         </a>
                       </NavigationMenuLink>
                     </li>
-                    <ListItem href="/sala/1" title="Teste agora!">
+                    <ListItem href="/agendamento/sala/1" title="Teste agora!">
                       Comece descobrindo alguns dos advogados parceiros.
                     </ListItem>
-                    <ListItem href="/sala" title="Agendamento de salas">
+                    <ListItem href="/agendamento/sala" title="Agendamento de salas">
                       Não tem escritório? Agende uma reunião!
                     </ListItem>
                   </ul>
