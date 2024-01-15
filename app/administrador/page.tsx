@@ -26,6 +26,9 @@ const Administrador = () => {
   const handleUserRouting = () => {
     router.push(`/administrador/users`);
   };
+  const handleLawyerRouting = () => {
+    router.push(`/administrador/advogados`);
+  };
 
   const handleButtonFocus = (cardId: string, isFocused: boolean) => {
     setFocusedButtons((prev) => ({
@@ -111,7 +114,7 @@ const Administrador = () => {
 
         <Card
           className="w-[380px] text-white"
-          onClick={handleUserRouting}
+          onClick={handleLawyerRouting}
           onMouseEnter={() => handleButtonFocus("card3", true)}
           onMouseLeave={() => handleButtonFocus("card3", false)}
           style={{

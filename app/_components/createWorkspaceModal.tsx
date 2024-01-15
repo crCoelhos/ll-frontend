@@ -167,7 +167,6 @@ export function CreateAppointmentModal() {
       }
     };
 
-    console.log(selectedHour);
     fetchData();
   };
 

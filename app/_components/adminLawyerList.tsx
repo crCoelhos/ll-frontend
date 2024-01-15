@@ -29,8 +29,35 @@ import React, { useEffect, useState } from "react";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { useAppSelector } from "../store";
 
+interface Lawyer {
+  id: number;
+  OAB: string;
+  riteDate: string;
+  secNumber: string;
+  inscriptionType: string;
+  UF: string;
+  userId: number;
+  user: User;
+  expertises: Expertise[];
+}
+interface Expertise {
+  id: number;
+  name: string;
+}
+
+interface User {
+  CPF: string;
+  birthdate: string;
+  name: string;
+  email: string;
+  isActive: boolean;
+  updatedAt: string | "";
+}
+
 const AdminWorkspaceList = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const [lawyers, setLawyers] = useState<Lawyer[]>([]);
 
   const [focusedButtons, setFocusedButtons] = useState<{
     [key: number]: boolean;
@@ -40,7 +67,7 @@ const AdminWorkspaceList = () => {
 
   const router = useRouter();
 
-  const workspaceColors: Record<number, string> = {
+  const lawyerColors: Record<number, string> = {
     1: "#AA4465",
     2: "#C69F89",
     3: "#15616D",
@@ -52,8 +79,8 @@ const AdminWorkspaceList = () => {
     const fetchData = async () => {
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          "http://localhost:3030/v1/all-workspaces/",
+        const lawyersResponse = await axios.get(
+          "http://localhost:3030/v1/lawyer/all",
           {
             headers: {
               Access: "123",
@@ -62,16 +89,7 @@ const AdminWorkspaceList = () => {
           }
         );
 
-        setIsLoading(true);
-        const appointmentResponse = await axios.get(
-          "http://localhost:3030/v1/appointments/all",
-          {
-            headers: {
-              Access: "123",
-              Authorization: authData.token,
-            },
-          }
-        );
+        setLawyers(lawyersResponse.data);
       } catch (error) {
         console.error(error);
       } finally {
@@ -81,6 +99,8 @@ const AdminWorkspaceList = () => {
 
     fetchData();
   }, []);
+
+  console.log("resposta advogados: ", lawyers);
 
   return (
     <div className="flex...">
@@ -92,25 +112,32 @@ const AdminWorkspaceList = () => {
             <TableCaption>Lista de espaços de trabalho</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Id do workspace</TableHead>
+                <TableHead className="w-[100px]">Id do advogado</TableHead>
                 <TableHead>Nome</TableHead>
-                <TableHead>Descrição do workspace</TableHead>
-                <TableHead>Capacidade</TableHead>
-                <TableHead>Tipo do workspace</TableHead>
-                <TableHead>Criado em</TableHead>
+                <TableHead>OAB</TableHead>
+                <TableHead>Apresentação</TableHead>
+                <TableHead>Número de inscrição</TableHead>
+                <TableHead>Especialidades</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {/* {workspaces.map((workspace) => (
-                <TableRow key={workspace.id}>
-                  <TableCell>{workspace.id}</TableCell>
-                  <TableCell>{workspace.name}</TableCell>
-                  <TableCell>{workspace.description}</TableCell>
-                  <TableCell>{workspace.capacity}</TableCell>
-                  <TableCell>{workspace.workspaceTypeId}</TableCell>
+              {lawyers.map((lawyer) => (
+                <TableRow key={lawyer.id}>
+                  <TableCell>{lawyer.id}</TableCell>
+                  <TableCell>{lawyer.user.name}</TableCell>
                   <TableCell>
-                    {format(new Date(workspace.createdAt), "dd/MM/yyyy")}
+                    {lawyer.UF}
+                    {lawyer.OAB}
+                  </TableCell>
+                  <TableCell>
+                    {format(new Date(lawyer.riteDate), "dd/MM/yyyy")}
+                  </TableCell>
+                  <TableCell>{lawyer.inscriptionType}</TableCell>
+                  <TableCell>
+                    {lawyer.expertises
+                      ?.map((expertise) => expertise.name)
+                      .join(", ") || "Nenhuma"}
                   </TableCell>
                   <TableCell className="text-right space-x-1">
                     <DropdownMenu>
@@ -125,30 +152,30 @@ const AdminWorkspaceList = () => {
                         <DropdownMenuSeparator />
 
                         <DropdownMenuItem
-                          // onClick={() => handleWorkspaceClick(workspace.id)}
-                          // onClick={() => console.log(workspace.id)}
+                        // onClick={() => handleWorkspaceClick(lawyer.id)}
+                        // onClick={() => console.log(lawyer.id)}
                         >
-                          Visualizar sala
+                          Visualizar advogado
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
-                          onClick={() => console.log("confirma")}
+                          onClick={() => console.log("confirmar sala")}
                           className="bg-red-400  text-white"
                         >
-                          Desativar sala
+                          Desativar advogado
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
                           className="bg-red-700  text-white"
-                          onClick={() => console.log("exclui")}
+                          onClick={() => console.log("excluir sala")}
                         >
-                          Excluir sala
+                          Excluir advogado
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
                 </TableRow>
-              ))} */}
+              ))}
             </TableBody>
           </Table>
         </ul>

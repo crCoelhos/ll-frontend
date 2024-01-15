@@ -63,8 +63,6 @@ const FullCalendar: React.FC<Props> = ({ events }) => {
     const startDate = clickedEvent.start?.toISOString();
     const endDate = clickedEvent.end?.toISOString();
 
-    console.log(JSON.stringify(clickedEvent, null, 2));
-
     // console.log(
     //   `Evento clicado: \n Título: ${title}, id: ${eventId}, \n ini: ${startDate}, \n fim: ${endDate}`
     // );

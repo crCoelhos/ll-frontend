@@ -10,13 +10,9 @@ import { Icons } from "./icons";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 
-
-
-
-interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export default function LoginBox({ className, ...props }: LoginBoxProps) {
-
   const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -52,14 +48,13 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
 
       dispatch(actions.login(userData));
 
+      router.push("/agendamento/sala");
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
-      router.push("/agendamento/sala");
     }
   };
-
 
   return (
     <div className="w-[512px] mt-[248px] mx-[512px]">

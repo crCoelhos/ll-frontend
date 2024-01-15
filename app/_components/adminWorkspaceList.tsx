@@ -82,7 +82,6 @@ const AdminWorkspaceList = () => {
             headers: {
               Access: "123",
               Authorization: authData.token,
-
             },
           }
         );
@@ -95,7 +94,6 @@ const AdminWorkspaceList = () => {
             headers: {
               Access: "123",
               Authorization: authData.token,
-
             },
           }
         );
@@ -136,7 +134,6 @@ const AdminWorkspaceList = () => {
             headers: {
               Access: "123",
               Authorization: authData.token,
-
             },
           });
           setAppointments(appointmentResponse.data.appointments);
@@ -147,7 +144,6 @@ const AdminWorkspaceList = () => {
               headers: {
                 Access: "123",
                 Authorization: authData.token,
-
               },
             }
           );
@@ -164,7 +160,7 @@ const AdminWorkspaceList = () => {
   };
 
   return (
-    <div className="flex...">
+    <div className="flex... flex-col items-end w-[1080px] mx-auto mt-4">
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -212,13 +208,12 @@ const AdminWorkspaceList = () => {
                         <DropdownMenuItem
                           onClick={() => handleWorkspaceClick(workspace.id)}
                           // onClick={() => console.log(workspace.id)}
-
                         >
                           Visualizar sala
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
-                          onClick={() => console.log("confirma")}
+                          onClick={() => console.log("Confirmar sala")}
                           className="bg-red-400  text-white"
                         >
                           Desativar sala
@@ -226,7 +221,7 @@ const AdminWorkspaceList = () => {
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
                           className="bg-red-700  text-white"
-                          onClick={() => console.log("exclui")}
+                          onClick={() => console.log("Excluir sala")}
                         >
                           Excluir sala
                         </DropdownMenuItem>

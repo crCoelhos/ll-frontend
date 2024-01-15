@@ -81,16 +81,12 @@ export function SignUpBox() {
           },
         }
       );
-
-      console.log(response);
     } catch (error) {
       console.error(error);
     } finally {
       router.push("/sign-in");
-
     }
   }
-
 
   return (
     <div className="w-[75vw] pl-[22vw] my-24">

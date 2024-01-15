@@ -86,8 +86,6 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
     Array<{ start: string; end: string }>
   >([]);
 
-  console.log("data que foi passada:", formatedDate);
-
   const authData = useAppSelector((state) => state.auth);
 
   const router = useRouter();
@@ -184,7 +182,6 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
         }
       );
 
-      console.log("response: ", response.data);
       window.location.reload();
     } catch (error) {
       console.error(error);

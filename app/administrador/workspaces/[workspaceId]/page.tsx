@@ -111,7 +111,6 @@ export default function WorkspaceAdminPage() {
             },
           }
         );
-        console.log("resposta", response.data);
         setWorkspaceData(response.data);
       } catch (error) {
         console.error(error);

@@ -166,7 +166,6 @@ export function CreateAppointmentModal() {
       }
     };
 
-    console.log(selectedHour);
     fetchData();
   };
 
@@ -274,11 +273,7 @@ export function CreateAppointmentModal() {
             selected={selectedDate}
             onDayClick={(date) => {
               setDate(date);
-              console.log("date: ", date);
             }}
-            // onSelect={() => {
-            //   setDate;
-            // }}
             disabled={(date) => date < new Date()}
             className="rounded-md border shadow"
           />
