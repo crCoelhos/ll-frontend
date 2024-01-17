@@ -2,8 +2,6 @@
 
 import * as React from "react";
 
-import axios from "axios";
-import LoginBox from "../../_components/loginBox";
 import { SignUpBox } from "../../_components/signUpBox";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> { }

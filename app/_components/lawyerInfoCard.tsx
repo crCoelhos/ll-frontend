@@ -20,20 +20,11 @@ interface LawyerInfoCardProps {
     };
 }
 
-// interface LawyerInfoCardProps {
-//     name: 'jorge';
-//     title: 'doutor';
-//     specialization: 'sexo';
-//     contactNumber: '5764654';
-//     description: "jorge é um advogado muito bom";
-//     UF: 'AC';
-//     subsection: 'Rio Branco';
-// }
 
 export function LawyerInfoCard(props: LawyerInfoCardProps) {
 
     return (
-        <div className='lawyerInfoCard flex flex-row'>
+        <div className='lawyerInfoCard flex flex-row m-2'>
             <Card className='flex flex-row w-full justify-between px-12 mx-2'>
                 <div className="info flex flex-row items-center justify-center">
 
@@ -42,21 +33,24 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
                         <CardTitle>{props.name}</CardTitle> {props.title}
                     </CardHeader>
 
-                    <Separator orientation="vertical" className='w-1 m-2' />
                     <div className='flex flex-col justify-center'>
-                        {props.specialization.map((specialization: string) => (
-                            <CardContent key={specialization}>
-                                <Badge>{specialization}</Badge>
+                        {props.specialization.length > 0 ? (
+                            props.specialization.map((specialization: string) => (
+                                <CardContent key={specialization}>
+                                    <Badge>{specialization}</Badge>
+                                </CardContent>
+                            ))
+                        ) : (
+                            <CardContent>
+                                <Badge>Nenhuma</Badge>
                             </CardContent>
-                        ))}
+                        )}
                     </div>
 
-                    <Separator orientation="vertical" className='w-1 m-2' />
                     <CardDescription className='text-center'>
                         {props.description}
                     </CardDescription>
 
-                    <Separator orientation="vertical" className='w-1 m-2' />
                     <CardFooter className='flex flex-row'>
                         <span>
                             {props.contactNumber}
@@ -70,9 +64,8 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
                     </CardFooter>
                 </div>
 
-                <Separator orientation="vertical" className='w-2' />
 
-                <div className="basicData flex items-center justify-center">
+                <div className="basicData flex items-center justify-center my-2">
                     <Avatar className='w-[128px] h-[128px] '>
                         <AvatarImage src={props.image.src} />
                         <AvatarFallback>{props.image.fallback}</AvatarFallback>

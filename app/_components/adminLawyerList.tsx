@@ -35,6 +35,9 @@ interface Lawyer {
   riteDate: string;
   secNumber: string;
   inscriptionType: string;
+  description: string;
+  graduateDegree: string;
+  image: string;
   UF: string;
   userId: number;
   user: User;
@@ -50,6 +53,7 @@ interface User {
   birthdate: string;
   name: string;
   email: string;
+  phoneNumber: string;
   isActive: boolean;
   updatedAt: string | "";
 }
