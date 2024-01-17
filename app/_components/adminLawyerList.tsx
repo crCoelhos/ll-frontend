@@ -23,11 +23,11 @@ import {
 } from "@/components/ui/table";
 import axios from "axios";
 import { format } from "date-fns";
-import { Badge } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { useAppSelector } from "../store";
+import { Badge } from "@/components/ui/badge";
 
 interface Lawyer {
   id: number;
@@ -107,7 +107,7 @@ const AdminWorkspaceList = () => {
   console.log("resposta advogados: ", lawyers);
 
   return (
-    <div className="flex...">
+    <div className="flex... flex-col items-end w-[1080px] mx-auto mt-4">
       {isLoading ? (
         <p>Loading...</p>
       ) : (
@@ -116,12 +116,13 @@ const AdminWorkspaceList = () => {
             <TableCaption>Lista de espaços de trabalho</TableCaption>
             <TableHeader>
               <TableRow>
-                <TableHead className="w-[100px]">Id do advogado</TableHead>
+                <TableHead className="w-[100px]">#</TableHead>
                 <TableHead>Nome</TableHead>
-                <TableHead>OAB</TableHead>
-                <TableHead>Apresentação</TableHead>
-                <TableHead>Número de inscrição</TableHead>
-                <TableHead>Especialidades</TableHead>
+                <TableHead>INSCRIÇÃO</TableHead>
+                <TableHead>SECCIONAL</TableHead>
+                <TableHead>SUBSEÇÃO</TableHead>
+                <TableHead>DATA DO RITO</TableHead>
+                <TableHead>ESPECIALIDADES</TableHead>
                 <TableHead className="text-right">Ações</TableHead>
               </TableRow>
             </TableHeader>
@@ -130,19 +131,24 @@ const AdminWorkspaceList = () => {
                 <TableRow key={lawyer.id}>
                   <TableCell>{lawyer.id}</TableCell>
                   <TableCell>{lawyer.user.name}</TableCell>
-                  <TableCell>
-                    {lawyer.UF}
-                    {lawyer.OAB}
-                  </TableCell>
+                  <TableCell>{lawyer.OAB}</TableCell>
+                  <TableCell>{lawyer.UF}</TableCell>
+                  <TableCell>{lawyer.UF}</TableCell>
                   <TableCell>
                     {format(new Date(lawyer.riteDate), "dd/MM/yyyy")}
                   </TableCell>
-                  <TableCell>{lawyer.inscriptionType}</TableCell>
                   <TableCell>
-                    {lawyer.expertises
-                      ?.map((expertise) => expertise.name)
-                      .join(", ") || "Nenhuma"}
+                    {lawyer.expertises && lawyer.expertises.length > 0 ? (
+                      lawyer.expertises.map((expertise, index) => (
+                        <span key={index}>
+                          <Badge variant="secondary">{expertise.name} </Badge>
+                        </span>
+                      ))
+                    ) : (
+                      <Badge variant="destructive">Nenhuma </Badge>
+                    )}
                   </TableCell>
+
                   <TableCell className="text-right space-x-1">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>

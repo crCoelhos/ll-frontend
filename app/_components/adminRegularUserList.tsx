@@ -160,7 +160,7 @@ const AdminWorkspaceList = () => {
   };
 
   return (
-    <div className="flex...">
+    <div className="flex... flex-col items-end w-[1080px] mx-auto mt-4">
       {isLoading ? (
         <p>Loading...</p>
       ) : (
