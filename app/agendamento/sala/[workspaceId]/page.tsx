@@ -16,19 +16,7 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { useAppSelector } from "@/app/store";
-
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  userId: number;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
+import { Appointment } from "@/app/types/appointment.interface";
 
 export default function WorkspacePage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -44,7 +32,6 @@ export default function WorkspacePage() {
 
   const params = useParams();
 
- 
   const authData = useAppSelector((state) => state.auth);
 
   useEffect(() => {

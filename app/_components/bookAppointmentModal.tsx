@@ -28,32 +28,7 @@ import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
 import { useEffect, useState } from "react";
 import router, { useRouter, useParams } from "next/navigation";
 import { useAppSelector } from "../store";
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  userId: number;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Appointments {
-  appointments: Appointment[];
-}
+import { Appointments } from "../types/appointment.interface";
 
 interface BookAppointmentModalProps {
   selectedDate: string | undefined;

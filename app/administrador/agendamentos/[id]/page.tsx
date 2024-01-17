@@ -29,28 +29,8 @@ import { useParams } from "next/navigation";
 import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { useAppSelector } from "@/app/store";
-
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  userId: number;
-  isPrivate: boolean;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface AppointmentStatus {
-  id: number;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string | "";
-}
+import { Appointment } from "@/app/types/appointment.interface";
+import { AppointmentStatus } from "@/app/types/appointmentStatus.interface";
 
 export default function WorkspaceAdminPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -89,7 +69,6 @@ export default function WorkspaceAdminPage() {
             headers: {
               Access: 123,
               Authorization: authData.token,
-
             },
           }
         );
@@ -109,7 +88,6 @@ export default function WorkspaceAdminPage() {
             headers: {
               Access: "123",
               Authorization: authData.token,
-
             },
           }
         );

@@ -28,28 +28,9 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { useAppSelector } from "../store";
+import { Appointment } from "../types/appointment.interface";
+import { Workspace } from "../types/workspace.interface";
 
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
 
 const AdminWorkspaceList = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

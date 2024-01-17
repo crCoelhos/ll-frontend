@@ -30,28 +30,6 @@ import FullCalendar from "@/app/_components/fullCalendar";
 import { useAppSelector } from "@/app/store";
 import AdminWorkspaceList from "@/app/_components/adminWorkspaceList";
 
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
 const AdminWorkspacesPage = () => {
   return (
     <div>

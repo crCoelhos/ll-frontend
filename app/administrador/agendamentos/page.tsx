@@ -29,48 +29,10 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
 import FullCalendar from "@/app/_components/fullCalendar";
 import { useAppSelector } from "@/app/store";
-
-interface Appointment {
-  id: number;
-  userId: number;
-  workspaceId: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  appointmentStatusId: number;
-  isPrivate: boolean;
-  createdAt: string;
-  updatedAt: string | "";
-}
-interface AppointmentStatus {
-  id: number;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string | "";
-}
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  CPF: string;
-  birthdate: string;
-  roleId: number;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { Appointment } from "@/app/types/appointment.interface";
+import { Workspace } from "@/app/types/workspace.interface";
+import { AppointmentStatus } from "@/app/types/appointmentStatus.interface";
+import { User } from "@/app/types/user.interface";
 
 const AdminAppoinemtnsPage = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);

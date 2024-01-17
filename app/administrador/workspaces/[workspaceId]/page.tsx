@@ -35,39 +35,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { useAppSelector } from "@/app/store";
-
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  userId: number;
-  isPrivate: boolean;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface AppointmentStatus {
-  id: number;
-  name: string;
-  description: string;
-  createdAt: string;
-  updatedAt: string | "";
-}
+import { Appointment } from "@/app/types/appointment.interface";
+import { AppointmentStatus } from "@/app/types/appointmentStatus.interface";
+import { Workspace } from "@/app/types/workspace.interface";
 
 export default function WorkspaceAdminPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -107,7 +77,6 @@ export default function WorkspaceAdminPage() {
             headers: {
               Access: 123,
               Authorization: authData.token,
-
             },
           }
         );
@@ -128,7 +97,6 @@ export default function WorkspaceAdminPage() {
             headers: {
               Access: 123,
               Authorization: authData.token,
-
             },
           }
         );
@@ -148,7 +116,6 @@ export default function WorkspaceAdminPage() {
             headers: {
               Access: "123",
               Authorization: authData.token,
-
             },
           }
         );

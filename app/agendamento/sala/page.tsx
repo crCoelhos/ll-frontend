@@ -23,28 +23,8 @@ import {
   ExclamationTriangleIcon,
 } from "@radix-ui/react-icons";
 import { useAppSelector } from "@/app/store";
-
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
+import { Appointment } from "@/app/types/appointment.interface";
+import { Workspace } from "@/app/types/workspace.interface";
 
 interface Props {
   params: {

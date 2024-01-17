@@ -92,7 +92,10 @@ export function Navbar() {
                     <ListItem href="/agendamento/sala/1" title="Teste agora!">
                       Comece descobrindo alguns dos advogados parceiros.
                     </ListItem>
-                    <ListItem href="/agendamento/sala" title="Agendamento de salas">
+                    <ListItem
+                      href="/agendamento/sala"
+                      title="Agendamento de salas"
+                    >
                       Não tem escritório? Agende uma reunião!
                     </ListItem>
                   </ul>
@@ -156,7 +159,6 @@ export function Navbar() {
             {authData.name ? (
               <NavigationMenu
                 key={navbarKey}
-                className=" border-solid border-2 border-sky-500"
               >
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>{authData.name}</NavigationMenuTrigger>

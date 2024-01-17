@@ -32,33 +32,8 @@ import axios from "axios";
 import { formatDate } from "@fullcalendar/core/index.js";
 import { BookAppointmentModal } from "./bookAppointmentModal";
 import { useAppSelector } from "../store";
-
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  userId: number;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Appointments {
-  appointments: Appointment[];
-}
+import { Appointment, Appointments } from "../types/appointment.interface";
+import { Workspace } from "../types/workspace.interface";
 
 export function CreateAppointmentModal() {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
@@ -91,7 +66,6 @@ export function CreateAppointmentModal() {
       setSelectedWorkspaceIdFromParam(params.workspaceId[0] as string);
     }
   }, [params.workspaceId]);
-
 
   const handleModalOppening = () => {
     const fetchWorkspaceData = async () => {
@@ -129,7 +103,7 @@ export function CreateAppointmentModal() {
     // setNewAppointment();
   };
 
-  const handleSendBooking = async () => { };
+  const handleSendBooking = async () => {};
 
   const handleCheckButtonClick = () => {
     const fetchData = async () => {
@@ -141,7 +115,6 @@ export function CreateAppointmentModal() {
             headers: {
               Access: "123",
               Authorization: authData.token,
-
             },
           }
         );
@@ -153,8 +126,9 @@ export function CreateAppointmentModal() {
           const endMinutes = new Date(appointment.endDate).getMinutes();
 
           return {
-            start: `${startHour}:${startMinutes < 10 ? "0" : ""
-              }${startMinutes}`,
+            start: `${startHour}:${
+              startMinutes < 10 ? "0" : ""
+            }${startMinutes}`,
             end: `${endHour}:${endMinutes < 10 ? "0" : ""}${endMinutes}`,
           };
         });
@@ -218,7 +192,11 @@ export function CreateAppointmentModal() {
 
   return (
     <Dialog>
-      <DialogTrigger asChild onClick={handleModalOppening} className="m-8 w-32 h-16 bg-black text-white">
+      <DialogTrigger
+        asChild
+        onClick={handleModalOppening}
+        className="m-8 w-32 h-16 bg-black text-white"
+      >
         <Button variant="outline">Agendar sala</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">

@@ -32,33 +32,8 @@ import axios from "axios";
 import { formatDate } from "@fullcalendar/core/index.js";
 import { BookAppointmentModal } from "./bookAppointmentModal";
 import { useAppSelector } from "../store";
-
-interface Workspace {
-  id: number;
-  name: string;
-  description: string;
-  capacity: number;
-  workspaceTypeId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Appointment {
-  id: number;
-  title: string;
-  startDate: string;
-  endDate: string;
-  description: string;
-  workspaceId: number;
-  userId: number;
-  appointmentStatusId: number;
-  createdAt: string;
-  updatedAt: string | "";
-}
-
-interface Appointments {
-  appointments: Appointment[];
-}
+import { Appointment, Appointments } from "../types/appointment.interface";
+import { Workspace } from "../types/workspace.interface";
 
 export function CreateAppointmentModal() {
   const [selectedDate, setDate] = React.useState<Date | undefined>(new Date());

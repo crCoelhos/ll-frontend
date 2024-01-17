@@ -14,15 +14,7 @@ import { BellIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../store";
-
-interface User {
-  CPF: string;
-  birthdate: string;
-  name: string;
-  email: string;
-  isActive: boolean;
-  updatedAt: string | "";
-}
+import { User } from "../types/user.interface";
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
