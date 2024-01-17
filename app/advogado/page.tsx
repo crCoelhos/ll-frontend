@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import AdminLawyerList from "@/app/_components/adminLawyerList";
 import React from "react";
 import LawyerInfoCard from "../_components/lawyerInfoCard";

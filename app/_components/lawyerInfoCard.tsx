@@ -20,7 +20,7 @@ interface LawyerInfoCardProps {
   lawyerKey: number;
   name: string;
   title: string;
-  specialization: string[];
+  expertise: string[];
   contactNumber: string[] | string;
   description: string;
   UF: string;
@@ -51,10 +51,10 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
           </CardHeader>
 
           <div className="flex flex-col justify-center">
-            {props.specialization.length > 0 ? (
-              props.specialization.map((specialization: string) => (
-                <CardContent key={specialization}>
-                  <Badge>{specialization}</Badge>
+            {props.expertise.length > 0 ? (
+              props.expertise.map((expertise: string) => (
+                <CardContent key={expertise}>
+                  <Badge>{expertise}</Badge>
                 </CardContent>
               ))
             ) : (

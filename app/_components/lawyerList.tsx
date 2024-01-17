@@ -45,7 +45,7 @@ const LawyerList: React.FC = () => {
           lawyerKey={lawyer.id}
           name={lawyer.user.name}
           title={lawyer.graduateDegree}
-          specialization={lawyer.expertises.map((expertise) => expertise.name)}
+          expertise={lawyer.expertises.map((expertise) => expertise.name)}
           contactNumber={lawyer.user.phoneNumber}
           description={lawyer.description}
           UF={lawyer.UF}
