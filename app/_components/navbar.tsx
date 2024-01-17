@@ -28,9 +28,9 @@ const components: { title: string; href: string; description: string }[] = [
       "Para fazer parte de nosso grupo de profissionais, submeta a sua inscrição.",
   },
   {
-    title: "Conheça nossos planos",
-    href: "/docs/primitives/hover-card",
-    description: "",
+    title: "Nossos parceiros",
+    href: "/advogado",
+    description: "Conheça nossos parceiros e suas especialidades.",
   },
   {
     title: "Nosso diferencial",
@@ -40,7 +40,7 @@ const components: { title: string; href: string; description: string }[] = [
   {
     title: "Como atuamos",
     href: "/docs/primitives/scroll-area",
-    description: "Conheça nosso fluxo.",
+    description: "Entenda como funciona a nossa plataforma.",
   },
 ];
 

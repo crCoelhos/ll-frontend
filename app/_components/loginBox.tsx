@@ -10,7 +10,7 @@ import { Icons } from "./icons";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 
-interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> { }
 
 export default function LoginBox({ className, ...props }: LoginBoxProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -50,7 +50,8 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
 
       router.push("/agendamento/sala");
     } catch (error) {
-      console.error(error);
+      console.log((error as any).response.status, (error as any).response.headers, (error as any).response.data);
+      console.log(error)
     } finally {
       setIsLoading(false);
     }

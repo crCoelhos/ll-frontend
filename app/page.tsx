@@ -49,14 +49,14 @@ const cards = [
 ];
 
 export default function Home() {
- 
+
   const plugin = React.useRef(
     Autoplay({ delay: 2000, stopOnInteraction: true })
   );
 
   return (
     <main className="flex items-center p-[128px]">
-      
+
 
       <Carousel
         plugins={[plugin.current]}

@@ -122,7 +122,7 @@ const AdminWorkspaceList = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {lawyers.map((lawyer) => (
+              {lawyers?.map((lawyer) => (
                 <TableRow key={lawyer.id}>
                   <TableCell>{lawyer.id}</TableCell>
                   <TableCell>{lawyer.user.name}</TableCell>
