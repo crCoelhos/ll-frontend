@@ -1,8 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { searchActions } from "../store/slices/search-slice";
+import { RootState } from "../store";
 
 export function LawyerSearchBox() {
   const [search, setSearch] = useState<string>("");
@@ -10,9 +11,15 @@ export function LawyerSearchBox() {
   console.log(search);
 
   const dispatch = useDispatch();
+  const searchString = useSelector(
+    (state: RootState) => state.search.searchString
+  );
 
-  const handleSearch = (searchString: string, searchFilter: string) => {
-    dispatch(searchActions.setSearchString(search));
+  const handleSearch = (searchString: string) => {
+    dispatch(searchActions.setSearchString(searchString));
+  };
+  const handleTeste = () => {
+    console.log("searchString from Redux:", searchString);
   };
 
   return (
@@ -26,10 +33,17 @@ export function LawyerSearchBox() {
       />
       <Button
         onClick={() => {
-          handleSearch(search, "");
+          handleSearch(search);
         }}
       >
         Pesquisar
+      </Button>
+      <Button
+        onClick={() => {
+          handleTeste();
+        }}
+      >
+        testar
       </Button>
     </div>
   );

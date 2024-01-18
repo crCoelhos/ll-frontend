@@ -10,6 +10,10 @@ import {
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
+import { searchActions } from "../store/slices/search-slice";
+import { RootState } from "../store";
+
 const Administrador = () => {
   const router = useRouter();
 
@@ -37,9 +41,24 @@ const Administrador = () => {
     }));
   };
 
+  const dispatch = useDispatch();
+  const searchString = useSelector(
+    (state: RootState) => state.search.searchString
+  );
+  const handleTeste = () => {
+    console.log("searchString from Redux:", searchString);
+  };
+
   return (
     <div className="flex...">
       <h1 className="pageTitle">Area de adminsitrador</h1>
+      <Button
+        onClick={() => {
+          handleTeste();
+        }}
+      >
+        testar
+      </Button>
       <div className="grid grid-cols-3 gap-24 m-12 content-center">
         <Card
           className="w-[380px] text-white"

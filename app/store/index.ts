@@ -8,7 +8,7 @@ import { searchReducer } from "./slices/search-slice";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "search "],
+  whitelist: ["auth", "search"],
 };
 
 const rootReducer = combineReducers({
