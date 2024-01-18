@@ -1,25 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { searchActions } from "../store/slices/search-slice";
-import { RootState } from "../store";
+import { RootState, useAppSelector } from "../store";
+import axios from "axios";
+import { lawyerSearchResponse } from "../types/lawyerSearchResponse.interface";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 export function LawyerSearchBox() {
   const [search, setSearch] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [searchResponse, setSearchResponse] = useState<lawyerSearchResponse[]>(
+    []
+  );
 
   console.log(search);
 
   const dispatch = useDispatch();
-  const searchString = useSelector(
-    (state: RootState) => state.search.searchString
-  );
 
   const handleSearch = (searchString: string) => {
     dispatch(searchActions.setSearchString(searchString));
   };
-  const handleTeste = () => {
-    console.log("searchString from Redux:", searchString);
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setSearch(inputValue);
+    if (inputValue === "") {
+      dispatch(searchActions.setSearchString(null));
+    }
   };
 
   return (
@@ -29,21 +38,18 @@ export function LawyerSearchBox() {
         placeholder="Pesquisar..."
         className="lg:w-[800px]"
         value={search}
-        onChange={(e) => setSearch(e.target.value)}
+        onChange={(e) => {
+          handleInputChange(e);
+        }}
       />
       <Button
         onClick={() => {
           handleSearch(search);
+          setIsLoading(true);
         }}
+        className="hover:bg-gray-700 ml-2"
       >
-        Pesquisar
-      </Button>
-      <Button
-        onClick={() => {
-          handleTeste();
-        }}
-      >
-        testar
+        <MagnifyingGlassIcon />
       </Button>
     </div>
   );
