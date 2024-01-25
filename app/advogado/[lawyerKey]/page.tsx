@@ -39,6 +39,7 @@ export default function LawyerPage() {
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [lawyer, setLawyer] = useState<Lawyer>();
+  const [followers, setFollowers] = useState<number>();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,8 +63,51 @@ export default function LawyerPage() {
       }
     };
 
+    const fetchUserfollowers = async () => {
+      try {
+        setIsLoading(true);
+        const lawyerFollowersResponse = await axios.get(
+          `http://localhost:3030/v1/lawyer-followers/${params.lawyerKey}`,
+          {
+            headers: {
+              Access: "123",
+              Authorization: authData.token,
+            },
+          }
+        );
+
+        setFollowers(lawyerFollowersResponse.data.length);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
     fetchData();
+    fetchUserfollowers();
   }, []);
+
+  const handleFollowLawyer = async () => {
+    try {
+      setIsLoading(true);
+      const followLawyer = await axios.post(
+        `http://localhost:3030/v1/follow/${params.lawyerKey}`,
+        {
+          headers: {
+            Access: "123",
+            Authorization: authData.token,
+          },
+        }
+      );
+
+      // window.location.reload();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <>
@@ -171,7 +215,12 @@ export default function LawyerPage() {
 
                 <div className="socialActions flex flex-row justify-between gap-12 ...">
                   <Button variant="outline">Contactar</Button>
-                  <Button variant="outline">Seguir</Button>
+                  <Button
+                    variant="outline"
+                    onClick={() => handleFollowLawyer()}
+                  >
+                    Seguir
+                  </Button>
                 </div>
 
                 <div className="lawyerMetaData flex flex-row justify-between gap-12">
@@ -179,7 +228,7 @@ export default function LawyerPage() {
                     Clientes: {Math.floor(Math.random() * 129)}
                   </CardDescription>
                   <CardDescription className="lawyerFollowers">
-                    Seguidores: {Math.floor(Math.random() * 129)}
+                    Seguidores: {followers}
                   </CardDescription>
                 </div>
                 <CardTitle>{lawyer?.user.name}</CardTitle>
