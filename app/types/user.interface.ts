@@ -1,3 +1,5 @@
+import { Expertise } from "./expertise.interface";
+
 export type User = {
   id: number;
   CPF: string;
@@ -7,4 +9,16 @@ export type User = {
   phoneNumber: string;
   isActive: boolean;
   updatedAt: string | "";
+
+  OAB?: string;
+  riteDate?: string;
+  secNumber?: string;
+  inscriptionType?: string;
+  description?: string;
+  graduateDegree?: string;
+  image?: string;
+  UF?: string;
+  userId?: number;
+  user?: User;
+  expertises?: Expertise[];
 };

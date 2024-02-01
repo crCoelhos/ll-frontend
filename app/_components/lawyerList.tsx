@@ -97,6 +97,7 @@ const LawyerList: React.FC = () => {
     fetchData();
   }, [authData.token]);
 
+  console.log("lawyerSearchResponseData: ", lawyerSearchResponseData);
   return (
     <div className="LawyerList">
       {searchString === null
@@ -155,7 +156,7 @@ const LawyerList: React.FC = () => {
               UF={lawyer.UF}
               subsection={lawyer.UF}
               image={{
-                fallback: lawyer.name[0],
+                fallback: lawyer?.name ? lawyer.name[0] : "",
                 src: lawyer.image,
               }}
             />

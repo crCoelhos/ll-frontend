@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { searchActions } from "../slices/search-slice";
 
 interface AuthState {
   token: string | null;
@@ -31,6 +32,10 @@ const authSlice = createSlice({
       state.roleId = null;
     },
   },
+  extraReducers: (builder) => {
+    builder.addCase(authActions.logout, () => {
+      searchActions.resetAll();
+    });
+  },
 });
-
-export const { reducer: authReducer, actions } = authSlice;
+export const { reducer: authReducer, actions: authActions } = authSlice;

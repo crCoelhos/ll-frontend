@@ -20,6 +20,10 @@ const searchSlice = createSlice({
     setSearchFilter: (state, action: PayloadAction<string | null>) => {
       state.searchFilter = action.payload;
     },
+    resetAll: (state) => {
+      state.searchString = null;
+      state.searchFilter = null;
+    },
   },
 });
 

@@ -17,7 +17,7 @@ import { Icons } from "./icons";
 
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "../store";
-import { actions } from "../store/auth/auth-slice";
+import { authActions } from "../store/auth/auth-slice";
 import { useDispatch } from "react-redux";
 
 const components: { title: string; href: string; description: string }[] = [
@@ -51,7 +51,7 @@ export function Navbar() {
   const authData = useAppSelector((state) => state.auth);
 
   const handleLogout = () => {
-    dispatch(actions.logout());
+    dispatch(authActions.logout());
 
     if (typeof window !== "undefined") {
       window.location.href = "/";

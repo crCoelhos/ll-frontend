@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useAppSelector } from "../store";
-import { actions } from "../store/auth/auth-slice";
+import { authActions } from "../store/auth/auth-slice";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -46,7 +46,7 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
         roleId: response.data.roleId,
       };
 
-      dispatch(actions.login(userData));
+      dispatch(authActions.login(userData));
 
       router.push("/agendamento/sala");
     } catch (error) {

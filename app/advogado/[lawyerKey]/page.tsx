@@ -28,7 +28,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Label } from "flowbite-react";
 import { CopyIcon } from "lucide-react";
 import { Input } from "postcss";
 
@@ -92,7 +91,10 @@ export default function LawyerPage() {
     try {
       setIsLoading(true);
       const followLawyer = await axios.post(
-        `http://localhost:3030/v1/follow/${params.lawyerKey}`,
+        `http://localhost:3030/v1/follow-lawyer/${params.lawyerKey}`,
+        {
+          action: "follow",
+        },
         {
           headers: {
             Access: "123",
@@ -228,7 +230,7 @@ export default function LawyerPage() {
                     Clientes: {Math.floor(Math.random() * 129)}
                   </CardDescription>
                   <CardDescription className="lawyerFollowers">
-                    Seguidores: {followers}
+                    Seguidores: {followers ?? 0}
                   </CardDescription>
                 </div>
                 <CardTitle>{lawyer?.user.name}</CardTitle>
