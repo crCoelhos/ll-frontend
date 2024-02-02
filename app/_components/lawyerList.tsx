@@ -102,34 +102,37 @@ const LawyerList: React.FC = () => {
     <div className="LawyerList">
       {searchString === null
         ? lawyerSearchResponseData.length === 0
-          ? lawyers.map((lawyer) => (
-              <LawyerInfoCard
-                key={lawyer.id}
-                lawyerKey={lawyer.id}
-                name={lawyer.user.name}
-                title={lawyer.graduateDegree}
-                expertise={lawyer.expertises.map((expertise) => expertise.name)}
-                contactNumber={lawyer.user.phoneNumber}
-                description={lawyer.description}
-                UF={lawyer.UF}
-                subsection={lawyer.UF}
-                image={{
-                  fallback: lawyer.user.name[0],
-                  src: lawyer.image,
-                }}
-              />
-            ))
+          ? lawyers.map(
+              (lawyer) => (
+                console.log("lawyer: ", lawyer),
+                (
+                  <LawyerInfoCard
+                    key={lawyer.id}
+                    lawyerKey={lawyer.id}
+                    name={lawyer.user.name}
+                    title={lawyer.graduateDegree}
+                    expertise={lawyer.expertises.map(
+                      (expertise) => expertise.name
+                    )}
+                    contactNumber={lawyer.user.phoneNumber}
+                    description={lawyer.description}
+                    UF={lawyer.UF}
+                    subsection={lawyer.UF}
+                    image={{
+                      fallback: lawyer.user.name[0],
+                      src: lawyer.image,
+                    }}
+                  />
+                )
+              )
+            )
           : lawyerSearchResponseData.map((lawyer) => (
               <LawyerInfoCard
                 key={lawyer.userId}
                 lawyerKey={lawyer.lawyerId}
                 name={lawyer.name}
                 title={lawyer.graduateDegree}
-                expertise={
-                  Array.isArray(lawyer.expertiseNames)
-                    ? lawyer.expertiseNames.map((expertise) => expertise.name)
-                    : []
-                }
+                expertise={lawyer.expertises.map((expertise) => expertise.name)}
                 contactNumber={lawyer.phoneNumber}
                 description={lawyer.description}
                 UF={lawyer.UF}
@@ -142,15 +145,11 @@ const LawyerList: React.FC = () => {
             ))
         : lawyerSearchResponseData.map((lawyer) => (
             <LawyerInfoCard
-              key={lawyer.userId}
+              key={lawyer.lawyerId}
               lawyerKey={lawyer.lawyerId}
               name={lawyer.name}
               title={lawyer.graduateDegree}
-              expertise={
-                Array.isArray(lawyer.expertiseNames)
-                  ? lawyer.expertiseNames.map((expertise) => expertise.name)
-                  : []
-              }
+              expertise={lawyer.expertises.map((expertise) => expertise.name)}
               contactNumber={lawyer.phoneNumber}
               description={lawyer.description}
               UF={lawyer.UF}

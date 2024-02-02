@@ -6,8 +6,8 @@ interface SearchState {
 }
 
 const initialState: SearchState = {
-  searchString: "",
-  searchFilter: "",
+  searchString: null,
+  searchFilter: null,
 };
 
 const searchSlice = createSlice({

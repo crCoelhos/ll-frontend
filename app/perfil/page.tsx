@@ -15,12 +15,29 @@ import { useAppSelector } from "../store";
 import { User } from "../types/user.interface";
 import { LawyerProcess } from "../types/laywerProcesses.interface";
 import { Lawyer } from "../types/lawyer.interface";
+import { number } from "zod";
+import { ProcessInfoModal } from "../_components/processInfoModal";
+
+export interface ProfileProps {
+  user: User;
+  lawyer: Lawyer;
+  processes: LawyerProcess[];
+}
+
+export interface processResponse {
+  keyword: string;
+  page: {
+    number: number;
+    content: string;
+  };
+}
 
 const Profile = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [userData, setUserData] = useState<User>();
+  const [userData, setUserData] = useState<ProfileProps>();
   const [userLawyerData, setUserLawyerData] = useState<Lawyer>();
   const [userProcesses, setUserProcesses] = useState<LawyerProcess[]>();
+  const [processResponse, setProcessResponse] = useState<processResponse[]>();
 
   const authData = useAppSelector((state) => state.auth);
 
@@ -67,28 +84,51 @@ const Profile = () => {
 
     fetchUserData();
     fetchUserProcessesData();
-  }, [isLoading]);
+  }, []);
 
-  console.log("userProcesses", userProcesses);
+  console.log("user", userData);
+
+  // function handleProcessSearch(processNumber: string) {
+  //   return async () => {
+  //     try {
+  //       setIsLoading(true);
+  //       const processResponse = await axios.get(
+  //         `http://localhost:3030/v1/api/dados/${processNumber}`,
+  //         {
+  //           headers: {
+  //             Access: 123,
+  //             Authorization: authData.token,
+  //           },
+  //         }
+  //       );
+
+  //       console.log(processResponse.data);
+  //     } catch (error) {
+  //       console.error(error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+  // }
 
   return (
     <main className="flex justify-center pt-24 gap-2">
-      <Card className="w-[512px]">
+      <Card className="w-[512px] h-[256px]">
         <CardHeader>
-          <CardTitle>{userData?.name}</CardTitle>
+          <CardTitle>{userData?.user.name}</CardTitle>
           <CardDescription>
-            CPF: <span>{userData?.CPF}</span>
+            CPF: <span>{userData?.user.CPF}</span>
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
           <div>
             <div className="space-y-1">
               <p className="text-base text-muted-foreground">
-                Data de nascimento: <span>{userData?.birthdate}</span>
+                Data de nascimento: <span>{userData?.user.birthdate}</span>
               </p>
               <p className="text-base text-muted-foreground">
                 Usuário ativo?{" "}
-                <span>{userData?.isActive == true ? "Sim" : "Não"}</span>
+                <span>{userData?.user.isActive == true ? "Sim" : "Não"}</span>
               </p>
             </div>
           </div>
@@ -97,24 +137,19 @@ const Profile = () => {
       </Card>
       <Card className="w-[512px]">
         <CardHeader>
-          <CardTitle></CardTitle>
+          <CardTitle>processos acompanhados:</CardTitle>
           <CardDescription>
-            <span>{userProcesses?.length}</span> processos:
+            <span>{userData?.processes?.length ?? " Nenhum"}</span>
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {userProcesses?.map((process) => (
-            <Card className="w-[512px]">
-              <CardHeader>
-                <CardTitle>{process.processNumber}</CardTitle>
-                <CardDescription></CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-4"></CardContent>
-              <CardFooter></CardFooter>
-            </Card>
-          ))}
+          {userProcesses?.map(
+            (process) => (
+              console.log(process.processNumber),
+              (<ProcessInfoModal processNumber={process.processNumber} />)
+            )
+          )}
         </CardContent>
-        <CardFooter></CardFooter>
       </Card>
     </main>
   );

@@ -37,7 +37,9 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
   const handleClick = (lawyerKey: number) => {
     console.log(props.lawyerKey);
     router.push(`/advogado/${lawyerKey}`);
+    console.log("lawyerKey: ", props);
   };
+
 
   return (
     <div className="lawyerInfoCard flex flex-row m-2">

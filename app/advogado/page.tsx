@@ -1,7 +1,6 @@
 "use client";
-import AdminLawyerList from "@/app/_components/adminLawyerList";
+
 import React from "react";
-import LawyerInfoCard from "../_components/lawyerInfoCard";
 import LawyerList from "../_components/lawyerList";
 import { LawyerSearchBox } from "../_components/lawyerSearchBox";
 

@@ -1,3 +1,5 @@
+import { Expertise } from "./expertise.interface";
+
 export type lawyerSearchResponse = {
   userId: number;
   lawyerId: number;
@@ -13,5 +15,5 @@ export type lawyerSearchResponse = {
   description: string;
   image: string;
   UF: string;
-  expertiseNames: string;
+  expertises: Expertise[];
 };

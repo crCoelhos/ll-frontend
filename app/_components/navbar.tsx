@@ -59,14 +59,12 @@ export function Navbar() {
     router.push("/");
   };
 
-  const navbarKey = authData.name || "guest";
-
   return (
     <>
       <div className="flex... pt-2">
-        <NavigationMenu key={navbarKey} className="">
+        <NavigationMenu className="">
           <NavigationMenuList className="grid grid-cols-4 grid-rows-1">
-            <NavigationMenu key={navbarKey} id="logo-options" className="">
+            <NavigationMenu id="logo-options" className="">
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
                   <img src="legaliga.png" alt="" className="w-32" />
@@ -102,7 +100,7 @@ export function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenu>
-            <NavigationMenu key={navbarKey} id="parceiros" className="">
+            <NavigationMenu id="parceiros" className="">
               <NavigationMenuItem>
                 <NavigationMenuTrigger>Parceiros</NavigationMenuTrigger>
                 <NavigationMenuContent>
@@ -124,7 +122,7 @@ export function Navbar() {
 
           <NavigationMenuList className="grid grid-cols-1 grid-rows-1">
             {authData.roleId == "1" && (
-              <NavigationMenu key={navbarKey} className=" px-12	">
+              <NavigationMenu className=" px-12	">
                 <NavigationMenuItem>
                   <Link href="/dashboard" legacyBehavior passHref>
                     <NavigationMenuLink
@@ -157,9 +155,7 @@ export function Navbar() {
 
           <NavigationMenuList className="grid grid-cols-2 grid-rows-1">
             {authData.name ? (
-              <NavigationMenu
-                key={navbarKey}
-              >
+              <NavigationMenu>
                 <NavigationMenuItem>
                   <NavigationMenuTrigger>{authData.name}</NavigationMenuTrigger>
 

@@ -32,10 +32,5 @@ const authSlice = createSlice({
       state.roleId = null;
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(authActions.logout, () => {
-      searchActions.resetAll();
-    });
-  },
 });
 export const { reducer: authReducer, actions: authActions } = authSlice;
