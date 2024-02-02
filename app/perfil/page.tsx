@@ -17,6 +17,9 @@ import { LawyerProcess } from "../types/laywerProcesses.interface";
 import { Lawyer } from "../types/lawyer.interface";
 import { number } from "zod";
 import { ProcessInfoModal } from "../_components/processInfoModal";
+import { Button } from "@/components/ui/button";
+import { DESTRUCTION } from "dns";
+import { NewProcessModal } from "../_components/newProcessModal";
 
 export interface ProfileProps {
   user: User;
@@ -150,6 +153,9 @@ const Profile = () => {
             )
           )}
         </CardContent>
+        <CardFooter>
+          <NewProcessModal />
+        </CardFooter>
       </Card>
     </main>
   );
