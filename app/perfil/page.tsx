@@ -146,12 +146,12 @@ const Profile = () => {
           </CardDescription>
         </CardHeader>
         <CardContent className="grid gap-4">
-          {userProcesses?.map(
-            (process) => (
-              console.log(process.processNumber),
-              (<ProcessInfoModal processNumber={process.processNumber} />)
-            )
-          )}
+          {userProcesses?.map((process) => (
+            <ProcessInfoModal
+              processNumber={process.processNumber}
+              processTitle={process.processTitle}
+            />
+          ))}
         </CardContent>
         <CardFooter>
           <NewProcessModal />

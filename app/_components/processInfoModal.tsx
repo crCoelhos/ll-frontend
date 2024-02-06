@@ -53,6 +53,7 @@ import { Spinner } from "flowbite-react";
 
 interface ProcessInfoModalProps {
   processNumber: string;
+  processTitle: string;
 }
 
 export function ProcessInfoModal(props: ProcessInfoModalProps) {
@@ -102,7 +103,7 @@ export function ProcessInfoModal(props: ProcessInfoModalProps) {
             variant="outline"
             onClick={() => fetchProcessInfo(props.processNumber)}
           >
-            {props.processNumber}
+            {props.processTitle}
           </Button>
         </DialogTrigger>
         <DialogContent className="min-w-[712px]">
