@@ -59,6 +59,7 @@ export function NewProcessModal(props: NewProcessModalProps) {
         `http://localhost:3030/v1/lawyer-process/watch/`,
         {
           processNumber: newProcessToBeWatched,
+          processTitle: newProcessTitle,
         },
         {
           headers: {

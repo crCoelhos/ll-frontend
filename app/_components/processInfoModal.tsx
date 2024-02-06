@@ -19,6 +19,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+
 import axios from "axios";
 import SessionStorageManager from "../utils/sessionStorageManager";
 
@@ -47,7 +57,10 @@ interface ProcessInfoModalProps {
 
 export function ProcessInfoModal(props: ProcessInfoModalProps) {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [processResponse, setProcessResponse] = useState<ProcessResponse>();
+  const [processResponse, setProcessResponse] = useState<ProcessResponse[]>([]);
+
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const currentResponse = processResponse[currentIndex];
 
   const authData = useAppSelector((state) => state.auth);
 
@@ -63,19 +76,21 @@ export function ProcessInfoModal(props: ProcessInfoModalProps) {
         }
       );
 
-      if (response.data.length > 0) {
-        setProcessResponse(
-          (prevResponses: ProcessResponse | undefined) => response.data[0]
-        );
-      } else {
-        console.warn("Empty response array");
-      }
+      setProcessResponse(response.data);
     } catch (error) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
   }
+
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => prevIndex + 1);
+  };
+
+  const handlePrevious = () => {
+    setCurrentIndex((prevIndex) => prevIndex - 1);
+  };
 
   console.log(processResponse);
 
@@ -90,18 +105,18 @@ export function ProcessInfoModal(props: ProcessInfoModalProps) {
             {props.processNumber}
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[512px]">
+        <DialogContent className="min-w-[712px]">
           <DialogHeader>
             <DialogTitle>
               Citado na página:{" "}
-              {isLoading ? <Spinner /> : processResponse?.page?.number}
+              {isLoading ? <Spinner /> : currentResponse?.page?.number}
             </DialogTitle>
-            <DialogDescription>
+            <DialogDescription className="p-3">
               {isLoading ? (
                 <Spinner />
               ) : (
-                <span>
-                  {processResponse?.page?.content
+                <span className="w-[512px]">
+                  {currentResponse?.page?.content
                     .split(new RegExp(`(${props.processNumber})`, "gi"))
                     .map((highlightedKeyword, index) =>
                       index % 2 === 0 ? (
@@ -119,6 +134,44 @@ export function ProcessInfoModal(props: ProcessInfoModalProps) {
               )}
             </DialogDescription>
           </DialogHeader>
+          <Pagination className="max-w-[448px]">
+            <PaginationContent>
+              <PaginationItem>
+                <PaginationPrevious
+                  className={
+                    currentIndex === 0 ? "cursor-not-allowed" : "cursor-pointer"
+                  }
+                  aria-disabled={currentIndex === 0}
+                  onClick={currentIndex === 1 ? handlePrevious : undefined}
+                />
+              </PaginationItem>
+              {processResponse.map((_, index) => (
+                <PaginationItem key={index} className="cursor-pointer">
+                  <PaginationLink
+                    onClick={() => setCurrentIndex(index)}
+                    isActive={currentIndex === processResponse.length - 1}
+                  >
+                    {index + 1}
+                  </PaginationLink>
+                </PaginationItem>
+              ))}
+              <PaginationItem>
+                <PaginationNext
+                  className={
+                    currentIndex === processResponse.length - 1
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  }
+                  aria-disabled={currentIndex === processResponse.length - 1}
+                  onClick={
+                    currentIndex !== processResponse.length - 1
+                      ? handleNext
+                      : undefined
+                  }
+                />
+              </PaginationItem>
+            </PaginationContent>
+          </Pagination>
         </DialogContent>
       </Dialog>
     </>
