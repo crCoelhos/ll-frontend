@@ -40,20 +40,20 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
     console.log("lawyerKey: ", props);
   };
 
-
   return (
-    <div className="lawyerInfoCard flex flex-row m-2">
+    <div className="lawyerInfoCard m-2">
       <Card
-        className="flex flex-row w-full justify-between px-12 mx-2 border-solid border-2 border-transparent hover:cursor-pointer hover:border-solid hover:border-2 hover:border-red-400 transition duration-500  ease-in-out ..."
+        className="grid grid-cols-4 px-12 mx-2 border-solid border-2 border-transparent hover:cursor-pointer hover:border-solid hover:border-2 hover:border-red-400 transition duration-300 ease-in-out ..."
+        // className="flex flex-row w-full justify-between px-12 mx-2 border-solid border-2 border-transparent hover:cursor-pointer hover:border-solid hover:border-2 hover:border-red-400 transition duration-500  ease-in-out ..."
         onClick={() => handleClick(props.lawyerKey)}
       >
-        <div className="info flex flex-row items-center justify-center">
+        <div className="info grid grid-cols-4  col-span-3 gap-1 items-center justify-center">
           <CardHeader className="text-center">
             <CardTitle>{props.name}</CardTitle> {props.title}
           </CardHeader>
 
           <div className="flex flex-col justify-center">
-            {props.expertise.length > 0 ? (
+            {props.expertise ? (
               props.expertise.map((expertise: string) => (
                 <CardContent key={expertise}>
                   <Badge>{expertise}</Badge>
@@ -70,7 +70,7 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
             {props.description}
           </CardDescription>
 
-          <CardFooter className="flex flex-row">
+          <CardFooter className="grid grid-rows-1">
             <span>{props.contactNumber}</span>
             <span>- {props.subsection}</span>
             <span>- {props.UF}.</span>
@@ -78,7 +78,7 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
         </div>
 
         <div className="basicData flex items-center justify-center my-2">
-          <Avatar className="w-[128px] h-[128px] ">
+          <Avatar className="w-[128px] h-[128px] transition-all duration-500 ease-in-out transform hover:scale-110">
             <AvatarImage src={props.image.src} />
             <AvatarFallback>{props.image.fallback}</AvatarFallback>
           </Avatar>

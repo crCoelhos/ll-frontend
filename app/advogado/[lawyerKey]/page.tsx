@@ -31,6 +31,9 @@ import {
 import { CopyIcon } from "lucide-react";
 import { Input } from "postcss";
 
+import { useRouter } from "next/navigation";
+import { Separator } from "@/components/ui/separator";
+
 export default function LawyerPage() {
   const authData = useAppSelector((state) => state.auth);
 
@@ -40,6 +43,7 @@ export default function LawyerPage() {
   const [lawyer, setLawyer] = useState<Lawyer>();
   const [followers, setFollowers] = useState<number>();
 
+  const router = useRouter();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -85,7 +89,11 @@ export default function LawyerPage() {
 
     fetchData();
     fetchUserfollowers();
-  }, []);
+  }, [isLoading]);
+
+  const handleUnauthenticatedFollow = async () => {
+    router.push(`/sign-in`);
+  };
 
   const handleFollowLawyer = async () => {
     try {
@@ -103,7 +111,7 @@ export default function LawyerPage() {
         }
       );
 
-      // window.location.reload();
+      console.log("followLawyer", followLawyer);
     } catch (error) {
       console.error(error);
     } finally {
@@ -113,75 +121,40 @@ export default function LawyerPage() {
 
   return (
     <>
-      <h1 className="pageTitle">{lawyer?.user.name}</h1>
+      <h1 className="pageTitle">{lawyer?.user.name.split(" ")[0]}</h1>
       {isLoading ? (
         <p>Loading...</p>
       ) : (
-        <div className="LawyerProfile flex flex-row justify-between m-12">
-          <main className="lawyerProfileContent">
+        <div className="LawyerProfile m-12 grid grid-cols-2 gap-4">
+          <main className="lawyerProfileContent grid grid-rows-2 gap-2">
             <Card className="mb-1">
-              <CardContent className="m-4 px-4 pt-4">
+              <CardContent className="m-4 px-4 pt-4 grid grid-rows-2 gap-2">
                 <div className="elaboratedDescription p-2">
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
+                  {lawyer?.elaboratedDescription !== null ? (
+                    lawyer?.elaboratedDescription
+                  ) : (
+                    <p>Nenhuma descrição</p>
+                  )}
                 </div>
 
                 <div className="professionalDescription p-2">
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                </div>
-
-                <div className="callMeReason  p-2">
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
+                  {lawyer?.professionalDescription !== null ? (
+                    lawyer?.professionalDescription
+                  ) : (
+                    <p>Nenhuma descrição</p>
+                  )}{" "}
                 </div>
               </CardContent>
             </Card>
             <Card className="mb-1">
               <CardContent className="m-4 px-4">
                 <div className="callMeReason  p-2">
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
-                  {lawyer?.description}
+                  {" "}
+                  {lawyer?.callmeReason !== null ? (
+                    lawyer?.callmeReason
+                  ) : (
+                    <>Nenhuma descrição</>
+                  )}
                 </div>
               </CardContent>
             </Card>
@@ -219,7 +192,11 @@ export default function LawyerPage() {
                   <Button variant="outline">Contactar</Button>
                   <Button
                     variant="outline"
-                    onClick={() => handleFollowLawyer()}
+                    onClick={
+                      authData.token
+                        ? () => handleFollowLawyer()
+                        : () => handleUnauthenticatedFollow()
+                    }
                   >
                     Seguir
                   </Button>
@@ -238,23 +215,13 @@ export default function LawyerPage() {
                   {lawyer?.graduateDegree}
                 </CardDescription>
               </CardHeader>
-              <CardContent className="">
-                {lawyer?.description}
-                {lawyer?.description}
-                {lawyer?.description}
-                {lawyer?.description}
-              </CardContent>
+              <CardContent className="">{lawyer?.description}</CardContent>
               <CardFooter className=" items-center justify-center">
                 {lawyer?.UF} - {lawyer?.secNumber}
               </CardFooter>
             </Card>
             <Card className=" w-[512px] ml-12  items-center justify-center text-center">
-              <CardContent>
-                {lawyer?.description}
-                {lawyer?.description}
-                {lawyer?.description}
-                {lawyer?.description}
-              </CardContent>
+              <CardContent>{lawyer?.description}</CardContent>
               <CardFooter className=" items-center">
                 {lawyer?.expertises?.length ?? 0 > 0 ? (
                   lawyer?.expertises.map((expertise: Expertise) => (

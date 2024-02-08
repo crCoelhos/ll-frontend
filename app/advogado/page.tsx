@@ -13,7 +13,7 @@ interface Props {
 const LawyerPage: React.FC<Props> = () => {
   return (
     <div>
-      <h1 className="pageTitle">Lista de Advogados</h1>
+      <h1 className="pageTitle">Advogados parceiros</h1>
       <LawyerSearchBox />
       <LawyerList />
     </div>

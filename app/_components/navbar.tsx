@@ -19,6 +19,7 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "../store";
 import { authActions } from "../store/auth/auth-slice";
 import { useDispatch } from "react-redux";
+import { Navigation } from "lucide-react";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -62,8 +63,9 @@ export function Navbar() {
   return (
     <>
       <div className="flex... pt-2">
-        <NavigationMenu className="">
-          <NavigationMenuList className="grid grid-cols-4 grid-rows-1">
+        <NavigationMenu className="min-w-full flex flex-row justify-evenly">
+          <NavigationMenuList className="">
+            {/* <NavigationMenuList className="grid grid-cols-4 grid-rows-1"> */}
             <NavigationMenu id="logo-options" className="">
               <NavigationMenuItem>
                 <NavigationMenuTrigger>
@@ -75,7 +77,7 @@ export function Navbar() {
                       <NavigationMenuLink asChild>
                         <a
                           className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-1 no-underline outline-none focus:shadow-md"
-                          href="/sobre"
+                          href="/"
                         >
                           <Icons.logo className="h-1 w-1" />
                           <div className="mb-2 mt-4 text-lg font-medium">
@@ -118,6 +120,13 @@ export function Navbar() {
                 </NavigationMenuContent>
               </NavigationMenuItem>
             </NavigationMenu>
+            <NavigationMenuItem>
+              <Link href="/advogado" legacyBehavior passHref>
+                <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                  Advogados
+                </NavigationMenuLink>
+              </Link>
+            </NavigationMenuItem>
           </NavigationMenuList>
 
           <NavigationMenuList className="grid grid-cols-1 grid-rows-1">

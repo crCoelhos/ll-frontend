@@ -48,7 +48,9 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
 
       dispatch(authActions.login(userData));
 
-      router.push("/agendamento/sala");
+      router.push("/advogado");
+
+      
     } catch (error) {
       console.log((error as any).response.status, (error as any).response.headers, (error as any).response.data);
       console.log(error)

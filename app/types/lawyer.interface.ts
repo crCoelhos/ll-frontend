@@ -8,6 +8,9 @@ export type Lawyer = {
   secNumber: string;
   inscriptionType: string;
   description: string;
+  elaboratedDescription: string;
+  professionalDescription: string;
+  callmeReason: string;
   graduateDegree: string;
   image: string;
   UF: string;

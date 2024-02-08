@@ -13,6 +13,9 @@ export type lawyerSearchResponse = {
   inscriptionType: string;
   graduateDegree: string;
   description: string;
+  elaboratedDescription: string;
+  professionalDescription: string;
+  callmeReason: string;
   image: string;
   UF: string;
   expertises: Expertise[];
