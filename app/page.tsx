@@ -127,11 +127,11 @@ export default function Home() {
   ];
 
   return (
-    <main className="flex">
+    <main className="">
       <div className="top-0">
         <MainPageCarousel />
       </div>
-      <aside className="grid grid-cols-2 gap-3 mt-16">
+      <aside className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-16 justify-center mx-[8vw] lg:grid-cols-3">
         {content.map((item, index) => (
           <MainPageSideContent
             title={item.title}

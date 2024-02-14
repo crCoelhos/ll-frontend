@@ -14,7 +14,12 @@ import { Expertise } from "../types/expertise.interface";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Pencil1Icon, ImageIcon } from "@radix-ui/react-icons";
+import { Pencil1Icon, ImageIcon, CheckIcon } from "@radix-ui/react-icons";
+import format from "date-fns/format";
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { User } from "lucide-react";
+import { useAppSelector } from "../store";
 
 export interface ProfileLawyerInfoProps {
   OAB?: string;
@@ -34,6 +39,8 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [lawyerData, setLawyerData] = useState<Lawyer>();
 
+  const authData = useAppSelector((state) => state.auth);
+
   const [form, setForm] = useState<ProfileLawyerInfoProps>({
     OAB: "",
     riteDate: "",
@@ -48,21 +55,64 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
     expertises: [],
   });
 
+  useEffect(() => {
+    setForm(props);
+  }, [props]);
+
+  const handleEditSubmit = async () => {
+    try {
+      setIsLoading(true);
+
+      const lawyerNewDataResponse = await axios.put(
+        `http://localhost:3030/v1/lawyer/`,
+        form,
+        {
+          headers: {
+            Access: 123,
+            Authorization: authData.token,
+          },
+        }
+      );
+
+      console.log(lawyerNewDataResponse);
+      setLawyerData(lawyerNewDataResponse.data as Lawyer);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   return (
     <div>
       <Card className="w-[512px] h-[auto]">
-        <CardHeader className="grid grid-cols-2">
-          <Label
-            className="text-center flex items-center"
-            htmlFor="graduateDegree"
-          >
-            Graduação:{" "}
-          </Label>
-          <Input
-            value={props?.graduateDegree}
-            id="graduateDegree"
-            disabled={props.isEditing}
-          />
+        <CardHeader className="grid grid-cols-4 gap-8">
+          <div className="flex items-center justify-center col-span-3">
+            <Label
+              className="text-center flex items-center"
+              htmlFor="graduateDegree"
+            >
+              Graduação:
+            </Label>
+            <Input
+              id="graduateDegree"
+              value={form.graduateDegree}
+              onChange={(e) =>
+                setForm((prevForm) => ({
+                  ...prevForm,
+                  graduateDegree: e.target.value,
+                }))
+              }
+              disabled={props.isEditing}
+            />
+          </div>
+          {!props.isEditing ? (
+            <Button
+              className="w-12 bg-blue-700 hover:bg-blue-500"
+              onClick={() => handleEditSubmit()}
+            >
+              <CheckIcon />
+            </Button>
+          ) : null}
         </CardHeader>
         <CardContent>
           <CardDescription>
@@ -74,13 +124,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
                 <Input
                   id="OAB"
                   placeholder="3747"
-                  value={props?.OAB}
-                  onChange={(e) => {
+                  value={form.OAB}
+                  onChange={(e) =>
                     setForm((prevForm) => ({
                       ...prevForm,
                       OAB: e.target.value,
-                    }));
-                  }}
+                    }))
+                  }
                   disabled={props.isEditing}
                 />
               </div>
@@ -91,13 +141,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
                 <Input
                   id="UF"
                   placeholder="AC"
-                  value={props?.UF}
-                  onChange={(e) => {
+                  value={form.UF}
+                  onChange={(e) =>
                     setForm((prevForm) => ({
                       ...prevForm,
                       UF: e.target.value,
-                    }));
-                  }}
+                    }))
+                  }
                   disabled={props.isEditing}
                 />
               </div>
@@ -111,13 +161,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
               </Label>
               <Input
                 id="riteDate"
-                value={props?.riteDate}
-                onChange={(e) => {
+                value={form.riteDate}
+                onChange={(e) =>
                   setForm((prevForm) => ({
                     ...prevForm,
                     riteDate: e.target.value,
-                  }));
-                }}
+                  }))
+                }
                 disabled={props.isEditing}
               />
             </div>
@@ -130,13 +180,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
               </Label>
               <Input
                 id="secNumber"
-                value={props?.secNumber ? props?.secNumber : "Nenhum"}
-                onChange={(e) => {
+                value={form.secNumber}
+                onChange={(e) =>
                   setForm((prevForm) => ({
                     ...prevForm,
                     secNumber: e.target.value,
-                  }));
-                }}
+                  }))
+                }
                 disabled={props.isEditing}
               />
             </div>
@@ -149,13 +199,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
               </Label>
               <Textarea
                 id="description"
-                value={props?.description ? props?.description : "Nenhuma"}
-                onChange={(e) => {
+                value={form.description}
+                onChange={(e) =>
                   setForm((prevForm) => ({
                     ...prevForm,
                     description: e.target.value,
-                  }));
-                }}
+                  }))
+                }
                 disabled={props.isEditing}
               />
             </div>
@@ -169,17 +219,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
               <Textarea
                 className="h-[128px]"
                 id="elaboratedDescription"
-                value={
-                  props?.elaboratedDescription
-                    ? props?.elaboratedDescription
-                    : "Nenhuma"
-                }
-                onChange={(e) => {
+                value={form.elaboratedDescription}
+                onChange={(e) =>
                   setForm((prevForm) => ({
                     ...prevForm,
                     elaboratedDescription: e.target.value,
-                  }));
-                }}
+                  }))
+                }
                 disabled={props.isEditing}
               />
             </div>
@@ -193,17 +239,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
               <Textarea
                 className="h-[128px]"
                 id="professionalDescription"
-                value={
-                  props?.professionalDescription
-                    ? props?.professionalDescription
-                    : "Nenhuma"
-                }
-                onChange={(e) => {
+                value={form.professionalDescription}
+                onChange={(e) =>
                   setForm((prevForm) => ({
                     ...prevForm,
                     professionalDescription: e.target.value,
-                  }));
-                }}
+                  }))
+                }
                 disabled={props.isEditing}
               />
             </div>
@@ -217,13 +259,13 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
               <Textarea
                 className="h-[128px]"
                 id="callmeReason"
-                value={props?.callmeReason ? props?.callmeReason : "Nenhuma"}
-                onChange={(e) => {
+                value={form.callmeReason}
+                onChange={(e) =>
                   setForm((prevForm) => ({
                     ...prevForm,
                     callmeReason: e.target.value,
-                  }));
-                }}
+                  }))
+                }
                 disabled={props.isEditing}
               />
             </div>

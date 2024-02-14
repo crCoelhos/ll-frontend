@@ -29,7 +29,6 @@ import moment from "moment";
 import { eachHourOfInterval, set, format, isWithinInterval } from "date-fns";
 
 import axios from "axios";
-import { formatDate } from "@fullcalendar/core/index.js";
 import { BookAppointmentModal } from "./bookAppointmentModal";
 import { useAppSelector } from "../store";
 import { Appointment, Appointments } from "../types/appointment.interface";

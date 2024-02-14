@@ -45,17 +45,17 @@ export default function mainPageCarousel() {
   );
 
   return (
-    <div className="flex items-center p-[128px]">
+    <div className="flex items-center mx-[128px]">
       <Carousel
         plugins={[plugin.current]}
-        className="w-full max-w-xs"
+        className="w-full min-w-[512px] max-w-xs"
         onMouseEnter={plugin.current.stop}
         onMouseLeave={plugin.current.reset}
       >
         <CarouselContent>
           {cards.map((card, index) => (
             <CarouselItem key={index}>
-              <div className="p-1">
+              <div className="">
                 <Card>
                   <CardContent className="flex aspect-square items-center justify-center p-6">
                     <div

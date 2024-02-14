@@ -7,9 +7,8 @@ export type User = {
   name: string;
   email: string;
   phoneNumber: string;
-  isActive: boolean;
+  isActive?: boolean | false;
   updatedAt: string | "";
-
   OAB?: string;
   riteDate?: string;
   secNumber?: string;
@@ -18,6 +17,7 @@ export type User = {
   elaboratedDescription?: string;
   professionalDescription?: string;
   graduateDegree?: string;
+  callmeReason?: string;
   image?: string;
   UF?: string;
   userId?: number;
