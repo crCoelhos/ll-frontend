@@ -131,7 +131,7 @@ export default function Home() {
       <div className="top-0">
         <MainPageCarousel />
       </div>
-      <aside className="grid grid-cols-1 gap-3">
+      <aside className="grid grid-cols-2 gap-3 mt-16">
         {content.map((item, index) => (
           <MainPageSideContent
             title={item.title}

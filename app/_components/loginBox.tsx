@@ -52,7 +52,7 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
 
       
     } catch (error) {
-      console.log((error as any).response.status, (error as any).response.headers, (error as any).response.data);
+      // console.log((error as any).response.status, (error as any).response.headers, (error as any).response.data);
       console.log(error)
     } finally {
       setIsLoading(false);

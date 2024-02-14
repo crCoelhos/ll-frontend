@@ -11,36 +11,11 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import axios from "axios";
-import SessionStorageManager from "../utils/sessionStorageManager";
 
-import moment from "moment";
-import {
-  eachHourOfInterval,
-  set,
-  format,
-  isWithinInterval,
-  setDate,
-} from "date-fns";
 
 import { useEffect, useState } from "react";
-import router, { useRouter, useParams } from "next/navigation";
 import { useAppSelector } from "../store";
-import { Appointments } from "../types/appointment.interface";
-import { Lawyer } from "../types/lawyer.interface";
-import { LawyerProcess } from "../types/laywerProcesses.interface";
-import { User } from "../types/user.interface";
-import { ProcessResponse } from "../types/processResponse.interface";
-import { Spinner } from "flowbite-react";
 
 interface NewProcessModalProps {}
 

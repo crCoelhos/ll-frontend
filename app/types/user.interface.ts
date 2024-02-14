@@ -15,6 +15,8 @@ export type User = {
   secNumber?: string;
   inscriptionType?: string;
   description?: string;
+  elaboratedDescription?: string;
+  professionalDescription?: string;
   graduateDegree?: string;
   image?: string;
   UF?: string;

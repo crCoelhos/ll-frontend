@@ -26,8 +26,8 @@ const MainPageSideContent = (props: MainPageSideContentProps) => {
       <Card
         className={
           props.color
-            ? `border-${props.color}-400 w-[672px]  transition-all duration-500 ease-in-out transform hover:scale-105`
-            : "w-[696px]"
+            ? `border-${props.color}-400 w-[480px] min-h-[590px] transition-all duration-500 ease-in-out transform hover:scale-105`
+            : "w-[480px]"
         }
         color={props.color}
       >
