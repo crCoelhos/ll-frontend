@@ -15,7 +15,6 @@ export function LawyerSearchBox() {
     []
   );
 
-  console.log(search);
 
   const dispatch = useDispatch();
 

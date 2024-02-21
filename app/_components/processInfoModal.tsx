@@ -93,7 +93,6 @@ export function ProcessInfoModal(props: ProcessInfoModalProps) {
     setCurrentIndex((prevIndex) => prevIndex - 1);
   };
 
-  console.log(processResponse);
 
   return (
     <>

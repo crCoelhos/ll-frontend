@@ -51,7 +51,6 @@ export function NewProcessModal(props: NewProcessModalProps) {
     }
   }
 
-  console.log(newProcessToBeWatched);
   return (
     <>
       <Dialog open={open} onOpenChange={setOpen}>

@@ -102,7 +102,6 @@ const ProfileUserInfo = () => {
     }
   };
 
-  console.log(userData);
 
   return (
     <div className="grid grid-rows">

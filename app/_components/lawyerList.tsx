@@ -58,7 +58,6 @@ const LawyerList: React.FC = () => {
           }
         );
 
-        console.log("resultado da busca: ", searchResponse.data);
         setLawyerSearchResponseData(searchResponse.data);
         setIsLoading(false);
         setIsSearchActive(true);
@@ -97,7 +96,6 @@ const LawyerList: React.FC = () => {
     fetchData();
   }, [authData.token]);
 
-  console.log("lawyerSearchResponseData: ", lawyerSearchResponseData);
   return (
     <div className="LawyerList">
       {searchString === null

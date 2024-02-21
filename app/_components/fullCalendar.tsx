@@ -50,9 +50,6 @@ const FullCalendar: React.FC<Props> = ({ events }) => {
       const newStartDate = arg.event.start.toISOString();
       const newEndDate = arg.event.end?.toISOString();
 
-      console.log(
-        `teste nova data:, \n ini: ${newStartDate},  \n fim:${newEndDate}`
-      );
     }
   };
 

@@ -194,7 +194,6 @@ const AdminWorkspaceList = () => {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
-                          onClick={() => console.log("Confirmar sala")}
                           className="bg-red-400  text-white"
                         >
                           Desativar sala

@@ -74,7 +74,6 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
         }
       );
 
-      console.log(lawyerNewDataResponse);
       setLawyerData(lawyerNewDataResponse.data as Lawyer);
     } catch (error) {
       console.error(error);

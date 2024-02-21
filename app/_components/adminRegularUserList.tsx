@@ -188,7 +188,6 @@ const AdminWorkspaceList = () => {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
-                          onClick={() => console.log("Visualizar sala")}
                           className="bg-red-400  text-white"
                         >
                           Desativar sala
@@ -196,7 +195,6 @@ const AdminWorkspaceList = () => {
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
                           className="bg-red-700  text-white"
-                          onClick={() => console.log("Excluir sala")}
                         >
                           Excluir sala
                         </DropdownMenuItem>

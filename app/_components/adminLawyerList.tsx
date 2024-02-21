@@ -76,7 +76,6 @@ const AdminWorkspaceList = () => {
     fetchData();
   }, []);
 
-  console.log("resposta advogados: ", lawyers);
 
   return (
     <div className="flex...">
@@ -135,7 +134,6 @@ const AdminWorkspaceList = () => {
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
-                          onClick={() => console.log("confirmar sala")}
                           className="bg-red-400  text-white"
                         >
                           Desativar advogado
@@ -143,7 +141,6 @@ const AdminWorkspaceList = () => {
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
                           className="bg-red-700  text-white"
-                          onClick={() => console.log("excluir sala")}
                         >
                           Excluir advogado
                         </DropdownMenuItem>

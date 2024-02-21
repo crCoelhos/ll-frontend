@@ -303,14 +303,6 @@ export function CreateAppointmentModal() {
 
         <DialogFooter>
           <Button
-            onClick={() => {
-              console.log(
-                "selectedDate",
-                selectedDate?.toString(),
-                "\nselectedStartDate: ",
-                selectedHour
-              );
-            }}
           >
             testar
           </Button>

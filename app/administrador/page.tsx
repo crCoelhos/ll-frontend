@@ -46,7 +46,6 @@ const Administrador = () => {
     (state: RootState) => state.search.searchString
   );
   const handleTeste = () => {
-    console.log("searchString from Redux:", searchString);
   };
 
   return (

@@ -35,9 +35,7 @@ export function LawyerInfoCard(props: LawyerInfoCardProps) {
   const router = useRouter();
 
   const handleClick = (lawyerKey: number) => {
-    console.log(props.lawyerKey);
     router.push(`/advogado/${lawyerKey}`);
-    console.log("lawyerKey: ", props);
   };
 
   return (

@@ -19,7 +19,10 @@ import { useRouter } from "next/navigation";
 import { useAppSelector } from "../store";
 import { authActions } from "../store/auth/auth-slice";
 import { useDispatch } from "react-redux";
-import { Navigation } from "lucide-react";
+import { BellIcon } from "@radix-ui/react-icons";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { UserNotification } from "../types/notification.interface";
 
 const components: { title: string; href: string; description: string }[] = [
   {
@@ -46,6 +49,9 @@ const components: { title: string; href: string; description: string }[] = [
 ];
 
 export function Navbar() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [notification, setNotification] = useState<UserNotification>();
+
   const router = useRouter();
 
   const dispatch = useDispatch();
@@ -60,6 +66,34 @@ export function Navbar() {
     router.push("/");
   };
 
+  useEffect(() => {
+    if (authData.token) {
+      const fetchData = async () => {
+        try {
+          setIsLoading(true);
+          const notificationResponse = await axios.get(
+            "http://localhost:3030/v1/notifications/",
+            {
+              headers: {
+                Access: "123",
+                Authorization: authData.token,
+              },
+            }
+          );
+
+          setNotification(notificationResponse.data);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsLoading(false);
+        }
+      };
+
+      fetchData();
+    }
+  }, [authData]);
+
+  console.log("notificações", notification);
   return (
     <>
       <div className="flex... pt-2">
@@ -130,7 +164,7 @@ export function Navbar() {
           </NavigationMenuList>
 
           <NavigationMenuList className="grid grid-cols-1 grid-rows-1">
-            {authData.roleId == "1" && (
+            {authData.roleId == 1 && (
               <NavigationMenu className=" px-12	">
                 <NavigationMenuItem>
                   <Link href="/dashboard" legacyBehavior passHref>
@@ -166,10 +200,45 @@ export function Navbar() {
             {authData.name ? (
               <NavigationMenu>
                 <NavigationMenuItem>
+                  <NavigationMenuTrigger>
+                    <BellIcon />
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-[300px] gap-3 p-4 md:w-[200px] md:grid-rows-2 lg:w-[250px] ">
+                      {notification?.personalNotifications
+                        .slice(0, 3)
+                        .map((notification) => (
+                          <ListItem
+                            key={notification.id}
+                            title={notification.title}
+                          >
+                            {notification.message}
+                          </ListItem>
+                        ))}
+                      {notification?.globalNotifications
+                        .slice(0, 3)
+                        .map((notification) => (
+                          <ListItem
+                            key={notification.id}
+                            title={notification.title}
+                          >
+                            {notification.message}
+                          </ListItem>
+                        ))}
+                      <ListItem
+                        title="Ver todas as notificações"
+                        href="/notifications"
+                        className="text-center bg-rose-400 text-white  hover:bg-rose-800  hover:text-white"
+                      ></ListItem>
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
                   <NavigationMenuTrigger>{authData.name}</NavigationMenuTrigger>
 
                   <NavigationMenuContent>
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[200px] md:grid-cols-2 lg:w-[350px] ">
+                    <ul className="grid w-[100px] gap-3 p-4 md:w-[100px] md:grid-rows-2 lg:w-[150px] ">
                       <ListItem key="Profile" title="Perfil" href="/perfil">
                         Meus dados
                       </ListItem>

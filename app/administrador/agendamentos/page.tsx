@@ -145,7 +145,6 @@ const AdminAppoinemtnsPage = () => {
     fetchUserData();
   }, []);
 
-  console.log(users);
 
   const eventArray = appointments.map((appointment) => ({
     id: appointment.id.toString(),
@@ -174,7 +173,6 @@ const AdminAppoinemtnsPage = () => {
             },
           }
         );
-        console.log("resposta confirmação: ", appointmentResponse);
         fetchData();
       } catch (error) {
         console.error(error);
@@ -199,7 +197,6 @@ const AdminAppoinemtnsPage = () => {
             },
           }
         );
-        console.log("resposta cancelamento: ", appointmentResponse);
         fetchData();
       } catch (error) {
         console.error(error);
@@ -366,7 +363,7 @@ const AdminAppoinemtnsPage = () => {
                         <DropdownMenuLabel>Ações</DropdownMenuLabel>
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem onClick={() => console.log("edita")}>
+                        <DropdownMenuItem>
                           Editar
                         </DropdownMenuItem>
 
@@ -389,7 +386,6 @@ const AdminAppoinemtnsPage = () => {
                         <DropdownMenuItem
                           onClick={() => {
                             handleAppointmentCancelationClick(appointment.id);
-                            console.log("cancela: ", appointment.id);
                           }}
                           className="bg-red-400  text-white"
                         >
@@ -398,7 +394,6 @@ const AdminAppoinemtnsPage = () => {
                         <DropdownMenuSeparator className="my-2" />
                         <DropdownMenuItem
                           className="bg-red-700  text-white"
-                          onClick={() => console.log("exclui")}
                         >
                           Excluir
                         </DropdownMenuItem>
