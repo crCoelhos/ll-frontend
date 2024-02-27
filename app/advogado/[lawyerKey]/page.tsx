@@ -49,7 +49,7 @@ export default function LawyerPage() {
       try {
         setIsLoading(true);
         const lawyerResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + `lawyer/${params.lawyerKey}`,
+          process.env.NEXT_PUBLIC_API_URL + `v1/lawyer/${params.lawyerKey}`,
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -70,7 +70,7 @@ export default function LawyerPage() {
       try {
         setIsLoading(true);
         const lawyerFollowersResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + `lawyer-followers/${params.lawyerKey}`,
+          process.env.NEXT_PUBLIC_API_URL + `v1/lawyer-followers/${params.lawyerKey}`,
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -99,7 +99,7 @@ export default function LawyerPage() {
     try {
       setIsLoading(true);
       const followLawyer = await axios.post(
-        process.env.NEXT_PUBLIC_API_URL + `follow-lawyer/${params.lawyerKey}`,
+        process.env.NEXT_PUBLIC_API_URL + `v1/follow-lawyer/${params.lawyerKey}`,
         {
           action: "follow",
         },

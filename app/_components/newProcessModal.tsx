@@ -31,7 +31,7 @@ export function NewProcessModal(props: NewProcessModalProps) {
   async function handleNewProcess() {
     try {
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_API_URL + `lawyer-process/watch/`,
+        process.env.NEXT_PUBLIC_API_URL + `v1/lawyer-process/watch/`,
         {
           processNumber: newProcessToBeWatched,
           processTitle: newProcessTitle,

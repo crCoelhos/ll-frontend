@@ -58,7 +58,7 @@ const AdminWorkspaceList = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "all-workspaces/",
+          process.env.NEXT_PUBLIC_API_URL + "v1/all-workspaces/",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -70,7 +70,7 @@ const AdminWorkspaceList = () => {
 
         setIsLoading(true);
         const appointmentResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "appointments/all",
+          process.env.NEXT_PUBLIC_API_URL + "v1/appointments/all",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -120,7 +120,7 @@ const AdminWorkspaceList = () => {
           setAppointments(appointmentResponse.data.appointments);
 
           const workspaceResponse = await axios.get(
-            process.env.NEXT_PUBLIC_API_URL + "all-workspaces/",
+            process.env.NEXT_PUBLIC_API_URL + "v1/all-workspaces/",
             {
               headers: {
                 Access: process.env.NEXT_PUBLIC_ACCESS_KEY,

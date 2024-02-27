@@ -81,7 +81,7 @@ export function LawyerSignUpBox() {
       };
 
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_API_URL + "lawyer/create",
+        process.env.NEXT_PUBLIC_API_URL + "v1/lawyer/create",
         formDataObject,
         {
           headers: {

@@ -25,7 +25,7 @@ const LawyerList: React.FC = () => {
         try {
           setIsLoading(true);
           const lawyersResponse = await axios.get(
-            process.env.NEXT_PUBLIC_API_URL + "lawyer/all",
+            process.env.NEXT_PUBLIC_API_URL + "v1/lawyer/all",
             {
               headers: {
                 Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -49,7 +49,7 @@ const LawyerList: React.FC = () => {
       try {
         setIsLoading(true);
         const searchResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + `search/lawyer/${searchString}`,
+          process.env.NEXT_PUBLIC_API_URL + `v1/search/lawyer/${searchString}`,
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -76,7 +76,7 @@ const LawyerList: React.FC = () => {
       try {
         setIsLoading(true);
         const lawyersResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "lawyer/all",
+          process.env.NEXT_PUBLIC_API_URL + "v1/lawyer/all",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,

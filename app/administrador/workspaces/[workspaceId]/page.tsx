@@ -72,7 +72,7 @@ export default function WorkspaceAdminPage() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + `workspace/${params.workspaceId}`,
+          process.env.NEXT_PUBLIC_API_URL + `v1/workspace/${params.workspaceId}`,
           {
             headers: {
               Access: 123,
@@ -92,7 +92,7 @@ export default function WorkspaceAdminPage() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + `workspace-appointment/${params.workspaceId}`,
+          process.env.NEXT_PUBLIC_API_URL + `v1/workspace-appointment/${params.workspaceId}`,
           {
             headers: {
               Access: 123,
@@ -111,7 +111,7 @@ export default function WorkspaceAdminPage() {
     const fetchAppointmentStatusData = async () => {
       try {
         const appointmentStatusResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "appointment-statuses/all",
+          process.env.NEXT_PUBLIC_API_URL + "v1/appointment-statuses/all",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,

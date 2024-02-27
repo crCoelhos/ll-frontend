@@ -30,7 +30,7 @@ const NotificationBox: React.FC = () => {
         try {
           setIsLoading(true);
           const notificationResponse = await axios.get(
-            process.env.NEXT_PUBLIC_API_URL + "notifications/",
+            process.env.NEXT_PUBLIC_API_URL + "v1/notifications/",
             {
               headers: {
                 Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -55,7 +55,7 @@ const NotificationBox: React.FC = () => {
     try {
       setIsLoading(true);
       const markAsReadResponse = await axios.put(
-        process.env.NEXT_PUBLIC_API_URL + "notification/read/",
+        process.env.NEXT_PUBLIC_API_URL + "v1/notification/read/",
         { notificationId: notificationId },
         { headers: { Access: process.env.NEXT_PUBLIC_ACCESS_KEY, Authorization: authData.token } }
       );

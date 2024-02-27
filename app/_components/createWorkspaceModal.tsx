@@ -72,7 +72,7 @@ export function CreateAppointmentModal() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "workspaces/",
+          process.env.NEXT_PUBLIC_API_URL + "v1/workspaces/",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,

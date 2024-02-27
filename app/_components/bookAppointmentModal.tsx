@@ -70,7 +70,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
       try {
         setIsLoading(true);
         const response = await axios.get<Appointments>(
-          process.env.NEXT_PUBLIC_API_URL + `workspace-appointment/${selectedWorkspaceId}/${formatedDate}`,
+          process.env.NEXT_PUBLIC_API_URL + `v1/workspace-appointment/${selectedWorkspaceId}/${formatedDate}`,
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -147,7 +147,7 @@ export function BookAppointmentModal(props: BookAppointmentModalProps) {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_API_URL + "appointment/create",
+        process.env.NEXT_PUBLIC_API_URL + "v1/appointment/create",
         newBooking,
         {
           headers: {

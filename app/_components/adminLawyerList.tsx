@@ -55,7 +55,7 @@ const AdminWorkspaceList = () => {
       try {
         setIsLoading(true);
         const lawyersResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "lawyer/all",
+          process.env.NEXT_PUBLIC_API_URL + "v1/lawyer/all",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,

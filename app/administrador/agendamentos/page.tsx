@@ -64,7 +64,7 @@ const AdminAppoinemtnsPage = () => {
       try {
         setIsLoading(true);
         const workspaceResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "workspaces/",
+          process.env.NEXT_PUBLIC_API_URL + "v1/workspaces/",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -85,7 +85,7 @@ const AdminAppoinemtnsPage = () => {
     const fetchAppointmentData = async () => {
       try {
         const appointmentResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "appointments/all",
+          process.env.NEXT_PUBLIC_API_URL + "v1/appointments/all",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -104,7 +104,7 @@ const AdminAppoinemtnsPage = () => {
     const fetchUserData = async () => {
       try {
         const userResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "users/",
+          process.env.NEXT_PUBLIC_API_URL + "v1/users/",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -123,7 +123,7 @@ const AdminAppoinemtnsPage = () => {
     const fetchAppointmentStatusData = async () => {
       try {
         const appointmentStatusResponse = await axios.get(
-          process.env.NEXT_PUBLIC_API_URL + "appointment-statuses/all",
+          process.env.NEXT_PUBLIC_API_URL + "v1/appointment-statuses/all",
           {
             headers: {
               Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -212,7 +212,7 @@ const AdminAppoinemtnsPage = () => {
     try {
       setIsLoading(true);
       const workspaceResponse = await axios.get(
-        process.env.NEXT_PUBLIC_API_URL + "workspaces/",
+        process.env.NEXT_PUBLIC_API_URL + "v1/workspaces/",
         {
           headers: {
             Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -223,7 +223,7 @@ const AdminAppoinemtnsPage = () => {
       setWorkspaces(workspaceResponse.data);
 
       const appointmentResponse = await axios.get(
-        process.env.NEXT_PUBLIC_API_URL + "appointments/all",
+        process.env.NEXT_PUBLIC_API_URL + "v1/appointments/all",
         {
           headers: {
             Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -234,7 +234,7 @@ const AdminAppoinemtnsPage = () => {
       setAppointments(appointmentResponse.data.appointments);
 
       const userResponse = await axios.get(
-        process.env.NEXT_PUBLIC_API_URL + "users/",
+        process.env.NEXT_PUBLIC_API_URL + "v1/users/",
         {
           headers: {
             Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
@@ -245,7 +245,7 @@ const AdminAppoinemtnsPage = () => {
       setUsers(userResponse.data);
 
       const appointmentStatusResponse = await axios.get(
-        process.env.NEXT_PUBLIC_API_URL + "appointment-statuses/all",
+        process.env.NEXT_PUBLIC_API_URL + "v1/appointment-statuses/all",
         {
           headers: {
             Access: process.env.NEXT_PUBLIC_ACCESS_KEY,

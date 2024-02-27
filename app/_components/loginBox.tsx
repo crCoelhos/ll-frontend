@@ -60,7 +60,7 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
   };
 
   
-  console.log("url: ",process.env.NEXT_PUBLIC_API_URL + "signin");
+  console.log("url: ",process.env.NEXT_PUBLIC_API_URL + "v1/signin");
 
   return (
     <div className="w-[512px] mt-[248px] mx-[512px]">

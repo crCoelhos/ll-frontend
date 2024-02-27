@@ -68,7 +68,7 @@ export function ProcessInfoModal(props: ProcessInfoModalProps) {
   async function fetchProcessInfo(processNumber: string) {
     try {
       const response = await axios.get<ProcessResponse[]>(
-        process.env.NEXT_PUBLIC_API_URL + `api/dados/${processNumber}`,
+        process.env.NEXT_PUBLIC_API_URL + `v1/api/dados/${processNumber}`,
         {
           headers: {
             Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
