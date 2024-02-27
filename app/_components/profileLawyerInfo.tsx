@@ -64,7 +64,7 @@ const ProfileLawyerInfo = (props: ProfileLawyerInfoProps) => {
       setIsLoading(true);
 
       const lawyerNewDataResponse = await axios.put(
-        process.env.NEXT_PUBLIC_API_URL + "v1/lawyer/`,
+        process.env.NEXT_PUBLIC_API_URL + `v1/lawyer/`,
         form,
         {
           headers: {
