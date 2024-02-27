@@ -73,7 +73,7 @@ export function SignUpBox() {
       };
 
       const response = await axios.post(
-        "http://localhost:3030/v1/user/create",
+        process.env.NEXT_PUBLIC_API_URL + "user/create",
         formDataObject,
         {
           headers: {

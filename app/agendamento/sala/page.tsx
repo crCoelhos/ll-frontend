@@ -58,10 +58,10 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:3030/v1/workspaces/",
+          process.env.NEXT_PUBLIC_API_URL + "workspaces/",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -70,10 +70,10 @@ const WorkspacePage: React.FC<Props> = ({ params }) => {
 
         setIsLoading(true);
         const appointmentResponse = await axios.get(
-          "http://localhost:3030/v1/appointments/public",
+          process.env.NEXT_PUBLIC_API_URL + "appointments/public",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }

@@ -58,10 +58,10 @@ const AdminWorkspaceList = () => {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:3030/v1/all-workspaces/",
+          process.env.NEXT_PUBLIC_API_URL + "all-workspaces/",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -70,10 +70,10 @@ const AdminWorkspaceList = () => {
 
         setIsLoading(true);
         const appointmentResponse = await axios.get(
-          "http://localhost:3030/v1/appointments/all",
+          process.env.NEXT_PUBLIC_API_URL + "appointments/all",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -113,17 +113,17 @@ const AdminWorkspaceList = () => {
           setIsLoading(true);
           const appointmentResponse = await axios.get(url, {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           });
           setAppointments(appointmentResponse.data.appointments);
 
           const workspaceResponse = await axios.get(
-            "http://localhost:3030/v1/all-workspaces/",
+            process.env.NEXT_PUBLIC_API_URL + "all-workspaces/",
             {
               headers: {
-                Access: "123",
+                Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
                 Authorization: authData.token,
               },
             }

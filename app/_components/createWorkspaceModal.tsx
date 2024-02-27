@@ -72,10 +72,10 @@ export function CreateAppointmentModal() {
       try {
         setIsLoading(true);
         const response = await axios.get(
-          "http://localhost:3030/v1/workspaces/",
+          process.env.NEXT_PUBLIC_API_URL + "workspaces/",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -110,10 +110,11 @@ export function CreateAppointmentModal() {
       try {
         setIsLoading(true);
         const response = await axios.get<Appointments>(
-          `http://localhost:3030/v1/workspace-appointment/${selectedWorkspaceId}/${fomatedDate}`,
+          process.env.NEXT_PUBLIC_API_URL +
+            `workspace-appointment/${selectedWorkspaceId}/${fomatedDate}`,
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }

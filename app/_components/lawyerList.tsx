@@ -25,10 +25,10 @@ const LawyerList: React.FC = () => {
         try {
           setIsLoading(true);
           const lawyersResponse = await axios.get(
-            "http://localhost:3030/v1/lawyer/all",
+            process.env.NEXT_PUBLIC_API_URL + "lawyer/all",
             {
               headers: {
-                Access: "123",
+                Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
                 Authorization: authData.token,
               },
             }
@@ -49,10 +49,10 @@ const LawyerList: React.FC = () => {
       try {
         setIsLoading(true);
         const searchResponse = await axios.get(
-          `http://localhost:3030/v1/search/lawyer/${searchString}`,
+          process.env.NEXT_PUBLIC_API_URL + `search/lawyer/${searchString}`,
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -76,10 +76,10 @@ const LawyerList: React.FC = () => {
       try {
         setIsLoading(true);
         const lawyersResponse = await axios.get(
-          "http://localhost:3030/v1/lawyer/all",
+          process.env.NEXT_PUBLIC_API_URL + "lawyer/all",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }

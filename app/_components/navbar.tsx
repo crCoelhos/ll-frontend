@@ -72,10 +72,10 @@ export function Navbar() {
         try {
           setIsLoading(true);
           const notificationResponse = await axios.get(
-            "http://localhost:3030/v1/notifications/",
+            process.env.NEXT_PUBLIC_API_URL + "notifications/",
             {
               headers: {
-                Access: "123",
+                Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
                 Authorization: authData.token,
               },
             }

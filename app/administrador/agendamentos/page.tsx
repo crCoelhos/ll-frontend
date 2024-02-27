@@ -64,10 +64,10 @@ const AdminAppoinemtnsPage = () => {
       try {
         setIsLoading(true);
         const workspaceResponse = await axios.get(
-          "http://localhost:3030/v1/workspaces/",
+          process.env.NEXT_PUBLIC_API_URL + "workspaces/",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -85,10 +85,10 @@ const AdminAppoinemtnsPage = () => {
     const fetchAppointmentData = async () => {
       try {
         const appointmentResponse = await axios.get(
-          "http://localhost:3030/v1/appointments/all",
+          process.env.NEXT_PUBLIC_API_URL + "appointments/all",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -104,10 +104,10 @@ const AdminAppoinemtnsPage = () => {
     const fetchUserData = async () => {
       try {
         const userResponse = await axios.get(
-          "http://localhost:3030/v1/users/",
+          process.env.NEXT_PUBLIC_API_URL + "users/",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -123,10 +123,10 @@ const AdminAppoinemtnsPage = () => {
     const fetchAppointmentStatusData = async () => {
       try {
         const appointmentStatusResponse = await axios.get(
-          "http://localhost:3030/v1/appointment-statuses/all",
+          process.env.NEXT_PUBLIC_API_URL + "appointment-statuses/all",
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -144,7 +144,6 @@ const AdminAppoinemtnsPage = () => {
     fetchAppointmentData();
     fetchUserData();
   }, []);
-
 
   const eventArray = appointments.map((appointment) => ({
     id: appointment.id.toString(),
@@ -164,11 +163,12 @@ const AdminAppoinemtnsPage = () => {
       try {
         setIsLoading(true);
         const appointmentResponse = await axios.put(
-          `http://localhost:3030/v1/confirm-appointment/${workspaceInfo}`,
+          process.env.NEXT_PUBLIC_API_URL +
+            `confirm-appointment/${workspaceInfo}`,
           {},
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -188,11 +188,12 @@ const AdminAppoinemtnsPage = () => {
     const updateData = async () => {
       try {
         const appointmentResponse = await axios.put(
-          `http://localhost:3030/v1/cancel-appointment/${workspaceInfo}`,
+          process.env.NEXT_PUBLIC_API_URL +
+            `cancel-appointment/${workspaceInfo}`,
           {},
           {
             headers: {
-              Access: "123",
+              Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
               Authorization: authData.token,
             },
           }
@@ -211,10 +212,10 @@ const AdminAppoinemtnsPage = () => {
     try {
       setIsLoading(true);
       const workspaceResponse = await axios.get(
-        "http://localhost:3030/v1/workspaces/",
+        process.env.NEXT_PUBLIC_API_URL + "workspaces/",
         {
           headers: {
-            Access: "123",
+            Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
             Authorization: authData.token,
           },
         }
@@ -222,29 +223,32 @@ const AdminAppoinemtnsPage = () => {
       setWorkspaces(workspaceResponse.data);
 
       const appointmentResponse = await axios.get(
-        "http://localhost:3030/v1/appointments/all",
+        process.env.NEXT_PUBLIC_API_URL + "appointments/all",
         {
           headers: {
-            Access: "123",
+            Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
             Authorization: authData.token,
           },
         }
       );
       setAppointments(appointmentResponse.data.appointments);
 
-      const userResponse = await axios.get("http://localhost:3030/v1/users/", {
-        headers: {
-          Access: "123",
-          Authorization: authData.token,
-        },
-      });
+      const userResponse = await axios.get(
+        process.env.NEXT_PUBLIC_API_URL + "users/",
+        {
+          headers: {
+            Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
+            Authorization: authData.token,
+          },
+        }
+      );
       setUsers(userResponse.data);
 
       const appointmentStatusResponse = await axios.get(
-        "http://localhost:3030/v1/appointment-statuses/all",
+        process.env.NEXT_PUBLIC_API_URL + "appointment-statuses/all",
         {
           headers: {
-            Access: "123",
+            Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
             Authorization: authData.token,
           },
         }
@@ -363,9 +367,7 @@ const AdminAppoinemtnsPage = () => {
                         <DropdownMenuLabel>Ações</DropdownMenuLabel>
                         <DropdownMenuSeparator />
 
-                        <DropdownMenuItem>
-                          Editar
-                        </DropdownMenuItem>
+                        <DropdownMenuItem>Editar</DropdownMenuItem>
 
                         <DropdownMenuItem
                           onClick={() => handleAppointmentClick(appointment.id)}
@@ -392,9 +394,7 @@ const AdminAppoinemtnsPage = () => {
                           Canceler reserva
                         </DropdownMenuItem>
                         <DropdownMenuSeparator className="my-2" />
-                        <DropdownMenuItem
-                          className="bg-red-700  text-white"
-                        >
+                        <DropdownMenuItem className="bg-red-700  text-white">
                           Excluir
                         </DropdownMenuItem>
                       </DropdownMenuContent>

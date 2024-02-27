@@ -10,7 +10,7 @@ import { Icons } from "./icons";
 import { cn } from "@/lib/utils";
 import axios from "axios";
 
-interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> { }
+interface LoginBoxProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export default function LoginBox({ className, ...props }: LoginBoxProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
 
     try {
       const response = await axios.post(
-        "http://localhost:3030/v1/signin",
+        process.env.NEXT_PUBLIC_API_URL + "signin",
         formDataObject,
         {
           headers: {
@@ -50,14 +50,16 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
 
       router.push("/advogado");
 
-      
     } catch (error) {
       // console.log((error as any).response.status, (error as any).response.headers, (error as any).response.data);
-      console.log(error)
+      console.log(error);
     } finally {
       setIsLoading(false);
     }
   };
+
+  
+  console.log("url: ",process.env.NEXT_PUBLIC_API_URL + "signin");
 
   return (
     <div className="w-[512px] mt-[248px] mx-[512px]">

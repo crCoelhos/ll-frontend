@@ -42,7 +42,7 @@ const ProfileLawyerProcesses = () => {
       try {
         setIsLoading(true);
         const userProcessesResponse = await axios.get(
-          `http://localhost:3030/v1/lawyer-process/all`,
+          process.env.NEXT_PUBLIC_API_URL + `lawyer-process/all`,
           {
             headers: {
               Access: 123,

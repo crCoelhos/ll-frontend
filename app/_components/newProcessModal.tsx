@@ -31,14 +31,14 @@ export function NewProcessModal(props: NewProcessModalProps) {
   async function handleNewProcess() {
     try {
       const response = await axios.post(
-        `http://localhost:3030/v1/lawyer-process/watch/`,
+        process.env.NEXT_PUBLIC_API_URL + `lawyer-process/watch/`,
         {
           processNumber: newProcessToBeWatched,
           processTitle: newProcessTitle,
         },
         {
           headers: {
-            Access: "123",
+            Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
             Authorization: authData.token,
           },
         }

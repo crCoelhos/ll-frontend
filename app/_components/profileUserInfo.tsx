@@ -43,7 +43,7 @@ const ProfileUserInfo = () => {
       try {
         setIsLoading(true);
         const userFetchResponse = await axios.get(
-          `http://localhost:3030/v1/user/`,
+          process.env.NEXT_PUBLIC_API_URL + `user/`,
           {
             headers: {
               Access: 123,
@@ -84,7 +84,7 @@ const ProfileUserInfo = () => {
       };
 
       const userFetchResponse = await axios.put(
-        `http://localhost:3030/v1/user/`,
+        process.env.NEXT_PUBLIC_API_URL + `user/`,
         editedData,
         {
           headers: {

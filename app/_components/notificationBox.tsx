@@ -30,10 +30,10 @@ const NotificationBox: React.FC = () => {
         try {
           setIsLoading(true);
           const notificationResponse = await axios.get(
-            "http://localhost:3030/v1/notifications/",
+            process.env.NEXT_PUBLIC_API_URL + "notifications/",
             {
               headers: {
-                Access: "123",
+                Access: process.env.NEXT_PUBLIC_ACCESS_KEY,
                 Authorization: authData.token,
               },
             }
@@ -55,9 +55,9 @@ const NotificationBox: React.FC = () => {
     try {
       setIsLoading(true);
       const markAsReadResponse = await axios.put(
-        "http://localhost:3030/v1/notification/read/",
+        process.env.NEXT_PUBLIC_API_URL + "notification/read/",
         { notificationId: notificationId },
-        { headers: { Access: "123", Authorization: authData.token } }
+        { headers: { Access: process.env.NEXT_PUBLIC_ACCESS_KEY, Authorization: authData.token } }
       );
       console.log(markAsReadResponse.data);
     } catch (error) {
