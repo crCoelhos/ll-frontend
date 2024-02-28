@@ -26,7 +26,7 @@ import { UserNotification } from "../types/notification.interface";
 
 const components: { title: string; href: string; description: string }[] = [
   {
-    title: "É advogado e ser parceiro?",
+    title: "Torne-se parceiro!",
     href: "/lawyer-sign-up",
     description:
       "Para fazer parte de nosso grupo de profissionais, submeta a sua inscrição.",
@@ -36,16 +36,16 @@ const components: { title: string; href: string; description: string }[] = [
     href: "/advogado",
     description: "Conheça nossos parceiros e suas especialidades.",
   },
-  {
-    title: "Nosso diferencial",
-    href: "/docs/primitives/progress",
-    description: "Conexão advogado-cliente para além de um escritório virtual",
-  },
-  {
-    title: "Como atuamos",
-    href: "/docs/primitives/scroll-area",
-    description: "Entenda como funciona a nossa plataforma.",
-  },
+  // {
+  //   title: "Nosso diferencial",
+  //   href: "/docs/primitives/progress",
+  //   description: "Conexão advogado-cliente para além de um escritório virtual",
+  // },
+  // {
+  //   title: "Como atuamos",
+  //   href: "/docs/primitives/scroll-area",
+  //   description: "Entenda como funciona a nossa plataforma.",
+  // },
 ];
 
 export function Navbar() {
