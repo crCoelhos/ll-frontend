@@ -39,6 +39,7 @@ export function SignUpBox() {
   const [newBirthdate, setNewBirthdate] = useState<Date | undefined>(
     new Date()
   );
+  
   const [address, setAddress] = useState({
     street: "",
     number: "",
