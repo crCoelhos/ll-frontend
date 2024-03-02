@@ -63,6 +63,7 @@ export function SignUpBox() {
         CPF: form.getValues().CPF,
         password: form.getValues().password,
         birthdate: newBirthdate,
+        phoneNumber: form.getValues().phoneNumber,
         address: {
           street: address.street,
           number: address.number,
@@ -106,20 +107,39 @@ export function SignUpBox() {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="rogerio@email.com" {...field} />
-                </FormControl>
-                <FormDescription>Este é o seu melhor email</FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
+          <div className="grid grid-cols-2 items-center gap-2">
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="rogerio@email.com" {...field} />
+                  </FormControl>
+                  <FormDescription>Este é o seu melhor email</FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="phoneNumber"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Telefone</FormLabel>
+                  <FormControl>
+                    <Input placeholder="68999919911" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Este é o seu numero de telefone móvel
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <div className="grid grid-cols-2 items-center gap-2">
             <FormField
               control={form.control}
