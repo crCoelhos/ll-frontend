@@ -31,7 +31,7 @@ export default function LoginBox({ className, ...props }: LoginBoxProps) {
     try {
       console.log("URL da API: ", process.env.NEXT_PUBLIC_API_URL);
       const response = await axios.post(
-        process.env.NEXT_PUBLIC_API_URL + "v1/signin",
+        process.env.NEXT_PUBLIC_API_URL + "v1/signin", //NEXT_PUBLIC_API_URL = www.minha-api.com/
         formDataObject,
         {
           headers: {

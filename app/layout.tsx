@@ -1,15 +1,11 @@
 "use client";
 
-import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Navbar } from "./_components/navbar";
 import RootFooter from "./_components/rootFooter";
-import { Card, CardContent } from "@/components/ui/card";
-import { store, useAppSelector } from "./store";
-import { actions } from "./store/auth/auth-slice";
 import { StoreWrapper } from "./StoreWrapper";
 
 export const fontSans = FontSans({
