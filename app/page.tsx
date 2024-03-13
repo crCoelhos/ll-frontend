@@ -25,13 +25,14 @@ import React from "react";
 import { store } from "./store";
 import MainPageCarousel from "./_components/mainPageCarousel";
 import MainPageSideContent from "./_components/mainPageSideContent";
+import TempLandingPage from "./_components/tempLandingPage";
 
 export const fontSans = FontSans({
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-const cards = [
+export const cards = [
   {
     title: "Transforme sua Prática Jurídica",
     text: "Descubra a LegaLiga, onde oferecemos escritório virtual, espaços físicos sob demanda e exposição estratégica, revolucionando a maneira como os advogados gerenciam seus escritórios e se conectam com clientes.",
@@ -44,10 +45,10 @@ const cards = [
     title: "Inovação Holística",
     text: "Diferenciamos ao oferecer não apenas serviços de escritório, mas uma solução completa que une praticidade e visibilidade para advogados. Seja parte da LegaLiga e transforme sua abordagem na advocacia.",
   },
-  {
-    title: "Cresça Conosco",
-    text: "Participe de nossa jornada de crescimento. Investimos em desenvolvimento tecnológico, estratégias de marketing e expansão da equipe para consolidar a LegaLiga como líder no mercado jurídico nos próximos 18 meses.",
-  },
+  // {
+  //   title: "Cresça Conosco",
+  //   text: "Participe de nossa jornada de crescimento. Investimos em desenvolvimento tecnológico, estratégias de marketing e expansão da equipe para consolidar a LegaLiga como líder no mercado jurídico nos próximos 18 meses.",
+  // },
 ];
 
 export default function Home() {
@@ -128,10 +129,11 @@ export default function Home() {
 
   return (
     <main className="">
-      <div className="top-0">
+      <TempLandingPage />
+      {/* <div className="top-0">
         <MainPageCarousel />
-      </div>
-      <aside className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-16 justify-center mx-[8vw] lg:grid-cols-3">
+      </div> */}
+      {/* <aside className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-16 justify-center mx-[8vw] lg:grid-cols-3">
         {content.map((item, index) => (
           <MainPageSideContent
             title={item.title}
@@ -141,7 +143,7 @@ export default function Home() {
             color={item.color ? item.color : "green"}
           />
         ))}
-      </aside>
+      </aside> */}
     </main>
   );
 }
